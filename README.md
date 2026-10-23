@@ -1,11 +1,18 @@
 ![alt text](https://github.com/mac-s-g/react-json-view/blob/master/doc/rjv-icon-alt.png?raw=true)
 
-[![npm](https://img.shields.io/npm/v/react-json-view.svg)](https://www.npmjs.com/package/react-json-view) [![npm](https://img.shields.io/npm/l/react-json-view.svg)](https://github.com/mac-s-g/react-json-view/blob/master/LISCENSE) [![Build Status](https://travis-ci.org/mac-s-g/react-json-view.svg)](https://travis-ci.org/mac-s-g/react-json-view) [![Coverage Status](https://coveralls.io/repos/github/mac-s-g/react-json-view/badge.svg?branch=master)](https://coveralls.io/github/mac-s-g/react-json-view?branch=master)
+[![npm](https://img.shields.io/npm/v/react-json-view.svg)](https://www.npmjs.com/package/react-json-view) [![npm](https://img.shields.io/npm/l/react-json-view.svg)](./LICENSE) [![Build Status](https://travis-ci.org/mac-s-g/react-json-view.svg)](https://travis-ci.org/mac-s-g/react-json-view) [![Coverage Status](https://coveralls.io/repos/github/mac-s-g/react-json-view/badge.svg?branch=master)](https://coveralls.io/github/mac-s-g/react-json-view?branch=master)
 
-### ⚠️ This project is no longer being maintained ⚠️
-Sorry for the silence, ya'll.  I'm no longer able to invest the time necessary to keep this project maintained.  It's been a great experience working with everyone. 
-based on recent discussion, it looks like [@microlink/react-json-view](https://github.com/microlinkhq/react-json-view) is a good candidate for replacement.
-Thank you to RJV users and everyone who contributed to this project. ❤️
+> [!IMPORTANT]
+> ### 🚧 Under Construction: Modernizing to React 19, TypeScript, and Vite 🚧
+>
+> This repository is actively undergoing a major modernization initiative! We are upgrading `react-json-view` to:
+> - **React 19** with native hooks (`use`, `useReducer`, `useId`) and functional components.
+> - **Strict TypeScript** (`strict: true`) for end-to-end type safety.
+> - **Modern, fast tooling**: Vite for bundling and dev server, Vitest for testing, and Biome for formatting and linting.
+> - **Zero unnecessary external dependencies**, leveraging modern native web APIs.
+>
+> 📖 **Contributing**: Please review the [Contributor Guide (`DEVELOPMENT.md`)](./DEVELOPMENT.md) for architectural guidelines, setup instructions, and code standards.  
+> 🗺️ **Roadmap**: Track our progress across modernization phases [#1 through #9](https://github.com/jericbas/react-json-view/issues) on GitHub Issues.
 
 # react-json-view
 RJV is a React component for displaying and editing javascript **arrays** and **JSON objects**.
