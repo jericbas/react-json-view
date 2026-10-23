@@ -1,8 +1,8 @@
 @import url("https://fonts.googleapis.com/css?family=Open+Sans");
-@import "_variables";
+@import "./variables.css";
 
 #mac-react-container {
-  font-family: "Open Sans";
+  font-family: var(--component-font-family);
   padding: 20px;
 
   .header-1 {

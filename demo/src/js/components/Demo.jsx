@@ -2,7 +2,7 @@ import React from 'react';
 import ReactJson from './../../../../src/index';
 
 import Code from './../helpers/Code';
-import './../../style/scss/rjv-demo.scss';
+import './../../style/css/rjv-demo.css';
 
 const Select = ({ name, value, options, onChange }) => (
   <select
