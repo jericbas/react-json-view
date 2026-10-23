@@ -1,8 +1,8 @@
 # Legacy `react-json-view` Performance Baseline Benchmark
 
-This document records the initial performance benchmark measurements for the legacy `react-json-view` implementation (v1.21.3 based on commit [`443465e`](https://github.com/jericbas/react-json-view/commit/443465e) from `main`).
+This document records the initial performance benchmark measurements for the legacy `react-json-view` implementation (v1.21.3) from the original upstream repository at [https://github.com/mac-s-g/react-json-view](https://github.com/mac-s-g/react-json-view) (commit [`443465e`](https://github.com/mac-s-g/react-json-view/commit/443465e) on `main`).
 
-These metrics serve as the baseline to compare against:
+These metrics represent the un-modernized, legacy baseline to compare against:
 1. The modernized TypeScript + React 19 architecture (`develop` / `main`).
 2. Future WebAssembly / Rust-accelerated React components.
 
