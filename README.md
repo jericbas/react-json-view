@@ -171,17 +171,26 @@ Returning `false` from a callback method will prevent the src from being affecte
 # clone this repository
 git clone git@github.com:mac-s-g/react-json-view.git && cd react-json-view
 # install dependencies
-npm install --save-dev
-# run the dev server with hot reloading
+npm install
+# run the Vite dev server with hot reloading
 npm run dev
 ```
-Webpack Dev Server should automatically open up http://localhost:2000 in your web browser.  If it does not, open a browser and navigate to port 2000. The hot reloader will automatically reload when files are modified in the `/src/` directory.
+Vite will start the local development server with hot module replacement (HMR). Open the printed localhost URL in your browser. The dev server will automatically reload when files are modified in the `/src/` or `/demo/` directory.
 
-#### Run the Production Build
+#### Run the Production Library Build
 
 ```bash
-# run the build (note: you may need to use `sudo` priveledges to run the build successfully)
+# build the library (generates ESM, CJS, and .d.ts in dist/)
 npm run build
+```
+
+#### Run the Demo App Build
+
+```bash
+# build the demo playground app (into demo/dist/)
+npm run build:demo
+# preview the built demo app
+npm run preview
 ```
 Please add tests for your code before posting a pull request.
 
