@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { use, useState } from 'react';
 import AutosizeTextarea from 'react-textarea-autosize';
-import dispatcher from '../helpers/dispatcher';
-import parseInput, { type ParsedInput } from '../helpers/parseInput';
+import { JsonViewContext } from '../context/JsonViewContext';
+import parseInput from '../helpers/parseInput';
+import type { ParsedInput } from '../helpers/parseInput';
 import stringifyVariable from '../helpers/stringifyVariable';
 import Theme from '../themes/getStyle';
 import type { OnCopyProps, OnSelectProps, ThemeKeys, ThemeObject } from '../types';
@@ -39,17 +40,18 @@ export interface VariableEditorProps {
     onSelect?: ((select: OnSelectProps) => void) | false | undefined;
     displayArrayKey?: boolean | undefined;
     quotesOnKeys?: boolean | undefined;
-    rjvId: string;
+    rjvId?: string | undefined;
     collapseStringsAfterLength?: number | false | undefined;
     displayDataTypes?: boolean | undefined;
 }
 
 export const VariableEditor: React.FC<VariableEditorProps> = (props) => {
+    const { dispatch, theme: contextTheme } = use(JsonViewContext);
     const {
         variable,
         singleIndent,
         type,
-        theme = 'rjv-default',
+        theme = contextTheme || 'rjv-default',
         namespace,
         indentWidth = 4,
         enableClipboard = true,
@@ -57,8 +59,7 @@ export const VariableEditor: React.FC<VariableEditorProps> = (props) => {
         onDelete = false,
         onSelect = false,
         displayArrayKey = true,
-        quotesOnKeys = true,
-        rjvId
+        quotesOnKeys = true
     } = props;
 
     const [editMode, setEditMode] = useState<boolean>(false);
@@ -88,10 +89,9 @@ export const VariableEditor: React.FC<VariableEditorProps> = (props) => {
             new_value = parsedInput.value;
         }
         setEditMode(false);
-        dispatcher.dispatch({
-            name: 'VARIABLE_UPDATED',
-            rjvId: rjvId,
-            data: {
+        dispatch({
+            type: 'VARIABLE_UPDATED',
+            payload: {
                 name: variable.name,
                 namespace: namespace,
                 existing_value: variable.value,
@@ -134,10 +134,9 @@ export const VariableEditor: React.FC<VariableEditorProps> = (props) => {
                     className="click-to-remove-icon"
                     {...Theme(theme, 'removeVarIcon')}
                     onClick={() => {
-                        dispatcher.dispatch({
-                            name: 'VARIABLE_REMOVED',
-                            rjvId: rjvId,
-                            data: {
+                        dispatch({
+                            type: 'VARIABLE_REMOVED',
+                            payload: {
                                 name: variable.name,
                                 namespace: namespace,
                                 existing_value: variable.value,

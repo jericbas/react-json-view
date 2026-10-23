@@ -151,10 +151,11 @@ export interface OnSelectProps {
 export interface ReactJsonViewProps {
     /**
      * This property contains your input JSON.
+     * Supports passing a Promise directly in React 19 to unwrap with use() inside Suspense.
      *
      * Required.
      */
-    src: object;
+    src: object | Promise<object>;
     /**
      * Contains the name of your root node. Use null or false for no name.
      *

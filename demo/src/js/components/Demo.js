@@ -14,9 +14,30 @@ class Demo extends React.PureComponent {
         super(props);
         this.state = {
             ...Demo.defaultProps,
-            src: this.getExampleJson()
+            src: this.getExampleJson(),
+            asyncPromise: this.createAsyncPromise()
         };
     }
+
+    createAsyncPromise = () => {
+        return new Promise(resolve => {
+            setTimeout(() => {
+                resolve({
+                    status: 'success',
+                    message: 'Async JSON fetched and unwrapped natively using React 19 use() hook!',
+                    timestamp: new Date().toISOString(),
+                    items: [
+                        { id: 1, name: 'Item Alpha', active: true },
+                        { id: 2, name: 'Item Beta', active: false }
+                    ]
+                });
+            }, 1000);
+        });
+    };
+
+    reloadAsyncPromise = () => {
+        this.setState({ asyncPromise: this.createAsyncPromise() });
+    };
 
     static defaultProps = {
         theme: 'monokai',
@@ -166,6 +187,32 @@ class Demo extends React.PureComponent {
                 </div>
 
                 {this.getNotes(onEdit, onAdd)}
+
+                <div style={{ marginTop: '30px', padding: '15px', border: '1px solid #444', borderRadius: '4px' }}>
+                    <div style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '10px' }}>
+                        React 19 Native Async Promise &amp; Suspense Demo
+                    </div>
+                    <div style={{ marginBottom: '10px', color: '#888' }}>
+                        Pass a Promise directly to <code>src</code> and wrap with <code>&lt;Suspense&gt;</code>. React 19's native <code>use()</code> hook unwraps the Promise automatically!
+                    </div>
+                    <button
+                        onClick={this.reloadAsyncPromise}
+                        style={{
+                            padding: '6px 12px',
+                            cursor: 'pointer',
+                            marginBottom: '10px'
+                        }}
+                    >
+                        Reload Async Promise
+                    </button>
+                    <React.Suspense fallback={<div style={{ padding: '10px', color: '#ffb86c' }}>⏳ Loading async JSON with React 19 Suspense...</div>}>
+                        <ReactJson
+                            name="async_data"
+                            theme={theme}
+                            src={this.state.asyncPromise}
+                        />
+                    </React.Suspense>
+                </div>
             </div>
         );
     }
