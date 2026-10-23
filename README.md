@@ -192,9 +192,21 @@ npm run build:demo
 # preview the built demo app
 npm run preview
 ```
-Please add tests for your code before posting a pull request.
+#### Testing
 
-You can run the test suite with `npm run test` or `npm run test:watch` to automatically reload when files are modified.
+```bash
+# Run unit and component test suite via Vitest
+npm test
+
+# Run tests in watch mode
+npm run test:watch
+
+# Run tests with coverage
+npm run test:coverage
+
+# Run End-to-End tests via Playwright
+npm run test:e2e
+```
 
 #### Docker Tools
 

@@ -268,7 +268,7 @@ export const RjvObject: React.FC<RjvObjectProps> = (props) => {
 
     return (
         <div
-            className="node-ellipsis"
+            className="object-key-val"
             {...Theme(theme, 'object-container')}
             style={{
                 position: 'relative',
@@ -296,6 +296,7 @@ export const RjvObject: React.FC<RjvObjectProps> = (props) => {
             <span className="brace" {...Theme(theme, 'brace')}>
                 {object_type === 'array' ? ']' : '}'}
             </span>
+            {expanded ? null : getObjectMetaData()}
         </div>
     );
 };

@@ -171,6 +171,7 @@ Visit the local server in your browser (typically `http://localhost:5173` or `ht
 
 ### 3. Running Tests
 
+#### Unit & Component Tests (Vitest)
 Run the test suite to ensure no regressions:
 
 ```bash
@@ -183,6 +184,19 @@ npm run test:watch
 # Run test coverage report
 npm run test:coverage
 ```
+
+#### End-to-End (E2E) Tests (Playwright)
+Browser E2E tests run against the Vite demo application using Playwright:
+
+```bash
+# Run Playwright E2E tests
+npm run test:e2e
+```
+
+E2E tests and page object models are located in `e2e/`:
+- `e2e/specs/`: Test specification files (`smoke.spec.ts`)
+- `e2e/pages/`: Page Object Models (`JsonViewerPage.ts`)
+- `e2e/fixtures/`: Shared test data and mocks (`test-data.ts`)
 
 ### 4. Code Formatting & Linting
 
