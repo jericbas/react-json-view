@@ -64,10 +64,13 @@ Every contributor is expected to follow these five core principles when designin
 - **Healthy Branches**: Keep `main` and `develop` always green and deployable.
 - **Short-Lived Feature Branches**: Branch off `develop` using clear prefix conventions (`feat/`, `fix/`, `docs/`, `refactor/`, `chore/`).
 - **Conventional Commits**: Format commit messages according to the [Conventional Commits](https://www.conventionalcommits.org/) specification:
-  - `feat: add support for async src promise`
-  - `fix: correct type signature for onEdit callback`
-  - `docs: update development guide with testing commands`
+  - `feat: add support for async src promise` (triggers MINOR version bump)
+  - `fix: correct type signature for onEdit callback` (triggers PATCH version bump)
+  - `feat!: breaking change to props API` (triggers MAJOR version bump)
+  - `docs: update development guide with testing commands` (no version bump)
+- **Automated Releases (Release Please)**: We use [Release Please](https://github.com/googleapis/release-please) to automate version bumps, changelog generation in `CHANGELOG.md`, and GitHub releases on `main` driven by Conventional Commits.
 - **Pre-commit Hooks**: Lightweight git hooks verify formatting and linting prior to commits, catching regressions early.
+- **Continuous Integration (GitHub Actions)**: Node 22 LTS CI workflow (`.github/workflows/ci.yml`) validates Biome formatting/linting, TypeScript types, Vitest tests, and Vite build output on all pull requests and pushes to `main` and `develop`.
 
 ---
 
