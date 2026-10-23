@@ -1,6 +1,6 @@
 ![alt text](https://github.com/mac-s-g/react-json-view/blob/master/doc/rjv-icon-alt.png?raw=true)
 
-[![npm](https://img.shields.io/npm/v/react-json-view.svg)](https://www.npmjs.com/package/react-json-view) [![npm](https://img.shields.io/npm/l/react-json-view.svg)](./LICENSE) [![Build Status](https://travis-ci.org/mac-s-g/react-json-view.svg)](https://travis-ci.org/mac-s-g/react-json-view) [![Coverage Status](https://coveralls.io/repos/github/mac-s-g/react-json-view/badge.svg?branch=master)](https://coveralls.io/github/mac-s-g/react-json-view?branch=master)
+[![npm](https://img.shields.io/npm/v/react-json-view.svg)](https://www.npmjs.com/package/react-json-view) [![npm](https://img.shields.io/npm/l/react-json-view.svg)](./LICENSE) [![CI](https://github.com/jericbas/react-json-view/actions/workflows/ci.yml/badge.svg)](https://github.com/jericbas/react-json-view/actions/workflows/ci.yml)
 
 > [!IMPORTANT]
 > ### 🚧 Under Construction: Modernizing to React 19, TypeScript, and Vite 🚧
