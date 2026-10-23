@@ -1,10 +1,6 @@
-import React from 'react';
-import { describe, it, expect } from 'vitest';
 import { render } from '@testing-library/react';
-import {
-    ExpandedIcon,
-    CollapsedIcon
-} from '../../src/components/ToggleIcons';
+import { describe, expect, it } from 'vitest';
+import { CollapsedIcon, ExpandedIcon } from '../../src/components/ToggleIcons';
 
 describe('<ToggleIcons />', () => {
     it('ExpandedIcon mount', () => {
@@ -18,17 +14,13 @@ describe('<ToggleIcons />', () => {
     });
 
     it('ExpandedIcon with triangle style', () => {
-        const { container } = render(
-            <ExpandedIcon theme="rjv-default" iconStyle="triangle" />
-        );
+        const { container } = render(<ExpandedIcon theme="rjv-default" iconStyle="triangle" />);
         expect(container.querySelectorAll('.expanded-icon')).toHaveLength(1);
         expect(container.querySelector('svg')).toBeDefined();
     });
 
     it('ExpandedIcon with square style', () => {
-        const { container } = render(
-            <ExpandedIcon theme="rjv-default" iconStyle="square" />
-        );
+        const { container } = render(<ExpandedIcon theme="rjv-default" iconStyle="square" />);
         expect(container.querySelectorAll('.expanded-icon')).toHaveLength(1);
         expect(container.querySelector('svg')).toBeDefined();
     });
@@ -40,17 +32,13 @@ describe('<ToggleIcons />', () => {
     });
 
     it('CollapsedIcon with triangle style', () => {
-        const { container } = render(
-            <CollapsedIcon theme="rjv-default" iconStyle="triangle" />
-        );
+        const { container } = render(<CollapsedIcon theme="rjv-default" iconStyle="triangle" />);
         expect(container.querySelectorAll('.collapsed-icon')).toHaveLength(1);
         expect(container.querySelector('svg')).toBeDefined();
     });
 
     it('CollapsedIcon with square style', () => {
-        const { container } = render(
-            <CollapsedIcon theme="rjv-default" iconStyle="square" />
-        );
+        const { container } = render(<CollapsedIcon theme="rjv-default" iconStyle="square" />);
         expect(container.querySelectorAll('.collapsed-icon')).toHaveLength(1);
         expect(container.querySelector('svg')).toBeDefined();
     });

@@ -1,19 +1,18 @@
-import React from 'react';
-import { describe, it, expect } from 'vitest';
 import { render } from '@testing-library/react';
+import { describe, expect, it } from 'vitest';
 import {
+    Add,
+    AddCircle,
+    ArrowDown,
+    ArrowRight,
+    CheckCircle,
     CircleMinus,
     CirclePlus,
     Clippy,
-    RemoveCircle,
-    AddCircle,
-    Add,
     Edit,
-    CheckCircle,
-    SquarePlus,
+    RemoveCircle,
     SquareMinus,
-    ArrowDown,
-    ArrowRight
+    SquarePlus
 } from '../../src/components/icons';
 
 describe('svg icons', () => {

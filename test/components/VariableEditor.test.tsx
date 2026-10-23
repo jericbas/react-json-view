@@ -1,8 +1,7 @@
-import React from 'react';
-import { describe, it, expect, vi } from 'vitest';
-import { render, fireEvent } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
+import { describe, expect, it, vi } from 'vitest';
 import { VariableEditor } from '../../src/components/VariableEditor';
-import { JsonViewContext, defaultContextValue } from '../../src/context/JsonViewContext';
+import { defaultContextValue, JsonViewContext } from '../../src/context/JsonViewContext';
 
 describe('<VariableEditor />', () => {
     it('VariableEditor click-to-edit should be rendered when onEdit enabled and hovered', () => {

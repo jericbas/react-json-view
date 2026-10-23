@@ -10,7 +10,7 @@ export interface FloatProps {
     rjvId?: string | undefined;
 }
 
-export const JsonFloat: React.FC<FloatProps> = (props) => {
+export const JsonFloat: React.FC<FloatProps> = props => {
     const { value, theme = 'rjv-default' } = props;
     const type_name = 'float';
 

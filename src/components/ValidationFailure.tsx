@@ -1,4 +1,5 @@
-import React, { use } from 'react';
+import type React from 'react';
+import { use } from 'react';
 import { JsonViewContext } from '../context/JsonViewContext';
 import Theme from '../themes/getStyle';
 import type { ThemeKeys, ThemeObject } from '../types';
@@ -16,7 +17,12 @@ export const ValidationFailure: React.FC<ValidationFailureProps> = ({
     active: activeProp,
     theme: themeProp
 }) => {
-    const { validationFailure, validationMessage, theme: contextTheme, dispatch } = use(JsonViewContext);
+    const {
+        validationFailure,
+        validationMessage,
+        theme: contextTheme,
+        dispatch
+    } = use(JsonViewContext);
     const active = activeProp ?? validationFailure;
     const message = messageProp ?? validationMessage;
     const theme = themeProp ?? contextTheme;
@@ -35,9 +41,7 @@ export const ValidationFailure: React.FC<ValidationFailureProps> = ({
                 });
             }}
         >
-            <span {...Theme(theme, 'validation-failure-label')}>
-                {message}
-            </span>
+            <span {...Theme(theme, 'validation-failure-label')}>{message}</span>
             <Clear {...Theme(theme, 'validation-failure-clear')} />
         </div>
     );

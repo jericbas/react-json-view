@@ -2,7 +2,7 @@
 import ReactJson from 'react-json-view';
 
 //you have some json to display
-let my_important_json = {
+const my_important_json = {
     test: 'this is a test string',
     another_sibling: 45,
     basic_array: [1, 2, 3],
@@ -15,7 +15,7 @@ let my_important_json = {
         'last-sibling': {
             grand_child: NaN,
             'grand-child-func': (a) => {
-                let b = 5;
+                const b = 5;
                 return a.push(b);
             }
         }

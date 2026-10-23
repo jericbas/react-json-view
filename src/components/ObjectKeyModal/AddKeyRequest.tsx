@@ -1,4 +1,5 @@
-import React, { use } from 'react';
+import type React from 'react';
+import { use } from 'react';
 import { JsonViewContext } from '../../context/JsonViewContext';
 import type { ThemeKeys, ThemeObject, TypeDefaultValue } from '../../types';
 import ObjectKeyModal from './ObjectKeyModal';
@@ -48,13 +49,7 @@ export const AddKeyRequest: React.FC<AddKeyRequestProps> = ({
         }
     };
 
-    return (
-        <ObjectKeyModal
-            theme={theme}
-            isValid={isValid}
-            submit={submit}
-        />
-    );
+    return <ObjectKeyModal theme={theme} isValid={isValid} submit={submit} />;
 };
 
 export default AddKeyRequest;

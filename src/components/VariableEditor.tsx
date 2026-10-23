@@ -1,8 +1,9 @@
-import React, { use, useState } from 'react';
+import type React from 'react';
+import { use, useState } from 'react';
 import AutosizeTextarea from 'react-textarea-autosize';
 import { JsonViewContext } from '../context/JsonViewContext';
-import parseInput from '../helpers/parseInput';
 import type { ParsedInput } from '../helpers/parseInput';
+import parseInput from '../helpers/parseInput';
 import stringifyVariable from '../helpers/stringifyVariable';
 import Theme from '../themes/getStyle';
 import type { OnCopyProps, OnSelectProps, ThemeKeys, ThemeObject } from '../types';
@@ -45,7 +46,7 @@ export interface VariableEditorProps {
     displayDataTypes?: boolean | undefined;
 }
 
-export const VariableEditor: React.FC<VariableEditorProps> = (props) => {
+export const VariableEditor: React.FC<VariableEditorProps> = props => {
     const { dispatch, theme: contextTheme } = use(JsonViewContext);
     const {
         variable,
@@ -221,7 +222,9 @@ export const VariableEditor: React.FC<VariableEditorProps> = (props) => {
                 case 'boolean':
                     return <JsonBoolean value={value as boolean} {...props} />;
                 case 'function':
-                    return <JsonFunction value={value as (...args: unknown[]) => unknown} {...props} />;
+                    return (
+                        <JsonFunction value={value as (...args: unknown[]) => unknown} {...props} />
+                    );
                 case 'null':
                     return <JsonNull {...props} />;
                 case 'nan':
@@ -349,11 +352,7 @@ export const VariableEditor: React.FC<VariableEditorProps> = (props) => {
                 return <JsonRegexp value={v.value} {...props} />;
             default:
                 // catch-all for types that weren't anticipated
-                return (
-                    <div className="object-value">
-                        {JSON.stringify(v.value)}
-                    </div>
-                );
+                return <div className="object-value">{JSON.stringify(v.value)}</div>;
         }
     };
 
@@ -371,7 +370,7 @@ export const VariableEditor: React.FC<VariableEditorProps> = (props) => {
                 displayArrayKey ? (
                     <span
                         {...Theme(theme, 'array-key')}
-                        key={variable.name + '_' + namespace.join('.')}
+                        key={`${variable.name}_${namespace.join('.')}`}
                     >
                         {variable.name}
                         <div {...Theme(theme, 'colon')}>:</div>
@@ -382,17 +381,11 @@ export const VariableEditor: React.FC<VariableEditorProps> = (props) => {
                     <span
                         {...Theme(theme, 'object-name')}
                         className="object-key"
-                        key={variable.name + '_' + namespace.join('.')}
+                        key={`${variable.name}_${namespace.join('.')}`}
                     >
-                        {!!quotesOnKeys && (
-                            <span style={{ verticalAlign: 'top' }}>"</span>
-                        )}
-                        <span style={{ display: 'inline-block' }}>
-                            {variable.name}
-                        </span>
-                        {!!quotesOnKeys && (
-                            <span style={{ verticalAlign: 'top' }}>"</span>
-                        )}
+                        {!!quotesOnKeys && <span style={{ verticalAlign: 'top' }}>"</span>}
+                        <span style={{ display: 'inline-block' }}>{variable.name}</span>
+                        {!!quotesOnKeys && <span style={{ verticalAlign: 'top' }}>"</span>}
                     </span>
                     <span {...Theme(theme, 'colon')}>:</span>
                 </span>
@@ -404,10 +397,7 @@ export const VariableEditor: React.FC<VariableEditorProps> = (props) => {
                         ? undefined
                         : e => {
                               const location = [...namespace];
-                              if (
-                                  (e.ctrlKey || e.metaKey) &&
-                                  onEdit !== false
-                              ) {
+                              if ((e.ctrlKey || e.metaKey) && onEdit !== false) {
                                   prepopInput(variable);
                               } else if (onSelect !== false) {
                                   location.shift();

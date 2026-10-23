@@ -1,4 +1,5 @@
-import React, { use } from 'react';
+import type React from 'react';
+import { use } from 'react';
 import { JsonViewContext } from '../context/JsonViewContext';
 import type { IconStyle, ThemeKeys, ThemeObject } from '../types';
 import ArrayGroup from './ArrayGroup';
@@ -31,7 +32,7 @@ export interface JsonViewerProps {
     [key: string]: any;
 }
 
-export const JsonViewer: React.FC<JsonViewerProps> = (props) => {
+export const JsonViewer: React.FC<JsonViewerProps> = props => {
     const context = use(JsonViewContext);
     const src = props.src !== undefined ? props.src : context.src;
     const name = props.name !== undefined ? props.name : context.name;

@@ -1,4 +1,5 @@
-import React, { use } from 'react';
+import type React from 'react';
+import { use } from 'react';
 import { JsonViewContext } from '../../context/JsonViewContext';
 import { toType } from '../../helpers/util';
 import Theme from '../../themes/getStyle';
@@ -14,8 +15,12 @@ export interface StringProps {
     namespace: Array<string | number | null>;
 }
 
-export const JsonString: React.FC<StringProps> = (props) => {
-    const { collapsed: collapsedMap, setCollapsed: setContextCollapsed, theme: contextTheme } = use(JsonViewContext);
+export const JsonString: React.FC<StringProps> = props => {
+    const {
+        collapsed: collapsedMap,
+        setCollapsed: setContextCollapsed,
+        theme: contextTheme
+    } = use(JsonViewContext);
     const {
         collapseStringsAfterLength = false,
         theme = contextTheme || 'rjv-default',
@@ -47,18 +52,12 @@ export const JsonString: React.FC<StringProps> = (props) => {
     return (
         <div {...Theme(theme, 'string')}>
             <DataTypeLabel type_name={type_name} {...props} />
-            <span
-                className="string-value"
-                {...style}
-                onClick={toggleCollapsed}
-            >
+            <span className="string-value" {...style} onClick={toggleCollapsed}>
                 "{value}
                 {collapsible &&
-                typeof collapseStringsAfterLength === 'number' &&
-                props.value.length > collapseStringsAfterLength &&
-                collapsed && (
-                    <span {...Theme(theme, 'ellipsis')}> ...</span>
-                )}
+                    typeof collapseStringsAfterLength === 'number' &&
+                    props.value.length > collapseStringsAfterLength &&
+                    collapsed && <span {...Theme(theme, 'ellipsis')}> ...</span>}
                 "
             </span>
         </div>

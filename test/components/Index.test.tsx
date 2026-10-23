@@ -1,6 +1,5 @@
-import React from 'react';
-import { describe, it, expect } from 'vitest';
 import { render } from '@testing-library/react';
+import { describe, expect, it } from 'vitest';
 import Index from '../../src/index';
 
 describe('<Index />', () => {
@@ -101,11 +100,7 @@ describe('<Index />', () => {
 
     it('index can have ArrayGroup root component', () => {
         const { container } = render(
-            <Index
-                name="test"
-                groupArraysAfterLength={5}
-                src={new Array(15).fill(0)}
-            />
+            <Index name="test" groupArraysAfterLength={5} src={new Array(15).fill(0)} />
         );
         expect(container.querySelectorAll('.array-group')).toHaveLength(3);
     });

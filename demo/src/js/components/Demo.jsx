@@ -1,7 +1,7 @@
 import React from 'react';
+import GitHubButton from 'react-github-button';
 import ReactSelect from 'react-select';
 import ReactJson from './../../../../src/index';
-import GitHubButton from 'react-github-button';
 
 import Code from './../helpers/Code';
 import './../../style/scss/rjv-demo.scss';
@@ -84,17 +84,10 @@ class Demo extends React.PureComponent {
                         className="rjv-logo"
                         src="https://github.com/mac-s-g/react-json-view/blob/master/doc/rjv-icon-alt.png?raw=true"
                         onClick={() => {
-                            window.open(
-                                'https://github.com/mac-s-g/react-json-view',
-                                '_blank'
-                            );
+                            window.open('https://github.com/mac-s-g/react-json-view', '_blank');
                         }}
                     />
-                    <GitHubButton
-                        type="stargazers"
-                        namespace="mac-s-g"
-                        repo="react-json-view"
-                    />
+                    <GitHubButton type="stargazers" namespace="mac-s-g" repo="react-json-view" />
                 </div>
                 <ReactJson
                     name={false}
@@ -179,21 +172,28 @@ class Demo extends React.PureComponent {
                         {this.getCollapsedInput(collapsed)}
                     </div>
                     <div className="rjv-input">
-                        <div className="rjv-label">
-                            Collapse Strings After Length:
-                        </div>
+                        <div className="rjv-label">Collapse Strings After Length:</div>
                         {this.getCollapsedStringsInput(collapseStringsAfter)}
                     </div>
                 </div>
 
                 {this.getNotes(onEdit, onAdd)}
 
-                <div style={{ marginTop: '30px', padding: '15px', border: '1px solid #444', borderRadius: '4px' }}>
+                <div
+                    style={{
+                        marginTop: '30px',
+                        padding: '15px',
+                        border: '1px solid #444',
+                        borderRadius: '4px'
+                    }}
+                >
                     <div style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '10px' }}>
                         React 19 Native Async Promise &amp; Suspense Demo
                     </div>
                     <div style={{ marginBottom: '10px', color: '#888' }}>
-                        Pass a Promise directly to <code>src</code> and wrap with <code>&lt;Suspense&gt;</code>. React 19's native <code>use()</code> hook unwraps the Promise automatically!
+                        Pass a Promise directly to <code>src</code> and wrap with{' '}
+                        <code>&lt;Suspense&gt;</code>. React 19's native <code>use()</code> hook
+                        unwraps the Promise automatically!
                     </div>
                     <button
                         onClick={this.reloadAsyncPromise}
@@ -205,12 +205,14 @@ class Demo extends React.PureComponent {
                     >
                         Reload Async Promise
                     </button>
-                    <React.Suspense fallback={<div style={{ padding: '10px', color: '#ffb86c' }}>⏳ Loading async JSON with React 19 Suspense...</div>}>
-                        <ReactJson
-                            name="async_data"
-                            theme={theme}
-                            src={this.state.asyncPromise}
-                        />
+                    <React.Suspense
+                        fallback={
+                            <div style={{ padding: '10px', color: '#ffb86c' }}>
+                                ⏳ Loading async JSON with React 19 Suspense...
+                            </div>
+                        }
+                    >
+                        <ReactJson name="async_data" theme={theme} src={this.state.asyncPromise} />
                     </React.Suspense>
                 </div>
             </div>
@@ -218,18 +220,16 @@ class Demo extends React.PureComponent {
     }
 
     getNotes = (on_edit_enabled, on_add_enabled) => {
-        let notes = [];
+        const notes = [];
         if (on_edit_enabled) {
             notes.push(
                 <span>
-                    To edit a value, try <Code>ctrl/cmd + click</Code> enter
-                    edit mode
+                    To edit a value, try <Code>ctrl/cmd + click</Code> enter edit mode
                 </span>
             );
             notes.push(
                 <span>
-                    When editing a value, try <Code>ctrl/cmd + Enter</Code> to
-                    submit changes
+                    When editing a value, try <Code>ctrl/cmd + Enter</Code> to submit changes
                 </span>
             );
             notes.push(
@@ -260,7 +260,7 @@ class Demo extends React.PureComponent {
                 Keyboard Shortcuts
                 <ul>
                     {notes.map(note => {
-                        return <li>{note}</li>;
+                        return <li key={note}>{note}</li>;
                     })}
                 </ul>
             </div>
@@ -503,7 +503,7 @@ class Demo extends React.PureComponent {
     };
 
     set = (field, value) => {
-        let state = {};
+        const state = {};
         state[field] = value.value;
         this.setState(state);
     };
@@ -514,7 +514,7 @@ class Demo extends React.PureComponent {
             string: 'this is a test string',
             integer: 42,
             array: [1, 2, 3, 'test', NaN],
-            float: 3.14159,
+            float: Math.PI,
             undefined: undefined,
             object: {
                 'first-child': true,

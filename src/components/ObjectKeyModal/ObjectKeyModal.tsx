@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, use, useState } from 'react';
+import type React from 'react';
+import { use, useEffect, useRef, useState } from 'react';
 import { JsonViewContext } from '../../context/JsonViewContext';
 import Theme from '../../themes/getStyle';
 import type { ThemeKeys, ThemeObject } from '../../types';

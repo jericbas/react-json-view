@@ -10,7 +10,7 @@ export interface IntegerProps {
     rjvId?: string | undefined;
 }
 
-export const JsonInteger: React.FC<IntegerProps> = (props) => {
+export const JsonInteger: React.FC<IntegerProps> = props => {
     const { value, theme = 'rjv-default' } = props;
     const type_name = 'int';
 

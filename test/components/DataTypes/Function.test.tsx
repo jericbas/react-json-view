@@ -1,14 +1,13 @@
-import React from 'react';
-import { describe, it, expect, vi } from 'vitest';
-import { render, fireEvent } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
+import { describe, expect, it, vi } from 'vitest';
 import JsonFunction from '../../../src/components/DataTypes/Function';
-import { JsonViewContext, defaultContextValue } from '../../../src/context/JsonViewContext';
+import { defaultContextValue, JsonViewContext } from '../../../src/context/JsonViewContext';
 
 describe('<JsonFunction />', () => {
     it('function component should have a data type label', () => {
         const { container } = render(
             <JsonFunction
-                value={function () {}}
+                value={() => {}}
                 namespace={['root']}
                 displayDataTypes={true}
                 theme="rjv-default"
@@ -20,7 +19,7 @@ describe('<JsonFunction />', () => {
     it('function component should not have a data type label', () => {
         const { container } = render(
             <JsonFunction
-                value={function () {}}
+                value={() => {}}
                 namespace={['root']}
                 displayDataTypes={false}
                 theme="rjv-default"
@@ -38,7 +37,7 @@ describe('<JsonFunction />', () => {
                 }}
             >
                 <JsonFunction
-                    value={function () {}}
+                    value={() => {}}
                     namespace={['function-test']}
                     displayDataTypes={true}
                     theme="rjv-default"
@@ -57,7 +56,7 @@ describe('<JsonFunction />', () => {
                 }}
             >
                 <JsonFunction
-                    value={function () {}}
+                    value={() => {}}
                     namespace={['function-test']}
                     displayDataTypes={true}
                     theme="rjv-default"
@@ -78,7 +77,7 @@ describe('<JsonFunction />', () => {
                 }}
             >
                 <JsonFunction
-                    value={function () {}}
+                    value={() => {}}
                     namespace={['function-test']}
                     displayDataTypes={true}
                     theme="rjv-default"

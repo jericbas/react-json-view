@@ -12,17 +12,17 @@ Before contributing code, please take a moment to review this guide to understan
 
 The complete modernization initiative is organized into distinct phases tracked in GitHub Issues:
 
-| Phase | Milestone / Area | GitHub Issue |
-| :--- | :--- | :--- |
-| **Phase 1** | **Contributor Guide (`DEVELOPMENT.md`) & `README.md` Notice** *(Current)* | [#1](https://github.com/jericbas/react-json-view/issues/1) |
-| **Phase 2** | Framework & Language Upgrade (React 19.3+ & TypeScript) | [#2](https://github.com/jericbas/react-json-view/issues/2) |
-| **Phase 3** | State Management & Data Fetching (React 19 Native Hooks) | [#3](https://github.com/jericbas/react-json-view/issues/3) |
-| **Phase 4** | Build Tool Migration (Replace Webpack with Vite) | [#4](https://github.com/jericbas/react-json-view/issues/4) |
-| **Phase 5** | Testing Modernization (Vitest Unit & Playwright E2E) | [#5](https://github.com/jericbas/react-json-view/issues/5) |
-| **Phase 6** | Linting, Formatting, & Pre-Commit Hooks (Biome & Git Hooks) | [#6](https://github.com/jericbas/react-json-view/issues/6) |
-| **Phase 7** | CI/CD & Workflow (GitHub Actions, Release Please, PR Template) | [#7](https://github.com/jericbas/react-json-view/issues/7) |
-| **Phase 8** | Docker Review & Removal | [#8](https://github.com/jericbas/react-json-view/issues/8) |
-| **Phase 9** | General Housekeeping & Dependency Optimization | [#9](https://github.com/jericbas/react-json-view/issues/9) |
+| Phase       | Milestone / Area                                                          | GitHub Issue                                               |
+| :---------- | :------------------------------------------------------------------------ | :--------------------------------------------------------- |
+| **Phase 1** | **Contributor Guide (`DEVELOPMENT.md`) & `README.md` Notice** _(Current)_ | [#1](https://github.com/jericbas/react-json-view/issues/1) |
+| **Phase 2** | Framework & Language Upgrade (React 19.3+ & TypeScript)                   | [#2](https://github.com/jericbas/react-json-view/issues/2) |
+| **Phase 3** | State Management & Data Fetching (React 19 Native Hooks)                  | [#3](https://github.com/jericbas/react-json-view/issues/3) |
+| **Phase 4** | Build Tool Migration (Replace Webpack with Vite)                          | [#4](https://github.com/jericbas/react-json-view/issues/4) |
+| **Phase 5** | Testing Modernization (Vitest Unit & Playwright E2E)                      | [#5](https://github.com/jericbas/react-json-view/issues/5) |
+| **Phase 6** | Linting, Formatting, & Pre-Commit Hooks (Biome & Git Hooks)               | [#6](https://github.com/jericbas/react-json-view/issues/6) |
+| **Phase 7** | CI/CD & Workflow (GitHub Actions, Release Please, PR Template)            | [#7](https://github.com/jericbas/react-json-view/issues/7) |
+| **Phase 8** | Docker Review & Removal                                                   | [#8](https://github.com/jericbas/react-json-view/issues/8) |
+| **Phase 9** | General Housekeeping & Dependency Optimization                            | [#9](https://github.com/jericbas/react-json-view/issues/9) |
 
 ---
 
@@ -31,11 +31,13 @@ The complete modernization initiative is organized into distinct phases tracked 
 Every contributor is expected to follow these five core principles when designing, writing, and reviewing code in this repository:
 
 ### 1. Strict TypeScript
+
 - **No `any`**: Explicitly type all variables, function arguments, return values, and data structures. Never use `any` unless strictly wrapping an untyped boundary (and prefer `unknown` with type guards).
 - **`strict: true`**: All TypeScript code compiles with strict mode enabled (`noImplicitAny`, `strictNullChecks`, `exactOptionalPropertyTypes`, etc.).
 - **Clear Interfaces**: Export clean interfaces and types for public APIs, props, state, themes, and callbacks so users of the library enjoy seamless auto-completion and compile-time type safety.
 
 ### 2. React 19 Native Hooks First
+
 - **Functional Components Only**: No class components or legacy lifecycle methods (`componentDidMount`, `componentDidUpdate`, `getDerivedStateFromProps`).
 - **Native React 19 Hooks**:
   - `useId`: Generates unique, stable, deterministic component IDs for DOM elements and accessibility attributes across client and SSR.
@@ -44,6 +46,7 @@ Every contributor is expected to follow these five core principles when designin
 - **Single Source of Truth**: State is encapsulated within the `<ReactJsonView />` instance context, preventing global state pollution or leaks between multiple viewers on the same page.
 
 ### 3. Zero Unnecessary Dependencies
+
 - **Lean Footprint**: Keep external npm dependencies minimal. Every third-party dependency adds security surface area, maintenance overhead, and bundle size.
 - **Native Browser & JavaScript APIs**:
   - Use `navigator.clipboard.writeText()` instead of external clipboard packages.
@@ -51,11 +54,13 @@ Every contributor is expected to follow these five core principles when designin
   - Rely on native ES modules and browser standards whenever available.
 
 ### 4. Fast Local Tools
+
 - **Vite**: Ultra-fast development server with instant Hot Module Replacement (HMR) and optimized library builds producing modern ESM and CJS bundles.
 - **Vitest**: Blazing-fast test runner that shares Vite's config and transform pipeline for instant feedback during testing.
 - **Biome**: A unified, high-performance tool for linting and formatting, replacing ESLint and Prettier with sub-second execution speeds.
 
 ### 5. Trunk-Based & Git Workflow
+
 - **Healthy Branches**: Keep `main` and `develop` always green and deployable.
 - **Short-Lived Feature Branches**: Branch off `develop` using clear prefix conventions (`feat/`, `fix/`, `docs/`, `refactor/`, `chore/`).
 - **Conventional Commits**: Format commit messages according to the [Conventional Commits](https://www.conventionalcommits.org/) specification:
@@ -141,6 +146,7 @@ The modern `react-json-view` architecture is structured into a clean hierarchy c
 ## 🚀 Getting Started for Contributors
 
 ### Prerequisites
+
 - **Node.js**: v20 or higher recommended.
 - **Package Manager**: `npm` (v10+) or `pnpm`.
 
@@ -172,6 +178,7 @@ Visit the local server in your browser (typically `http://localhost:5173` or `ht
 ### 3. Running Tests
 
 #### Unit & Component Tests (Vitest)
+
 Run the test suite to ensure no regressions:
 
 ```bash
@@ -186,6 +193,7 @@ npm run test:coverage
 ```
 
 #### End-to-End (E2E) Tests (Playwright)
+
 Browser E2E tests run against the Vite demo application using Playwright:
 
 ```bash
@@ -206,9 +214,23 @@ We maintain strict formatting and code health standards using Biome:
 # Check code for lint errors and formatting discrepancies
 npm run check
 
-# Automatically apply safe fixes and formatting
-npm run check:fix
+# Automatically apply formatting and safe fixes
+npm run check:write
+
+# Run linter only
+npm run lint
+
+# Format code only
+npm run format
 ```
+
+#### Pre-Commit Hook (Zero-Dependency)
+
+We use a zero-dependency Git hook located in `.githooks/pre-commit`. Running `npm install` runs the `prepare` script which automatically activates the hook via `git config core.hooksPath .githooks`.
+
+The pre-commit hook automatically runs before every commit:
+1. Checks staged files against Biome formatting and linting rules.
+2. Runs TypeScript type checking (`npm run typecheck`).
 
 ### 5. Building the Library
 

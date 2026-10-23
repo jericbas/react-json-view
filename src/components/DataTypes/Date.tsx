@@ -19,7 +19,7 @@ const display_options: Intl.DateTimeFormatOptions = {
     minute: '2-digit'
 };
 
-export const JsonDate: React.FC<DateProps> = (props) => {
+export const JsonDate: React.FC<DateProps> = props => {
     const { value, theme = 'rjv-default' } = props;
     const type_name = 'date';
 

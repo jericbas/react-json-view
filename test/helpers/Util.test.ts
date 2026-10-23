@@ -1,5 +1,5 @@
-import { describe, it, expect } from 'vitest';
-import { toType, isTheme } from '../../src/helpers/util';
+import { describe, expect, it } from 'vitest';
+import { isTheme, toType } from '../../src/helpers/util';
 
 describe('toType', () => {
     it('toType object', () => {

@@ -102,16 +102,13 @@ const getDefaultThemeStyling = (theme: ThemeObject) => {
                     paddingTop: constants.keyValPaddingTop,
                     paddingRight: constants.keyValPaddingRight,
                     paddingBottom: constants.keyValPaddingBottom,
-                    borderLeft:
-                        constants.keyValBorderLeft + ' ' + colors.objectBorder,
+                    borderLeft: `${constants.keyValBorderLeft} ${colors.objectBorder}`,
                     ':hover': {
-                        paddingLeft: variable_style?.paddingLeft !== undefined
-                            ? variable_style.paddingLeft - 1 + 'px'
-                            : undefined,
-                        borderLeft:
-                            constants.keyValBorderHover +
-                            ' ' +
-                            colors.objectBorder
+                        paddingLeft:
+                            variable_style?.paddingLeft !== undefined
+                                ? `${variable_style.paddingLeft - 1}px`
+                                : undefined,
+                        borderLeft: `${constants.keyValBorderHover} ${colors.objectBorder}`
                     },
                     ...variable_style
                 }
@@ -404,9 +401,7 @@ const getStyle = (theme?: ThemeKeys | ThemeObject | boolean) => {
         rjv_theme = rjv_grey;
     }
 
-    return createStyling(getDefaultThemeStyling, { defaultBase16: rjv_theme })(
-        theme
-    );
+    return createStyling(getDefaultThemeStyling, { defaultBase16: rjv_theme })(theme);
 };
 
 export default function style(

@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import type React from 'react';
+import { useState } from 'react';
 import Theme from '../themes/getStyle';
 import type { IconStyle, ThemeKeys, ThemeObject } from '../types';
 import ObjectComponent from './DataTypes/Object';
@@ -27,7 +28,7 @@ export interface ArrayGroupProps {
     [key: string]: any;
 }
 
-export const ArrayGroup: React.FC<ArrayGroupProps> = (props) => {
+export const ArrayGroup: React.FC<ArrayGroupProps> = props => {
     const {
         src,
         groupArraysAfterLength,
@@ -129,21 +130,13 @@ export const ArrayGroup: React.FC<ArrayGroupProps> = (props) => {
                             >
                                 [
                                 <div
-                                    {...Theme(
-                                        theme,
-                                        'array-group-meta-data'
-                                    )}
+                                    {...Theme(theme, 'array-group-meta-data')}
                                     className="array-group-meta-data"
                                 >
-                                    <span
-                                        className="object-size"
-                                        {...Theme(theme, 'object-size')}
-                                    >
+                                    <span className="object-size" {...Theme(theme, 'object-size')}>
                                         {i * size}
                                         {' - '}
-                                        {i * size + size > src.length
-                                            ? src.length
-                                            : i * size + size}
+                                        {Math.min(i * size + size, src.length)}
                                     </span>
                                 </div>
                                 ]

@@ -38,13 +38,9 @@ export const ObjectName: React.FC<ObjectNameProps> = ({
         return (
             <span {...Theme(theme, 'object-name')} key={namespace.join('.')}>
                 <span className="object-key">
-                    {quotesOnKeys && (
-                        <span style={{ verticalAlign: 'top' }}>"</span>
-                    )}
+                    {quotesOnKeys && <span style={{ verticalAlign: 'top' }}>"</span>}
                     <span>{display_name}</span>
-                    {quotesOnKeys && (
-                        <span style={{ verticalAlign: 'top' }}>"</span>
-                    )}
+                    {quotesOnKeys && <span style={{ verticalAlign: 'top' }}>"</span>}
                 </span>
                 <span {...Theme(theme, 'colon')}>:</span>
             </span>

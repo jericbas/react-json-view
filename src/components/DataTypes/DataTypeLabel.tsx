@@ -16,10 +16,7 @@ export const DataTypeLabel: React.FC<DataTypeLabelProps> = ({
 }) => {
     if (displayDataTypes) {
         return (
-            <span
-                className="data-type-label"
-                {...Theme(theme, 'data-type-label')}
-            >
+            <span className="data-type-label" {...Theme(theme, 'data-type-label')}>
                 {type_name}
             </span>
         );
