@@ -23,7 +23,7 @@ export interface ThemeObject {
     base0D: string;
     base0E: string;
     base0F: string;
-    [key: string]: string | undefined;
+    [key: string]: any;
 }
 
 export type ThemeKeys =

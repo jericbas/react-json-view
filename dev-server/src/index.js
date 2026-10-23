@@ -1,4 +1,3 @@
-import Moment from 'moment';
 //import react and reactDom for browser rendering
 import React from 'react';
 import { createRoot } from 'react-dom/client';
@@ -45,7 +44,7 @@ if (container) {
                 shouldCollapse={({ src, namespace, type }) => {
                     if (type === 'array' && src.indexOf('test') > -1) {
                         return true;
-                    } else if (namespace.indexOf('moment') > -1) {
+                    } else if (namespace.indexOf('isoDate') > -1) {
                         return true;
                     }
                     return false;
@@ -135,7 +134,7 @@ if (container) {
             <JsonViewer
                 enableClipboard={false}
                 src={getExampleJson1()}
-                shouldCollapse={({ src, namespace, type }) => namespace.indexOf('moment') > -1}
+                shouldCollapse={({ src, namespace, type }) => namespace.indexOf('isoDate') > -1}
                 theme={{
                     base00: 'white',
                     base01: '#ddd',
@@ -195,7 +194,7 @@ function getExampleJson1() {
         },
         string_number: '1234',
         date: new Date(),
-        moment: Moment(),
+        isoDate: new Date().toISOString(),
         regexp: /[0-9]/gi
     };
 }

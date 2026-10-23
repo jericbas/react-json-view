@@ -1,12 +1,40 @@
 import React from 'react';
-import GitHubButton from 'react-github-button';
-import ReactSelect from 'react-select';
 import ReactJson from './../../../../src/index';
 
 import Code from './../helpers/Code';
 import './../../style/scss/rjv-demo.scss';
-import 'react-select/dist/react-select.css';
-import 'react-github-button/assets/style.css';
+
+const Select = ({ name, value, options, onChange }) => (
+    <select
+        name={name}
+        className="rjv-select"
+        value={
+            typeof value === 'boolean' || typeof value === 'number' ? String(value) : (value ?? '')
+        }
+        onChange={e => {
+            const rawVal = e.target.value;
+            const opt = options.find(o => String(o.value) === rawVal);
+            const resolvedVal = opt ? opt.value : rawVal;
+            onChange({ value: resolvedVal, label: opt ? opt.label : rawVal });
+        }}
+        style={{
+            width: '100%',
+            height: '36px',
+            padding: '4px 8px',
+            fontSize: '13px',
+            borderRadius: '4px',
+            border: '1px solid #ccc',
+            backgroundColor: '#fff',
+            color: '#333'
+        }}
+    >
+        {options.map(opt => (
+            <option key={String(opt.value)} value={String(opt.value)}>
+                {String(opt.label)}
+            </option>
+        ))}
+    </select>
+);
 
 //index entrypoint component
 class Demo extends React.PureComponent {
@@ -87,7 +115,29 @@ class Demo extends React.PureComponent {
                             window.open('https://github.com/mac-s-g/react-json-view', '_blank');
                         }}
                     />
-                    <GitHubButton type="stargazers" namespace="mac-s-g" repo="react-json-view" />
+                    <a
+                        className="rjv-github-link"
+                        href="https://github.com/mac-s-g/react-json-view"
+                        target="_blank"
+                        rel="noreferrer"
+                        style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '4px',
+                            marginLeft: '12px',
+                            padding: '4px 10px',
+                            fontSize: '12px',
+                            fontWeight: 600,
+                            color: '#24292e',
+                            backgroundColor: '#eff3f6',
+                            border: '1px solid rgba(27,31,35,0.2)',
+                            borderRadius: '3px',
+                            textDecoration: 'none',
+                            verticalAlign: 'middle'
+                        }}
+                    >
+                        ★ Star
+                    </a>
                 </div>
                 <ReactJson
                     name={false}
@@ -269,7 +319,7 @@ class Demo extends React.PureComponent {
 
     getIconStyleInput = iconStyle => {
         return (
-            <ReactSelect
+            <Select
                 name="icon-style"
                 value={iconStyle}
                 options={[
@@ -286,7 +336,7 @@ class Demo extends React.PureComponent {
 
     getEditInput = onEdit => {
         return (
-            <ReactSelect
+            <Select
                 name="enable-edit"
                 value={onEdit}
                 options={[
@@ -302,7 +352,7 @@ class Demo extends React.PureComponent {
 
     getAddInput = onAdd => {
         return (
-            <ReactSelect
+            <Select
                 name="enable-add"
                 value={onAdd}
                 options={[
@@ -318,7 +368,7 @@ class Demo extends React.PureComponent {
 
     getDeleteInput = onDelete => {
         return (
-            <ReactSelect
+            <Select
                 name="enable-delete"
                 value={onDelete}
                 options={[
@@ -334,7 +384,7 @@ class Demo extends React.PureComponent {
 
     getEnableClipboardInput = enableClipboard => {
         return (
-            <ReactSelect
+            <Select
                 name="enable-clipboard"
                 value={enableClipboard}
                 options={[
@@ -350,7 +400,7 @@ class Demo extends React.PureComponent {
 
     getObjectSizeInput = displayObjectSize => {
         return (
-            <ReactSelect
+            <Select
                 name="display-object-size"
                 value={displayObjectSize}
                 options={[
@@ -366,7 +416,7 @@ class Demo extends React.PureComponent {
 
     getDataTypesInput = displayDataTypes => {
         return (
-            <ReactSelect
+            <Select
                 name="display-data-types"
                 value={displayDataTypes}
                 options={[
@@ -382,7 +432,7 @@ class Demo extends React.PureComponent {
 
     getCollapsedStringsInput = collapseStringsAfter => {
         return (
-            <ReactSelect
+            <Select
                 name="collapse-strings"
                 value={collapseStringsAfter}
                 options={[
@@ -401,7 +451,7 @@ class Demo extends React.PureComponent {
 
     getCollapsedInput = collapsed => {
         return (
-            <ReactSelect
+            <Select
                 name="collapsed"
                 value={collapsed}
                 options={[
@@ -419,7 +469,7 @@ class Demo extends React.PureComponent {
 
     getIndentWidthInput = indentWidth => {
         return (
-            <ReactSelect
+            <Select
                 name="indent-width"
                 value={indentWidth}
                 options={[
@@ -444,7 +494,7 @@ class Demo extends React.PureComponent {
 
     getThemeInput = theme => {
         return (
-            <ReactSelect
+            <Select
                 name="theme-select"
                 value={theme}
                 options={[

@@ -12,17 +12,17 @@ Before contributing code, please take a moment to review this guide to understan
 
 The complete modernization initiative is organized into distinct phases tracked in GitHub Issues:
 
-| Phase       | Milestone / Area                                                          | GitHub Issue                                               |
-| :---------- | :------------------------------------------------------------------------ | :--------------------------------------------------------- |
-| **Phase 1** | **Contributor Guide (`DEVELOPMENT.md`) & `README.md` Notice** _(Current)_ | [#1](https://github.com/jericbas/react-json-view/issues/1) |
-| **Phase 2** | Framework & Language Upgrade (React 19.3+ & TypeScript)                   | [#2](https://github.com/jericbas/react-json-view/issues/2) |
-| **Phase 3** | State Management & Data Fetching (React 19 Native Hooks)                  | [#3](https://github.com/jericbas/react-json-view/issues/3) |
-| **Phase 4** | Build Tool Migration (Replace Webpack with Vite)                          | [#4](https://github.com/jericbas/react-json-view/issues/4) |
-| **Phase 5** | Testing Modernization (Vitest Unit & Playwright E2E)                      | [#5](https://github.com/jericbas/react-json-view/issues/5) |
-| **Phase 6** | Linting, Formatting, & Pre-Commit Hooks (Biome & Git Hooks)               | [#6](https://github.com/jericbas/react-json-view/issues/6) |
-| **Phase 7** | CI/CD & Workflow (GitHub Actions, Release Please, PR Template)            | [#7](https://github.com/jericbas/react-json-view/issues/7) |
-| **Phase 8** | Docker Review & Removal                                                   | [#8](https://github.com/jericbas/react-json-view/issues/8) |
-| **Phase 9** | General Housekeeping & Dependency Optimization                            | [#9](https://github.com/jericbas/react-json-view/issues/9) |
+| Phase       | Milestone / Area                                               | GitHub Issue                                               |
+| :---------- | :------------------------------------------------------------- | :--------------------------------------------------------- |
+| **Phase 1** | Contributor Guide (`DEVELOPMENT.md`) & `README.md` Notice      | [#1](https://github.com/jericbas/react-json-view/issues/1) |
+| **Phase 2** | Framework & Language Upgrade (React 19.3+ & TypeScript)        | [#2](https://github.com/jericbas/react-json-view/issues/2) |
+| **Phase 3** | State Management & Data Fetching (React 19 Native Hooks)       | [#3](https://github.com/jericbas/react-json-view/issues/3) |
+| **Phase 4** | Build Tool Migration (Replace Webpack with Vite)               | [#4](https://github.com/jericbas/react-json-view/issues/4) |
+| **Phase 5** | Testing Modernization (Vitest Unit & Playwright E2E)           | [#5](https://github.com/jericbas/react-json-view/issues/5) |
+| **Phase 6** | Linting, Formatting, & Pre-Commit Hooks (Biome & Git Hooks)    | [#6](https://github.com/jericbas/react-json-view/issues/6) |
+| **Phase 7** | CI/CD & Workflow (GitHub Actions, Release Please, PR Template) | [#7](https://github.com/jericbas/react-json-view/issues/7) |
+| **Phase 8** | Docker Review & Removal                                        | [#8](https://github.com/jericbas/react-json-view/issues/8) |
+| **Phase 9** | General Housekeeping & Dependency Optimization                 | [#9](https://github.com/jericbas/react-json-view/issues/9) |
 
 ---
 
