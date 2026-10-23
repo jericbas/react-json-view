@@ -1,56 +1,55 @@
-import type React from 'react';
-import dispatcher from '../../helpers/dispatcher';
-import ObjectAttributes from '../../stores/ObjectAttributes';
+import React, { use } from 'react';
+import { JsonViewContext } from '../../context/JsonViewContext';
 import type { ThemeKeys, ThemeObject, TypeDefaultValue } from '../../types';
 import ObjectKeyModal from './ObjectKeyModal';
 
 export interface AddKeyRequestProps {
     active?: boolean;
     theme?: ThemeKeys | ThemeObject;
-    rjvId: string;
+    rjvId?: string;
     defaultValue?: TypeDefaultValue | TypeDefaultValue[] | null;
 }
 
 export const AddKeyRequest: React.FC<AddKeyRequestProps> = ({
-    active = false,
-    theme = 'rjv-default',
-    rjvId,
+    active: activeProp,
+    theme: themeProp,
     defaultValue = null
 }) => {
+    const { addKeyRequest, theme: contextTheme, dispatch } = use(JsonViewContext);
+    const active = activeProp ?? Boolean(addKeyRequest);
+    const theme = themeProp ?? contextTheme;
+
     if (!active) {
         return null;
     }
 
     const isValid = (input: string): boolean => {
-        const request = ObjectAttributes.get(
-            rjvId,
-            'action',
-            'new-key-request'
-        );
         return (
             input !== '' &&
-            request &&
-            request.existing_value &&
-            Object.keys(request.existing_value).indexOf(input) === -1
+            addKeyRequest !== null &&
+            addKeyRequest.existing_value !== undefined &&
+            Object.keys(addKeyRequest.existing_value).indexOf(input) === -1
         );
     };
 
     const submit = (input: string): void => {
-        const request = ObjectAttributes.get(rjvId, 'action', 'new-key-request');
-        if (request) {
-            request.new_value = { ...request.existing_value };
-            request.new_value[input] = defaultValue;
-            dispatcher.dispatch({
-                name: 'VARIABLE_ADDED',
-                rjvId: rjvId,
-                data: request
+        if (addKeyRequest) {
+            const request = {
+                ...addKeyRequest,
+                new_value: {
+                    ...addKeyRequest.existing_value,
+                    [input]: defaultValue
+                }
+            };
+            dispatch({
+                type: 'VARIABLE_ADDED',
+                payload: request
             });
         }
     };
 
     return (
         <ObjectKeyModal
-            rjvId={rjvId}
             theme={theme}
             isValid={isValid}
             submit={submit}

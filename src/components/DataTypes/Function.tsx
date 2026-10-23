@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import AttributeStore from '../../stores/ObjectAttributes';
+import React, { use } from 'react';
+import { JsonViewContext } from '../../context/JsonViewContext';
 import Theme from '../../themes/getStyle';
 import type { ThemeKeys, ThemeObject } from '../../types';
 import DataTypeLabel from './DataTypeLabel';
@@ -8,21 +8,19 @@ export interface FunctionProps {
     value: (...args: unknown[]) => unknown;
     theme?: ThemeKeys | ThemeObject | undefined;
     displayDataTypes?: boolean | undefined;
-    rjvId: string;
+    rjvId?: string | undefined;
     namespace: Array<string | number | null>;
 }
 
 export const JsonFunction: React.FC<FunctionProps> = (props) => {
-    const { value, theme = 'rjv-default', rjvId, namespace } = props;
+    const { collapsed: collapsedMap, setCollapsed: setContextCollapsed, theme: contextTheme } = use(JsonViewContext);
+    const { value, theme = contextTheme || 'rjv-default', namespace } = props;
     const type_name = 'function';
-    const [collapsed, setCollapsed] = useState<boolean>(() =>
-        AttributeStore.get(rjvId, namespace.join('.'), 'collapsed', true)
-    );
+    const nodeKey = namespace.join('.');
+    const collapsed = collapsedMap[nodeKey] !== undefined ? collapsedMap[nodeKey] : true;
 
     const toggleCollapsed = () => {
-        const nextCollapsed = !collapsed;
-        setCollapsed(nextCollapsed);
-        AttributeStore.set(rjvId, namespace.join('.'), 'collapsed', nextCollapsed);
+        setContextCollapsed(nodeKey, !collapsed);
     };
 
     const getFunctionDisplay = () => {

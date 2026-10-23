@@ -22,8 +22,8 @@ export interface ArrayGroupProps {
     displayObjectSize?: boolean;
     onDelete?: ((del: any) => false | unknown) | false;
     onAdd?: ((add: any) => false | unknown) | false;
-    enableClipboard?: boolean | ((copy: any) => void);
-    rjvId: string;
+    enableClipboard?: boolean | ((copy: any) => void) | undefined;
+    rjvId?: string | undefined;
     [key: string]: any;
 }
 

@@ -1,24 +1,25 @@
-import React, { useState, useRef, useEffect } from 'react';
-import dispatcher from '../../helpers/dispatcher';
+import React, { useEffect, useRef, use, useState } from 'react';
+import { JsonViewContext } from '../../context/JsonViewContext';
 import Theme from '../../themes/getStyle';
 import type { ThemeKeys, ThemeObject } from '../../types';
 import { Add as Cancel, CheckCircle } from '../icons';
 
 export interface ObjectKeyModalProps {
     theme?: ThemeKeys | ThemeObject;
-    rjvId: string;
+    rjvId?: string;
     isValid: (input: string) => boolean;
     submit: (input: string) => void;
     input?: string;
 }
 
 export const ObjectKeyModal: React.FC<ObjectKeyModalProps> = ({
-    theme = 'rjv-default',
-    rjvId,
+    theme: themeProp,
     isValid,
     submit,
     input: initialInput = ''
 }) => {
+    const { theme: contextTheme, dispatch } = use(JsonViewContext);
+    const theme = themeProp ?? contextTheme;
     const [input, setInput] = useState<string>(initialInput);
     const inputRef = useRef<HTMLInputElement>(null);
 
@@ -31,9 +32,8 @@ export const ObjectKeyModal: React.FC<ObjectKeyModalProps> = ({
     const valid = isValid(input);
 
     const closeModal = () => {
-        dispatcher.dispatch({
-            rjvId: rjvId,
-            name: 'RESET'
+        dispatch({
+            type: 'RESET'
         });
     };
 
@@ -85,12 +85,7 @@ export const ObjectKeyModal: React.FC<ObjectKeyModalProps> = ({
                     <Cancel
                         {...Theme(theme, 'key-modal-cancel-icon')}
                         className="key-modal-cancel"
-                        onClick={() => {
-                            dispatcher.dispatch({
-                                rjvId: rjvId,
-                                name: 'RESET'
-                            });
-                        }}
+                        onClick={closeModal}
                     />
                 </span>
             </div>

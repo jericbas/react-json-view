@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { use, useState } from 'react';
+import { JsonViewContext } from '../../context/JsonViewContext';
 import { toType } from '../../helpers/util';
-import AttributeStore from '../../stores/ObjectAttributes';
 import Theme from '../../themes/getStyle';
 import type { CollapsedFieldProps, IconStyle, ThemeKeys, ThemeObject } from '../../types';
 import ArrayGroup from '../ArrayGroup';
 import ObjectName from '../ObjectName';
 import { CollapsedIcon, ExpandedIcon } from '../ToggleIcons';
-import VariableEditor, { type JsonVariable } from '../VariableEditor';
+import VariableEditor from '../VariableEditor';
+import type { JsonVariable } from '../VariableEditor';
 import VariableMeta from '../VariableMeta';
 
 const DEPTH_INCREMENT = 1;
@@ -23,7 +24,7 @@ export interface RjvObjectProps {
     theme?: ThemeKeys | ThemeObject | undefined;
     jsvRoot?: boolean | undefined;
     iconStyle?: IconStyle | undefined;
-    rjvId: string;
+    rjvId?: string | undefined;
     indentWidth?: number | undefined;
     shouldCollapse?: false | ((field: CollapsedFieldProps) => boolean) | undefined;
     sortKeys?: boolean | undefined;
@@ -32,10 +33,10 @@ export interface RjvObjectProps {
     [key: string]: any;
 }
 
-function calculateExpanded(props: RjvObjectProps): boolean {
+function calculateDefaultExpanded(props: RjvObjectProps): boolean {
     const size = Object.keys(props.src || {}).length;
     const depth = props.depth ?? 0;
-    const defaultExpanded =
+    return (
         (props.collapsed === false ||
             (props.collapsed !== true && typeof props.collapsed === 'number' && props.collapsed > depth)) &&
         (!props.shouldCollapse ||
@@ -45,17 +46,12 @@ function calculateExpanded(props: RjvObjectProps): boolean {
                 type: toType(props.src),
                 namespace: props.namespace
             }) === false) &&
-        size !== 0;
-
-    return AttributeStore.get(
-        props.rjvId,
-        props.namespace.join('.'),
-        'expanded',
-        defaultExpanded
+        size !== 0
     );
 }
 
 export const RjvObject: React.FC<RjvObjectProps> = (props) => {
+    const { expanded: expandedMap, setExpanded: setContextExpanded, theme: contextTheme } = use(JsonViewContext);
     const {
         depth = 0,
         src,
@@ -63,7 +59,7 @@ export const RjvObject: React.FC<RjvObjectProps> = (props) => {
         name,
         type,
         parent_type,
-        theme = 'rjv-default',
+        theme = contextTheme || 'rjv-default',
         jsvRoot = false,
         iconStyle = 'triangle',
         rjvId,
@@ -78,22 +74,13 @@ export const RjvObject: React.FC<RjvObjectProps> = (props) => {
     const size = Object.keys(src || {}).length;
     const object_type = type === 'array' ? 'array' : 'object';
 
-    const [expanded, setExpanded] = useState<boolean>(() => calculateExpanded(props));
+    const nodeKey = namespace.join('.');
+    const defaultExpanded = calculateDefaultExpanded(props);
+    const expanded = expandedMap[nodeKey] !== undefined ? expandedMap[nodeKey] : defaultExpanded;
     const [hovered, setHovered] = useState<boolean>(false);
 
-    useEffect(() => {
-        setExpanded(calculateExpanded(props));
-    }, [src, props.collapsed, name, rjvId]);
-
     const toggleCollapsed = () => {
-        const nextExpanded = !expanded;
-        setExpanded(nextExpanded);
-        AttributeStore.set(
-            rjvId,
-            namespace.join('.'),
-            'expanded',
-            nextExpanded
-        );
+        setContextExpanded(nodeKey, !expanded);
     };
 
     const getEllipsis = () => {
@@ -218,12 +205,12 @@ export const RjvObject: React.FC<RjvObjectProps> = (props) => {
                     elements.push(
                         <ArrayGroup
                             key={String(variable.name)}
-                            depth={depth + DEPTH_INCREMENT}
                             name={variable.name}
                             src={variable.value}
+                            depth={depth + DEPTH_INCREMENT}
+                            theme={theme}
                             namespace={namespace.concat(variable.name)}
                             parent_type={object_type}
-                            theme={theme}
                             iconStyle={iconStyle}
                             rjvId={rjvId}
                             indentWidth={indentWidth}
@@ -253,65 +240,61 @@ export const RjvObject: React.FC<RjvObjectProps> = (props) => {
                     );
                 }
             } else {
+                /*
+                 * variable.type !== 'object' && variable.type !== 'array'
+                 */
                 elements.push(
                     <VariableEditor
-                        key={variable.name + '_' + namespace.join('.')}
+                        key={String(variable.name)}
                         variable={variable}
                         singleIndent={SINGLE_INDENT}
-                        namespace={namespace}
-                        type={type}
-                        theme={theme}
                         rjvId={rjvId}
+                        theme={theme}
+                        type={object_type}
                         indentWidth={indentWidth}
+                        namespace={namespace.concat(variable.name)}
                         {...rest}
                     />
                 );
             }
         });
-
         return elements;
     };
 
-    const getObjectContent = () => {
-        return (
-            <div className="pushed-content object-container">
-                <div
-                    className="object-content"
-                    {...Theme(theme, 'pushed-content')}
-                >
-                    {renderObjectContents(src)}
-                </div>
-            </div>
-        );
-    };
-
     const styles: React.CSSProperties = {};
-    if (!jsvRoot && parent_type !== 'array_group') {
-        styles.paddingLeft = indentWidth * SINGLE_INDENT;
-    } else if (parent_type === 'array_group') {
-        styles.borderLeft = 0;
-        styles.display = 'inline';
+    if (!jsvRoot) {
+        styles.paddingLeft = `${indentWidth * SINGLE_INDENT}px`;
     }
 
     return (
         <div
-            className="object-key-val"
+            className="node-ellipsis"
+            {...Theme(theme, 'object-container')}
+            style={{
+                position: 'relative',
+                ...styles
+            }}
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
-            {...Theme(theme, jsvRoot ? 'jsv-root' : 'objectKeyVal', styles)}
         >
-            {getBraceStart()}
-            {expanded ? getObjectContent() : getEllipsis()}
-            <span className="brace-row">
-                <span
-                    style={{
-                        ...Theme(theme, 'brace').style,
-                        paddingLeft: expanded ? '3px' : '0px'
-                    }}
+            <div
+                className="pushed-content object-key"
+                {...Theme(theme, 'pushed-content')}
+            >
+                {getBraceStart()}
+            </div>
+            {expanded ? (
+                <div
+                    className="expanded-row"
+                    {...Theme(theme, 'expanded-row')}
                 >
-                    {object_type === 'array' ? ']' : '}'}
-                </span>
-                {expanded ? null : getObjectMetaData()}
+                    {renderObjectContents(src)}
+                </div>
+            ) : (
+                getEllipsis()
+            )}
+            <span className="brace" {...Theme(theme, 'brace')}>
+                {object_type === 'array' ? ']' : '}'}
             </span>
         </div>
     );

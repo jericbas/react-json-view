@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { use } from 'react';
+import { JsonViewContext } from '../../context/JsonViewContext';
 import { toType } from '../../helpers/util';
-import AttributeStore from '../../stores/ObjectAttributes';
 import Theme from '../../themes/getStyle';
 import type { ThemeKeys, ThemeObject } from '../../types';
 import DataTypeLabel from './DataTypeLabel';
@@ -10,27 +10,24 @@ export interface StringProps {
     collapseStringsAfterLength?: number | false | undefined;
     theme?: ThemeKeys | ThemeObject | undefined;
     displayDataTypes?: boolean | undefined;
-    rjvId: string;
+    rjvId?: string | undefined;
     namespace: Array<string | number | null>;
 }
 
 export const JsonString: React.FC<StringProps> = (props) => {
+    const { collapsed: collapsedMap, setCollapsed: setContextCollapsed, theme: contextTheme } = use(JsonViewContext);
     const {
         collapseStringsAfterLength = false,
-        theme = 'rjv-default',
-        rjvId,
+        theme = contextTheme || 'rjv-default',
         namespace
     } = props;
     let { value } = props;
     const type_name = 'string';
-    const [collapsed, setCollapsed] = useState<boolean>(() =>
-        AttributeStore.get(rjvId, namespace.join('.'), 'collapsed', true)
-    );
+    const nodeKey = namespace.join('.');
+    const collapsed = collapsedMap[nodeKey] !== undefined ? collapsedMap[nodeKey] : true;
 
     const toggleCollapsed = () => {
-        const nextCollapsed = !collapsed;
-        setCollapsed(nextCollapsed);
-        AttributeStore.set(rjvId, namespace.join('.'), 'collapsed', nextCollapsed);
+        setContextCollapsed(nodeKey, !collapsed);
     };
 
     const collapsible = toType(collapseStringsAfterLength) === 'integer';

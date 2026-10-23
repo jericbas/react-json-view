@@ -1,5 +1,5 @@
-import type React from 'react';
-import dispatcher from '../helpers/dispatcher';
+import React, { use } from 'react';
+import { JsonViewContext } from '../context/JsonViewContext';
 import Theme from '../themes/getStyle';
 import type { ThemeKeys, ThemeObject } from '../types';
 import { Add as Clear } from './icons';
@@ -8,15 +8,19 @@ export interface ValidationFailureProps {
     message?: string;
     active?: boolean;
     theme?: ThemeKeys | ThemeObject;
-    rjvId: string;
+    rjvId?: string;
 }
 
 export const ValidationFailure: React.FC<ValidationFailureProps> = ({
-    message = 'Validation Error',
-    active = false,
-    theme = 'rjv-default',
-    rjvId
+    message: messageProp,
+    active: activeProp,
+    theme: themeProp
 }) => {
+    const { validationFailure, validationMessage, theme: contextTheme, dispatch } = use(JsonViewContext);
+    const active = activeProp ?? validationFailure;
+    const message = messageProp ?? validationMessage;
+    const theme = themeProp ?? contextTheme;
+
     if (!active) {
         return null;
     }
@@ -26,9 +30,8 @@ export const ValidationFailure: React.FC<ValidationFailureProps> = ({
             className="validation-failure"
             {...Theme(theme, 'validation-failure')}
             onClick={() => {
-                dispatcher.dispatch({
-                    rjvId: rjvId,
-                    name: 'RESET'
+                dispatch({
+                    type: 'RESET'
                 });
             }}
         >

@@ -1,5 +1,5 @@
-import type React from 'react';
-import dispatcher from '../helpers/dispatcher';
+import React, { use } from 'react';
+import { JsonViewContext } from '../context/JsonViewContext';
 import { toType } from '../helpers/util';
 import Theme from '../themes/getStyle';
 import type { OnCopyProps, ThemeKeys, ThemeObject } from '../types';
@@ -13,7 +13,7 @@ export interface VariableMetaProps {
     namespace: Array<string | number | null>;
     name?: string | number | null | false | undefined;
     src: any;
-    rjvId: string;
+    rjvId?: string | undefined;
     depth?: number | undefined;
     onDelete?: ((del: any) => false | unknown) | false | undefined;
     onAdd?: ((add: any) => false | unknown) | false | undefined;
@@ -23,18 +23,20 @@ export interface VariableMetaProps {
 
 export const VariableMeta: React.FC<VariableMetaProps> = ({
     size,
-    theme = 'rjv-default',
+    theme: themeProp,
     displayObjectSize = true,
     namespace,
     name,
     src,
-    rjvId,
     depth = 0,
     onDelete = false,
     onAdd = false,
     enableClipboard = true,
     rowHovered = false
 }) => {
+    const { dispatch, theme: contextTheme } = use(JsonViewContext);
+    const theme = themeProp ?? contextTheme;
+
     const getObjectSize = () => {
         if (displayObjectSize && size !== undefined) {
             return (
@@ -68,16 +70,14 @@ export const VariableMeta: React.FC<VariableMetaProps> = ({
                             key_name: null
                         };
                         if (toType(src) === 'object') {
-                            dispatcher.dispatch({
-                                name: 'ADD_VARIABLE_KEY_REQUEST',
-                                rjvId: rjvId,
-                                data: request
+                            dispatch({
+                                type: 'ADD_VARIABLE_KEY_REQUEST',
+                                payload: request
                             });
                         } else {
-                            dispatcher.dispatch({
-                                name: 'VARIABLE_ADDED',
-                                rjvId: rjvId,
-                                data: {
+                            dispatch({
+                                type: 'VARIABLE_ADDED',
+                                payload: {
                                     ...request,
                                     new_value: Array.isArray(src) ? [...src, null] : [null]
                                 }
@@ -90,7 +90,7 @@ export const VariableMeta: React.FC<VariableMetaProps> = ({
     };
 
     const getRemoveObject = () => {
-        //don't allow deleting of root node
+        // don't allow deleting of root node
         if (namespace.length <= 1) {
             return null;
         }
@@ -106,10 +106,9 @@ export const VariableMeta: React.FC<VariableMetaProps> = ({
                     {...Theme(theme, 'removeVarIcon')}
                     onClick={() => {
                         const parentNamespace = namespace.slice(0, namespace.length - 1);
-                        dispatcher.dispatch({
-                            name: 'VARIABLE_REMOVED',
-                            rjvId: rjvId,
-                            data: {
+                        dispatch({
+                            type: 'VARIABLE_REMOVED',
+                            payload: {
                                 name: name,
                                 namespace: parentNamespace,
                                 existing_value: src,

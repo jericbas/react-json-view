@@ -1,9 +1,27 @@
-import React, { useId, useState, useEffect, useRef, useCallback } from 'react';
+import React, {
+    use,
+    useCallback,
+    useEffect,
+    useId,
+    useMemo,
+    useReducer,
+    useRef
+} from 'react';
 import JsonViewer from './components/JsonViewer';
 import AddKeyRequest from './components/ObjectKeyModal/AddKeyRequest';
 import ValidationFailure from './components/ValidationFailure';
+import {
+    JsonViewContext,
+    jsonViewReducer,
+    updateSrc,
+    useJsonView
+} from './context/JsonViewContext';
+import type {
+    JsonViewAction,
+    JsonViewContextValue,
+    JsonViewState
+} from './context/JsonViewContext';
 import { isTheme, toType } from './helpers/util';
-import ObjectAttributes from './stores/ObjectAttributes';
 import Theme from './themes/getStyle';
 import type {
     InteractionProps,
@@ -13,12 +31,30 @@ import type {
 } from './types';
 
 export * from './types';
+export {
+    JsonViewContext,
+    jsonViewReducer,
+    useJsonView
+};
+export type {
+    JsonViewAction,
+    JsonViewContextValue,
+    JsonViewState
+};
 
 interface ValidatedProps {
     src: any;
     name: string | null | false;
     theme: ThemeKeys | ThemeObject;
     validationMessage: string;
+}
+
+function isPromise<T = any>(val: any): val is Promise<T> {
+    return (
+        val !== null &&
+        (typeof val === 'object' || typeof val === 'function') &&
+        typeof (val as any).then === 'function'
+    );
 }
 
 function validateProps(
@@ -82,195 +118,194 @@ export const ReactJsonView: React.FC<ReactJsonViewProps> = ({
     defaultValue = null,
     displayArrayKey = true
 }) => {
+    // React 19: unwrap Promise if src is thenable using native use() hook
+    const resolvedSrc = isPromise(srcProp) ? use(srcProp) : srcProp;
+
+    // React 19: generate stable unique ID using native useId() hook
     const rawId = useId();
-    // Normalize id to safe identifier
-    const rjvId = useRef(rawId.replace(/:/g, '') || Date.now().toString()).current;
+    const rjvId = rawId.replace(/:/g, '') || 'rjv';
 
     const validated = validateProps(
-        srcProp,
+        resolvedSrc,
         nameProp,
         themeProp,
         validationMessageProp
     );
 
-    const [src, setSrc] = useState<any>(validated.src);
-    const [name, setName] = useState<string | null | false>(validated.name);
-    const [theme, setTheme] = useState<ThemeKeys | ThemeObject>(validated.theme);
-    const [validationMessage, setValidationMessage] = useState<string>(
-        validated.validationMessage
-    );
-    const [addKeyRequest, setAddKeyRequest] = useState<boolean>(false);
-    const [validationFailure, setValidationFailure] = useState<boolean>(false);
+    const [state, reducerDispatch] = useReducer(jsonViewReducer, {
+        src: validated.src,
+        name: validated.name,
+        theme: validated.theme,
+        validationMessage: validated.validationMessage,
+        addKeyRequest: null,
+        validationFailure: false,
+        expanded: {},
+        collapsed: {}
+    });
 
-    // Track previous props to update state when parent re-renders with new props
-    const prevSrcPropRef = useRef(srcProp);
-    const prevNamePropRef = useRef(nameProp);
-    const prevThemePropRef = useRef(themeProp);
+    const prevPropsRef = useRef({
+        src: resolvedSrc,
+        name: nameProp,
+        theme: themeProp,
+        validationMessage: validationMessageProp
+    });
 
-    if (
-        srcProp !== prevSrcPropRef.current ||
-        nameProp !== prevNamePropRef.current ||
-        themeProp !== prevThemePropRef.current
-    ) {
-        prevSrcPropRef.current = srcProp;
-        prevNamePropRef.current = nameProp;
-        prevThemePropRef.current = themeProp;
-
-        const updated = validateProps(
-            srcProp,
-            nameProp,
-            themeProp,
-            validationMessageProp
-        );
-        setSrc(updated.src);
-        setName(updated.name);
-        setTheme(updated.theme);
-        setValidationMessage(updated.validationMessage);
-    }
+    useEffect(() => {
+        if (
+            resolvedSrc !== prevPropsRef.current.src ||
+            nameProp !== prevPropsRef.current.name ||
+            themeProp !== prevPropsRef.current.theme ||
+            validationMessageProp !== prevPropsRef.current.validationMessage
+        ) {
+            prevPropsRef.current = {
+                src: resolvedSrc,
+                name: nameProp,
+                theme: themeProp,
+                validationMessage: validationMessageProp
+            };
+            const updated = validateProps(
+                resolvedSrc,
+                nameProp,
+                themeProp,
+                validationMessageProp
+            );
+            reducerDispatch({
+                type: 'RESET_PROPS',
+                payload: updated
+            });
+        }
+    }, [resolvedSrc, nameProp, themeProp, validationMessageProp]);
 
     const callbacksRef = useRef({
         onAdd,
         onEdit,
         onDelete,
-        src
+        src: state.src
     });
     callbacksRef.current = {
         onAdd,
         onEdit,
         onDelete,
-        src
+        src: state.src
     };
 
-    const updateSrc = useCallback(() => {
-        const actionData = ObjectAttributes.get(
-            rjvId,
-            'action',
-            'variable-update'
-        );
-        if (!actionData) return;
+    const dispatch = useCallback((action: JsonViewAction) => {
+        const actionType = action.type || (action as any).name;
+        const actionData = action.payload !== undefined ? action.payload : (action as any).data;
 
-        const {
-            name: varName,
-            namespace,
-            new_value,
-            existing_value,
-            updated_src,
-            type
-        } = actionData;
+        if (
+            actionType === 'VARIABLE_UPDATED' ||
+            actionType === 'VARIABLE_ADDED' ||
+            actionType === 'VARIABLE_REMOVED'
+        ) {
+            const updated_src = updateSrc(state.src, actionData);
+            const { onAdd: cbAdd, onEdit: cbEdit, onDelete: cbDelete } = callbacksRef.current;
+            let callback: any;
+            if (actionType === 'VARIABLE_ADDED') callback = cbAdd;
+            else if (actionType === 'VARIABLE_UPDATED') callback = cbEdit;
+            else if (actionType === 'VARIABLE_REMOVED') callback = cbDelete;
 
-        const {
-            onAdd: cbAdd,
-            onEdit: cbEdit,
-            onDelete: cbDelete,
-            src: currentSrc
-        } = callbacksRef.current;
+            const on_edit_payload: InteractionProps = {
+                existing_src: state.src,
+                new_value: actionData.new_value,
+                updated_src: updated_src,
+                name: actionData.name,
+                namespace: actionData.namespace,
+                existing_value: actionData.existing_value
+            };
 
-        let result: any;
-
-        const on_edit_payload: InteractionProps = {
-            existing_src: currentSrc,
-            new_value: new_value,
-            updated_src: updated_src,
-            name: varName,
-            namespace: namespace,
-            existing_value: existing_value
-        };
-
-        switch (type) {
-            case 'variable-added':
-                result = typeof cbAdd === 'function' ? cbAdd(on_edit_payload) : undefined;
-                break;
-            case 'variable-edited':
-                result = typeof cbEdit === 'function' ? cbEdit(on_edit_payload) : undefined;
-                break;
-            case 'variable-removed':
-                result = typeof cbDelete === 'function' ? cbDelete(on_edit_payload) : undefined;
-                break;
-        }
-
-        if (result !== false) {
-            ObjectAttributes.set(rjvId, 'global', 'src', updated_src);
-            setSrc(updated_src);
+            const result = typeof callback === 'function' ? callback(on_edit_payload) : undefined;
+            if (result === false) {
+                reducerDispatch({ type: 'VALIDATION_FAILURE' });
+            } else {
+                reducerDispatch({
+                    type: 'SRC_UPDATED',
+                    payload: updated_src
+                });
+            }
         } else {
-            setValidationFailure(true);
+            reducerDispatch(action);
         }
-    }, [rjvId]);
+    }, [state.src]);
 
-    const handleAddKeyRequest = useCallback(() => {
-        setAddKeyRequest(true);
+    const setExpanded = useCallback((key: string, expanded: boolean) => {
+        reducerDispatch({ type: 'SET_EXPANDED', payload: { key, expanded } });
     }, []);
 
-    const resetState = useCallback(() => {
-        setValidationFailure(false);
-        setAddKeyRequest(false);
+    const toggleExpanded = useCallback((key: string, defaultExpanded?: boolean) => {
+        reducerDispatch({ type: 'TOGGLE_EXPANDED', payload: { key, defaultExpanded } });
     }, []);
 
-    useEffect(() => {
-        ObjectAttributes.set(rjvId, 'global', 'src', src);
+    const setCollapsed = useCallback((key: string, collapsed: boolean) => {
+        reducerDispatch({ type: 'SET_COLLAPSED', payload: { key, collapsed } });
+    }, []);
 
-        const resetEvent = 'reset-' + rjvId;
-        const updateEvent = 'variable-update-' + rjvId;
-        const addKeyEvent = 'add-key-request-' + rjvId;
+    const toggleCollapsed = useCallback((key: string) => {
+        reducerDispatch({ type: 'TOGGLE_COLLAPSED', payload: { key } });
+    }, []);
 
-        ObjectAttributes.on(resetEvent, resetState);
-        ObjectAttributes.on(updateEvent, updateSrc);
-        ObjectAttributes.on(addKeyEvent, handleAddKeyRequest);
-
-        return () => {
-            ObjectAttributes.removeListener(resetEvent, resetState);
-            ObjectAttributes.removeListener(updateEvent, updateSrc);
-            ObjectAttributes.removeListener(addKeyEvent, handleAddKeyRequest);
-        };
-    }, [rjvId, resetState, updateSrc, handleAddKeyRequest]);
-
-    useEffect(() => {
-        ObjectAttributes.set(rjvId, 'global', 'src', src);
-    }, [rjvId, src]);
+    const contextValue = useMemo<JsonViewContextValue>(() => ({
+        rjvId,
+        src: state.src,
+        name: state.name,
+        theme: state.theme,
+        validationMessage: state.validationMessage,
+        addKeyRequest: state.addKeyRequest,
+        validationFailure: state.validationFailure,
+        expanded: state.expanded,
+        collapsed: state.collapsed,
+        dispatch,
+        setExpanded,
+        toggleExpanded,
+        setCollapsed,
+        toggleCollapsed
+    }), [
+        rjvId,
+        state.src,
+        state.name,
+        state.theme,
+        state.validationMessage,
+        state.addKeyRequest,
+        state.validationFailure,
+        state.expanded,
+        state.collapsed,
+        dispatch,
+        setExpanded,
+        toggleExpanded,
+        setCollapsed,
+        toggleCollapsed
+    ]);
 
     return (
-        <div
-            className="react-json-view"
-            style={{ ...Theme(theme, 'app-container').style, ...style }}
-        >
-            <ValidationFailure
-                message={validationMessage}
-                active={validationFailure}
-                theme={theme}
-                rjvId={rjvId}
-            />
-            <JsonViewer
-                src={src}
-                name={name}
-                theme={theme}
-                type={toType(src)}
-                rjvId={rjvId}
-                collapsed={collapsed}
-                collapseStringsAfterLength={collapseStringsAfterLength}
-                shouldCollapse={shouldCollapse}
-                sortKeys={sortKeys}
-                quotesOnKeys={quotesOnKeys}
-                groupArraysAfterLength={groupArraysAfterLength}
-                indentWidth={indentWidth}
-                enableClipboard={enableClipboard}
-                displayObjectSize={displayObjectSize}
-                displayDataTypes={displayDataTypes}
-                onEdit={onEdit}
-                onDelete={onDelete}
-                onAdd={onAdd}
-                onSelect={onSelect}
-                iconStyle={iconStyle}
-                style={style}
-                validationMessage={validationMessage}
-                defaultValue={defaultValue}
-                displayArrayKey={displayArrayKey}
-            />
-            <AddKeyRequest
-                active={addKeyRequest}
-                theme={theme}
-                rjvId={rjvId}
-                defaultValue={defaultValue}
-            />
-        </div>
+        <JsonViewContext.Provider value={contextValue}>
+            <div
+                className="react-json-view"
+                style={{ ...Theme(state.theme, 'app-container').style, ...style }}
+            >
+                <ValidationFailure />
+                <JsonViewer
+                    collapsed={collapsed}
+                    collapseStringsAfterLength={collapseStringsAfterLength}
+                    shouldCollapse={shouldCollapse}
+                    sortKeys={sortKeys}
+                    quotesOnKeys={quotesOnKeys}
+                    groupArraysAfterLength={groupArraysAfterLength}
+                    indentWidth={indentWidth}
+                    enableClipboard={enableClipboard}
+                    displayObjectSize={displayObjectSize}
+                    displayDataTypes={displayDataTypes}
+                    onEdit={onEdit}
+                    onDelete={onDelete}
+                    onAdd={onAdd}
+                    onSelect={onSelect}
+                    iconStyle={iconStyle}
+                    style={style}
+                    defaultValue={defaultValue}
+                    displayArrayKey={displayArrayKey}
+                />
+                <AddKeyRequest defaultValue={defaultValue} />
+            </div>
+        </JsonViewContext.Provider>
     );
 };
 

@@ -1,14 +1,15 @@
-import type React from 'react';
+import React, { use } from 'react';
+import { JsonViewContext } from '../context/JsonViewContext';
 import type { IconStyle, ThemeKeys, ThemeObject } from '../types';
 import ArrayGroup from './ArrayGroup';
 import JsonObject from './DataTypes/Object';
 
 export interface JsonViewerProps {
-    src: any;
+    src?: any;
     name?: string | number | null | false;
     theme?: ThemeKeys | ThemeObject;
     type?: string;
-    rjvId: string;
+    rjvId?: string;
     groupArraysAfterLength?: number;
     indentWidth?: number;
     iconStyle?: IconStyle;
@@ -31,13 +32,18 @@ export interface JsonViewerProps {
 }
 
 export const JsonViewer: React.FC<JsonViewerProps> = (props) => {
-    const namespace = [props.name ?? null];
+    const context = use(JsonViewContext);
+    const src = props.src !== undefined ? props.src : context.src;
+    const name = props.name !== undefined ? props.name : context.name;
+    const theme = props.theme !== undefined ? props.theme : context.theme;
+
+    const namespace = [name ?? null];
     let ObjectComponent: React.ComponentType<any> = JsonObject;
 
     if (
-        Array.isArray(props.src) &&
+        Array.isArray(src) &&
         props.groupArraysAfterLength &&
-        props.src.length > props.groupArraysAfterLength
+        src.length > props.groupArraysAfterLength
     ) {
         ObjectComponent = ArrayGroup;
     }
@@ -50,6 +56,9 @@ export const JsonViewer: React.FC<JsonViewerProps> = (props) => {
                     depth={0}
                     jsvRoot={true}
                     {...props}
+                    src={src}
+                    name={name}
+                    theme={theme}
                 />
             </div>
         </div>

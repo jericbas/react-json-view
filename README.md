@@ -46,6 +46,25 @@ import ReactJson from 'react-json-view';
 <ReactJson src={my_json_object} />
 ```
 
+### Async Data Fetching with React 19 `use()` & `<Suspense>`
+With React 19, `react-json-view` natively unwraps asynchronous `Promise<object>` values passed directly to the `src` prop using React's `use()` hook! Wrap your `<ReactJson />` component in a React `<Suspense>` boundary to display a fallback while the data is loading:
+
+```tsx
+import React, { Suspense } from 'react';
+import ReactJson from 'react-json-view';
+
+// Fetch promise
+const jsonPromise = fetch('https://api.example.com/data').then(res => res.json());
+
+function AsyncJsonViewer() {
+    return (
+        <Suspense fallback={<div>Loading JSON data...</div>}>
+            <ReactJson src={jsonPromise} theme="monokai" />
+        </Suspense>
+    );
+}
+```
+
 ### Output Examples
 #### Default Theme
 ![alt text](https://github.com/mac-s-g/react-json-view/blob/master/doc/output-example-15.png?raw=true "Output Example 1")
@@ -73,7 +92,7 @@ Or add to your package.json config file:
 ### Props
 Name|Type|Default|Description
 |:---|:---|:---|:---
-`src`|`JSON Object`|None|This property contains your input JSON
+`src`|`JSON Object \| Promise<object>`|None|This property contains your input JSON or a Promise resolving to JSON (supported natively via React 19 `use()` & `<Suspense>`)
 `name`|`string` or `false`|"root"|Contains the name of your root node.  Use `null` or `false` for no name.
 `theme`|`string`|"rjv-default"|RJV supports base-16 themes.  Check out the list of supported themes [in the demo](https://mac-s-g.github.io/react-json-view/demo/dist/). A custom "rjv-default" theme applies by default.
 `style`|`object`|`{}`|Style attributes for react-json-view container.  Explicit style attributes will override attributes provided by a theme.
