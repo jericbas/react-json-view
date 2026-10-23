@@ -1,7 +1,7 @@
 import React from "react"
 import { expect } from "chai"
 
-import { toType, isTheme } from "./../../../../src/js/helpers/util"
+import { toType, isTheme } from "./../../../../src/helpers/util"
 
 describe("toType", function() {
     it("toType object", function() {

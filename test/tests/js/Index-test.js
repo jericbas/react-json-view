@@ -4,7 +4,7 @@ import sinon from "sinon"
 import { expect } from "chai"
 import { JSDOM } from "jsdom"
 
-import Index from "./../../../src/js/index"
+import Index from "./../../../src/index"
 
 const { window } = new JSDOM()
 global.window = window

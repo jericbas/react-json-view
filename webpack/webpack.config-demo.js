@@ -3,7 +3,6 @@ const webpack = require('webpack');
 
 const PATHS = {
     src: path.join(__dirname, '..', 'src'),
-    js: path.join(__dirname, '..', 'src', 'js'),
     style: path.join(__dirname, '..', 'src', 'style'),
     build: path.join(__dirname, '..', 'demo', 'dist'),
     demo: path.join(__dirname, '..', 'demo')
@@ -26,18 +25,18 @@ const config = {
         minimize: true
     },
     resolve: {
-        extensions: ['.js', '.json', '.css', '.scss']
+        extensions: ['.ts', '.tsx', '.js', '.jsx', '.json', '.css', '.scss']
     },
     module: {
         rules: [
             {
-                test: /\.jsx?$/,
+                test: /\.[jt]sx?$/,
                 use: [
                     {
                         loader: 'babel-loader'
                     }
                 ],
-                include: [PATHS.js, PATHS.demo]
+                include: [PATHS.src, PATHS.demo]
             },
             {
                 test: /\.s?css$/,

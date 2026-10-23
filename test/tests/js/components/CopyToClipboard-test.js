@@ -2,7 +2,7 @@ import React from "react"
 import { shallow, mount } from "enzyme"
 import { expect } from "chai"
 
-import CopyToClipboard from "./../../../../src/js/components/CopyToClipboard"
+import CopyToClipboard from "./../../../../src/components/CopyToClipboard"
 
 describe("<CopyToClipboard />", function() {
     it("CopyToClipboard clipboard should exist", function() {

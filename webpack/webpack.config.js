@@ -3,13 +3,12 @@ const webpack = require("webpack")
 
 const PATHS = {
   src: path.join(__dirname, "..", "src"),
-  js: path.join(__dirname, "..", "src", "js"),
   style: path.join(__dirname, "..", "src", "style"),
   build: path.join(__dirname, "..", "dist")
 }
 
 const config = {
-  entry: [PATHS.js + "/index.js"],
+  entry: [PATHS.src + "/index.tsx"],
   externals: {
     cheerio: "window",
     react: {
@@ -39,18 +38,18 @@ const config = {
     minimize: true
   },
   resolve: {
-    extensions: [".js", ".json", ".css", ".scss"]
+    extensions: [".ts", ".tsx", ".js", ".jsx", ".json", ".css", ".scss"]
   },
   module: {
     rules: [
       {
-        test: /\.jsx?$/,
+        test: /\.[jt]sx?$/,
         use: [
           {
             loader: "babel-loader"
           }
         ],
-        include: [PATHS.js]
+        include: [PATHS.src]
       }
     ]
   }

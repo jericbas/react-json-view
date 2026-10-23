@@ -1,4 +1,4 @@
-import ReactDom from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import Index from './index';
 
 require('./../style/scss/global.scss');
@@ -6,9 +6,11 @@ require('./../style/scss/global.scss');
 const app = document.getElementById('mac-react-container');
 
 //app entrypoint
-ReactDom.render(
-    <div class="app-entry">
-        <Index />
-    </div>,
-    app
-);
+if (app) {
+    const root = createRoot(app);
+    root.render(
+        <div className="app-entry">
+            <Index />
+        </div>
+    );
+}

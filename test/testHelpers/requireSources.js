@@ -1,6 +1,6 @@
 import register from 'ignore-styles';
 register(['.sass', '.scss']);
-import './../../src/js/index';
+import './../../src/index';
 
 import Adapter from 'enzyme-adapter-react-16';
 import { configure } from 'enzyme';

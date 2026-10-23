@@ -2,8 +2,8 @@ import React from "react"
 import { mount } from "enzyme"
 import { expect } from "chai"
 
-import JsonInteger from "./../../../../../src/js/components/DataTypes/Integer"
-import DataTypeLabel from "./../../../../../src/js/components/DataTypes/DataTypeLabel"
+import JsonInteger from "./../../../../../src/components/DataTypes/Integer"
+import DataTypeLabel from "./../../../../../src/components/DataTypes/DataTypeLabel"
 
 describe("<JsonInteger />", function() {
     const rjvId = 1

@@ -2,7 +2,7 @@ import React from "react"
 import { mount } from "enzyme"
 import { expect } from "chai"
 
-import JsonUndefined from "./../../../../../src/js/components/DataTypes/Undefined"
+import JsonUndefined from "./../../../../../src/components/DataTypes/Undefined"
 
 describe("<JsonUndefined />", function() {
     const rjvId = 1

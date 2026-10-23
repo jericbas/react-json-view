@@ -2,7 +2,7 @@ import React from "react"
 import { shallow, render, mount } from "enzyme"
 import { expect } from "chai"
 
-import Index from "./../../../../src/js/index"
+import Index from "./../../../../src/index"
 import {
     CircleMinus,
     CirclePlus,
@@ -16,7 +16,7 @@ import {
     SquareMinus,
     ArrowDown,
     ArrowRight
-} from "./../../../../src/js/components/icons"
+} from "./../../../../src/components/icons"
 
 describe("svg icons", function() {
     it("<CircleMinus /> sanity check", function() {

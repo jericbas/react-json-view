@@ -2,9 +2,9 @@ import React from 'react';
 import { render, shallow, mount } from 'enzyme';
 import { expect } from 'chai';
 
-import ArrayGroup from './../../../../src/js/components/ArrayGroup';
-import JsonObject from './../../../../src/js/components/DataTypes/Object';
-import JsonString from './../../../../src/js/components/DataTypes/String';
+import ArrayGroup from './../../../../src/components/ArrayGroup';
+import JsonObject from './../../../../src/components/DataTypes/Object';
+import JsonString from './../../../../src/components/DataTypes/String';
 
 describe('<ArrayGroup />', function () {
     var large_array = new Array(15).fill('test');

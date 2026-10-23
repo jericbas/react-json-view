@@ -2,9 +2,9 @@ import React from "react"
 import { mount } from "enzyme"
 import { expect } from "chai"
 
-import JsonRegex from "./../../../../../src/js/components/DataTypes/Function"
+import JsonRegex from "./../../../../../src/components/DataTypes/Function"
 
-import AttributeStore from "./../../../../../src/js/stores/ObjectAttributes"
+import AttributeStore from "./../../../../../src/stores/ObjectAttributes"
 
 describe("<JsonRegex />", function() {
     const rjvId = 1

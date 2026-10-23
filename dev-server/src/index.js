@@ -2,15 +2,17 @@
 
 //import react and reactDom for browser rendering
 import React from 'react';
-import ReactDom from 'react-dom';
+import { createRoot } from 'react-dom/client';
 
 import Moment from 'moment';
 
 //import the react-json-view component (installed with npm)
-import JsonViewer from './../../src/js/index';
+import JsonViewer from './../../src/index';
 
-//render 2 different examples of the react-json-view component
-ReactDom.render(
+const container = document.getElementById('app-container');
+if (container) {
+    const root = createRoot(container);
+    root.render(
     <div>
         {/* just pass in your JSON to the src attribute */}
         <JsonViewer
@@ -168,9 +170,9 @@ ReactDom.render(
             groupArraysAfterLength={50}
             src={getExampleJson4()}
         />
-    </div>,
-    document.getElementById('app-container')
-);
+        </div>
+    );
+}
 
 /*-------------------------------------------------------------------------*/
 /*     the following functions just contain test json data for display     */

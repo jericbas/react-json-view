@@ -5,7 +5,7 @@ import { expect } from "chai"
 import {
     ExpandedIcon,
     CollapsedIcon
-} from "./../../../../src/js/components/ToggleIcons"
+} from "./../../../../src/components/ToggleIcons"
 
 import {
     CircleMinus,
@@ -14,7 +14,7 @@ import {
     SquarePlus,
     ArrowRight,
     ArrowDown
-} from "./../../../../src/js/components/icons"
+} from "./../../../../src/components/icons"
 
 describe("<ToggleIcons />", function() {
     it("ExpandedIcon mount", function() {

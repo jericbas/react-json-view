@@ -2,8 +2,8 @@ import React from "react"
 import { shallow, mount } from "enzyme"
 import { expect } from "chai"
 
-import Index from "./../../../../src/js/index"
-import ValidationFailure from "./../../../../src/js/components/ValidationFailure"
+import Index from "./../../../../src/index"
+import ValidationFailure from "./../../../../src/components/ValidationFailure"
 
 describe("<ValidationFailure />", function() {
     const rjvId = 1

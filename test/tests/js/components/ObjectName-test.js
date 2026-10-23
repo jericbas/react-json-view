@@ -2,7 +2,7 @@ import React from "react"
 import { render } from "enzyme"
 import { expect } from "chai"
 
-import ObjectName from "./../../../../src/js/components/ObjectName"
+import ObjectName from "./../../../../src/components/ObjectName"
 
 describe("<ObjectName />", function() {
     it("ObjectName mount", function() {

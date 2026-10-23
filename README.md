@@ -23,9 +23,24 @@ This component provides a responsive interface for displaying arrays or JSON in 
 
 
 ### Implementation Example
-```js
+```tsx
+// TypeScript / ES Module
+import ReactJson, { type ReactJsonViewProps } from 'react-json-view';
+
+const props: ReactJsonViewProps = {
+    src: my_json_object,
+    theme: 'monokai',
+    collapsed: false
+};
+
+// use the component in your app!
+<ReactJson {...props} />
+```
+
+Or standard JavaScript:
+```jsx
 // import the react-json-view component
-import ReactJson from 'react-json-view'
+import ReactJson from 'react-json-view';
 
 // use the component in your app!
 <ReactJson src={my_json_object} />
@@ -38,13 +53,19 @@ import ReactJson from 'react-json-view'
 ![alt text](https://github.com/mac-s-g/react-json-view/blob/master/doc/output-example-14.png?raw=true "Output Example 2")
 
 ### Installation Instructions
-Install this component with [NPM](https://www.npmjs.com/package/react-json-view).
+Install this component with [NPM](https://www.npmjs.com/package/react-json-view). RJV requires React 19.3+ (`react` and `react-dom` `^19.3.0` as peer dependencies).
 ```shell
 npm install --save react-json-view
+```
+Ensure you have React 19.3+ installed in your project:
+```shell
+npm install react@^19.3.0 react-dom@^19.3.0
 ```
 Or add to your package.json config file:
 ```json
 "dependencies": {
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
     "react-json-view": "latest"
 }
 ```

@@ -2,7 +2,7 @@ import React from "react"
 import { shallow } from "enzyme"
 import { expect } from "chai"
 
-import ObjectAttributes from "./../../../../src/js/stores/ObjectAttributes"
+import ObjectAttributes from "./../../../../src/stores/ObjectAttributes"
 
 describe("ObjectAttributes", function() {
     it("set a value in empty store", function() {
