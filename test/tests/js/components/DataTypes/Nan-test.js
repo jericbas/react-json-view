@@ -2,7 +2,7 @@ import React from "react"
 import { mount } from "enzyme"
 import { expect } from "chai"
 
-import JsonNan from "./../../../../../src/js/components/DataTypes/Nan"
+import JsonNan from "./../../../../../src/components/DataTypes/Nan"
 
 describe("<JsonNan />", function() {
     const rjvId = 1

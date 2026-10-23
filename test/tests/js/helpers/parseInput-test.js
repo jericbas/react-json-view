@@ -1,7 +1,7 @@
 import React from "react"
 import { expect } from "chai"
 
-import parseInput from "./../../../../src/js/helpers/parseInput"
+import parseInput from "./../../../../src/helpers/parseInput"
 
 describe("parseInput", function() {
     it("parseInput array", function() {

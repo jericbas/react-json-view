@@ -2,9 +2,9 @@ import React from "react"
 import { shallow, mount } from "enzyme"
 import { expect } from "chai"
 
-import JsonFunction from "./../../../../../src/js/components/DataTypes/Function"
+import JsonFunction from "./../../../../../src/components/DataTypes/Function"
 
-import AttributeStore from "./../../../../../src/js/stores/ObjectAttributes"
+import AttributeStore from "./../../../../../src/stores/ObjectAttributes"
 
 describe("<JsonFunction />", function() {
     const rjvId = 1

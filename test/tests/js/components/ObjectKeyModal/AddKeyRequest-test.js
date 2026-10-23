@@ -2,8 +2,8 @@ import React from "react"
 import { shallow, render, mount } from "enzyme"
 import { expect } from "chai"
 
-import AddKeyRequest from "./../../../../../src/js/components/ObjectKeyModal/AddKeyRequest"
-import ObjectAttributes from "./../../../../../src/js/stores/ObjectAttributes"
+import AddKeyRequest from "./../../../../../src/components/ObjectKeyModal/AddKeyRequest"
+import ObjectAttributes from "./../../../../../src/stores/ObjectAttributes"
 
 describe("<AddKeyRequest />", function() {
     const rjvId = 1

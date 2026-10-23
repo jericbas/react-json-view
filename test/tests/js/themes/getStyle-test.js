@@ -2,7 +2,7 @@ import React from "react"
 import { shallow } from "enzyme"
 import { expect } from "chai"
 
-import getStyle from "./../../../../src/js/themes/getStyle"
+import getStyle from "./../../../../src/themes/getStyle"
 
 describe("getStyle", function() {
     const rjvId = 1

@@ -2,7 +2,7 @@ import React from "react"
 import { shallow, render, mount } from "enzyme"
 import { expect } from "chai"
 
-import ObjectKeyModal from "./../../../../../src/js/components/ObjectKeyModal/ObjectKeyModal"
+import ObjectKeyModal from "./../../../../../src/components/ObjectKeyModal/ObjectKeyModal"
 
 const rjvId = 1
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 
-import stringifyVariable from './../../../../src/js/helpers/stringifyVariable';
+import stringifyVariable from './../../../../src/helpers/stringifyVariable';
 
 describe('stringifyVariable', function () {
     it('stringifyVariable object', function () {

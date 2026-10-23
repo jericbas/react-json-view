@@ -3,7 +3,6 @@ const webpack = require("webpack")
 
 const PATHS = {
   src: path.join(__dirname, "..", "src"),
-  js: path.join(__dirname, "..", "src", "js"),
   style: path.join(__dirname, "..", "src", "style"),
   build: path.join(__dirname, "..", "dev-server", "dist"),
   devServer: path.join(__dirname, "..", "dev-server")
@@ -36,19 +35,19 @@ const config = {
     minimize: false
   },
   resolve: {
-    extensions: [".js", ".json", ".css", ".scss"]
+    extensions: [".ts", ".tsx", ".js", ".jsx", ".json", ".css", ".scss"]
   },
   devtool: "eval-source-map",
   module: {
     rules: [
       {
-        test: /\.jsx?$/,
+        test: /\.[jt]sx?$/,
         use: [
           {
             loader: "babel-loader"
           }
         ],
-        include: [PATHS.js, PATHS.devServer]
+        include: [PATHS.src, PATHS.devServer]
       }
     ]
   }

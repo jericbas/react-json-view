@@ -2,8 +2,8 @@ import React from "react"
 import { shallow, render, mount } from "enzyme"
 import { expect } from "chai"
 
-import Index from "./../../../../src/js/index"
-import VariableEditor from "./../../../../src/js/components/VariableEditor"
+import Index from "./../../../../src/index"
+import VariableEditor from "./../../../../src/components/VariableEditor"
 
 describe("<VariableEditor />", function() {
     const rjvId = 1

@@ -2,7 +2,7 @@ import React from "react"
 import { shallow, mount } from "enzyme"
 import { expect } from "chai"
 
-import VariableMeta from "./../../../../src/js/components/VariableMeta"
+import VariableMeta from "./../../../../src/components/VariableMeta"
 
 describe("<VariableMeta />", function() {
     const rjvId = 1

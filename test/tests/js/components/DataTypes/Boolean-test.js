@@ -2,7 +2,7 @@ import React from "react"
 import { mount } from "enzyme"
 import { expect } from "chai"
 
-import JsonBoolean from "./../../../../../src/js/components/DataTypes/Boolean"
+import JsonBoolean from "./../../../../../src/components/DataTypes/Boolean"
 
 describe("<JsonBoolean />", function() {
     const rjvId = 1

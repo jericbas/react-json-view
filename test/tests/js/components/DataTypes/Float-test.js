@@ -2,7 +2,7 @@ import React from "react"
 import { mount } from "enzyme"
 import { expect } from "chai"
 
-import JsonFloat from "./../../../../../src/js/components/DataTypes/Float"
+import JsonFloat from "./../../../../../src/components/DataTypes/Float"
 
 describe("<JsonFloat />", function() {
     const rjvId = 1

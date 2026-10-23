@@ -2,7 +2,7 @@ import React from "react"
 import { mount } from "enzyme"
 import { expect } from "chai"
 
-import JsonDate from "./../../../../../src/js/components/DataTypes/Date"
+import JsonDate from "./../../../../../src/components/DataTypes/Date"
 
 describe("<JsonDate />", function() {
     const rjvId = 1
