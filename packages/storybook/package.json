@@ -9,6 +9,7 @@
     "react-json-view": "*"
   },
   "devDependencies": {
+    "@storybook/addon-docs": "^10.6.3",
     "@storybook/react": "^10.6.3",
     "@storybook/react-vite": "^10.6.3",
     "@types/react": "^19.3.0",
