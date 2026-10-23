@@ -47,7 +47,7 @@ export const CopyToClipboard: React.FC<CopyToClipboardProps> = ({
     const handleCopy = () => {
         const textToCopy = JSON.stringify(clipboardValue(src), null, '  ') ?? '';
 
-        if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+        if (navigator?.clipboard?.writeText) {
             navigator.clipboard.writeText(textToCopy).catch(() => {
                 copyFallback(textToCopy);
             });

@@ -1,12 +1,12 @@
 import type React from 'react';
 import { use, useState } from 'react';
-import AutosizeTextarea from 'react-textarea-autosize';
 import { JsonViewContext } from '../context/JsonViewContext';
 import type { ParsedInput } from '../helpers/parseInput';
 import parseInput from '../helpers/parseInput';
 import stringifyVariable from '../helpers/stringifyVariable';
 import Theme from '../themes/getStyle';
 import type { OnCopyProps, OnSelectProps, ThemeKeys, ThemeObject } from '../types';
+import AutosizeTextarea from './AutosizeTextarea';
 import CopyToClipboard from './CopyToClipboard';
 import {
     JsonBoolean,

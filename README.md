@@ -2,18 +2,6 @@
 
 [![npm](https://img.shields.io/npm/v/react-json-view.svg)](https://www.npmjs.com/package/react-json-view) [![npm](https://img.shields.io/npm/l/react-json-view.svg)](./LICENSE) [![CI](https://github.com/jericbas/react-json-view/actions/workflows/ci.yml/badge.svg)](https://github.com/jericbas/react-json-view/actions/workflows/ci.yml)
 
-> [!IMPORTANT]
-> ### 🚧 Under Construction: Modernizing to React 19, TypeScript, and Vite 🚧
->
-> This repository is actively undergoing a major modernization initiative! We are upgrading `react-json-view` to:
-> - **React 19** with native hooks (`use`, `useReducer`, `useId`) and functional components.
-> - **Strict TypeScript** (`strict: true`) for end-to-end type safety.
-> - **Modern, fast tooling**: Vite for bundling and dev server, Vitest for testing, and Biome for formatting and linting.
-> - **Zero unnecessary external dependencies**, leveraging modern native web APIs.
->
-> 📖 **Contributing**: Please review the [Contributor Guide (`DEVELOPMENT.md`)](./DEVELOPMENT.md) for architectural guidelines, setup instructions, and code standards.  
-> 🗺️ **Roadmap**: Track our progress across modernization phases [#1 through #9](https://github.com/jericbas/react-json-view/issues) on GitHub Issues.
-
 # react-json-view
 
 RJV is a React component for displaying and editing javascript **arrays** and **JSON objects**.

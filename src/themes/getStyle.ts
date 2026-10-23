@@ -1,7 +1,7 @@
 import type React from 'react';
-import { createStyling } from 'react-base16-styling';
 import type { ThemeKeys, ThemeObject } from '../types';
 import { rjv_default, rjv_grey } from './base16/rjv-themes';
+import { base16Themes } from './base16/themes';
 import constants from './styleConstants';
 
 export interface StyleResult {
@@ -395,13 +395,24 @@ const getDefaultThemeStyling = (theme: ThemeObject) => {
     };
 };
 
-const getStyle = (theme?: ThemeKeys | ThemeObject | boolean) => {
-    let rjv_theme = rjv_default;
+function resolveTheme(theme?: ThemeKeys | ThemeObject | boolean): ThemeObject {
     if (theme === false || theme === 'none') {
-        rjv_theme = rjv_grey;
+        return rjv_grey;
     }
+    if (typeof theme === 'string') {
+        if (theme === 'rjv-default') return rjv_default;
+        if (theme === 'rjv-grey') return rjv_grey;
+        if (base16Themes[theme]) return base16Themes[theme];
+    } else if (theme && typeof theme === 'object') {
+        if ('base00' in theme) {
+            return { ...rjv_default, ...theme };
+        }
+    }
+    return rjv_default;
+}
 
-    return createStyling(getDefaultThemeStyling, { defaultBase16: rjv_theme })(theme);
+export const getStyle = (theme?: ThemeKeys | ThemeObject | boolean) => {
+    return (component: string, args?: any) => style(theme, component, args);
 };
 
 export default function style(
@@ -413,5 +424,28 @@ export default function style(
         console.error('theme has not been set');
     }
 
-    return getStyle(theme)(component, args);
+    const resolvedTheme = resolveTheme(theme);
+    const stylingMap = getDefaultThemeStyling(resolvedTheme) as Record<string, any>;
+    const defaultDef = stylingMap[component];
+
+    let resultStyle: React.CSSProperties = {};
+
+    if (typeof defaultDef === 'function') {
+        const computed = defaultDef(component, args);
+        resultStyle = { ...(computed?.style ?? {}) };
+    } else if (defaultDef && typeof defaultDef === 'object') {
+        resultStyle = { ...defaultDef };
+    }
+
+    if (theme && typeof theme === 'object' && !Array.isArray(theme)) {
+        const customDef = (theme as Record<string, any>)[component];
+        if (typeof customDef === 'function') {
+            const customComputed = customDef(component, args);
+            resultStyle = { ...resultStyle, ...(customComputed?.style ?? {}) };
+        } else if (customDef && typeof customDef === 'object') {
+            resultStyle = { ...resultStyle, ...customDef };
+        }
+    }
+
+    return { style: resultStyle };
 }
