@@ -60,7 +60,9 @@ function main() {
   }
 
   if (violations.length > 0) {
-    console.error(`\n❌ Error: ${violations.length} file(s) exceed maximum allowed ${MAX_NON_BLANK_LINES} non-blank lines:`);
+    console.error(
+      `\n❌ Error: ${violations.length} file(s) exceed maximum allowed ${MAX_NON_BLANK_LINES} non-blank lines:`
+    );
     violations.sort((a, b) => b.count - a.count);
     for (const v of violations) {
       console.error(`  - ${v.file}: ${v.count} non-blank lines (max: ${MAX_NON_BLANK_LINES})`);
@@ -68,7 +70,9 @@ function main() {
     console.error('\nPlease refactor or split these files into modular components/submodules.\n');
     process.exit(1);
   } else {
-    console.log(`\n✅ All ${uniqueFiles.length} TypeScript source and test files have ≤ ${MAX_NON_BLANK_LINES} non-blank lines.\n`);
+    console.log(
+      `\n✅ All ${uniqueFiles.length} TypeScript source and test files have ≤ ${MAX_NON_BLANK_LINES} non-blank lines.\n`
+    );
     process.exit(0);
   }
 }

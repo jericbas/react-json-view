@@ -1,102 +1,34 @@
 {
-  "name": "react-json-view",
-  "description": "Interactive react component for displaying javascript arrays and JSON objects.",
-  "version": "1.21.3",
-  "type": "module",
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
-  "files": [
-    "dist"
+  "name": "react-json-view-monorepo",
+  "private": true,
+  "workspaces": [
+    "packages/*"
   ],
-  "engines": {
-    "node": ">=20.0.0"
-  },
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.cjs",
-      "default": "./dist/index.mjs"
-    }
-  },
-  "dependencies": {},
   "devDependencies": {
     "@biomejs/biome": "^2.6.2",
     "@playwright/test": "^1.64.1",
-    "@testing-library/dom": "^10.4.2",
-    "@testing-library/jest-dom": "^7.0.1",
-    "@testing-library/react": "^16.3.3",
-    "@types/react": "^19.3.0",
-    "@types/react-dom": "^19.3.0",
-    "@typescript/typescript6": "^6.0.2",
-    "@vitejs/plugin-react": "^6.1.2",
-    "@vitest/coverage-v8": "^5.0.5",
-    "jsdom": "^16.7.0",
-    "react": "^19.3.0",
-    "react-dom": "^19.3.0",
-    "typescript": "^7.0.2",
-    "vite": "^8.3.5",
-    "vite-plugin-dts": "^5.1.2",
-    "vitest": "^5.0.5"
-  },
-  "peerDependencies": {
-    "react": "^19.3.0",
-    "react-dom": "^19.3.0"
+    "typescript": "^7.0.2"
   },
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "build:demo": "vite build --mode demo",
-    "preview": "vite preview",
-    "typecheck": "tsc --noEmit",
-    "check:lines": "node scripts/check-line-counts.js",
+    "build": "npm run build --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "test:watch": "npm run test:watch --workspace=packages/react-json-view",
+    "test:coverage": "npm run test:coverage --workspace=packages/react-json-view",
+    "test:e2e": "playwright test",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "storybook": "npm run storybook --workspace=packages/storybook",
+    "build:storybook": "npm run build-storybook --workspace=packages/storybook",
     "check": "biome check .",
     "check:write": "biome check --write .",
+    "check:lines": "node scripts/check-line-counts.js",
     "lint": "biome lint .",
     "format": "biome format --write .",
-    "prepare": "git config core.hooksPath .githooks || true",
-    "test": "vitest run",
-    "test:run": "vitest run",
-    "test:unit": "vitest run",
-    "test:coverage": "vitest run --coverage",
-    "test:watch": "vitest",
-    "test:e2e": "playwright test"
+    "prepare": "git config core.hooksPath .githooks || true"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/mac-s-g/react-json-view.git"
   },
-  "keywords": [
-    "array-viewer",
-    "base-16",
-    "component",
-    "interactive",
-    "interactive-json",
-    "json",
-    "json-component",
-    "json-display",
-    "json-tree",
-    "json-view",
-    "json-viewer",
-    "json-inspector",
-    "json-tree",
-    "react",
-    "react-component",
-    "react-json",
-    "theme",
-    "tree",
-    "tree-view",
-    "treeview"
-  ],
-  "license": "MIT",
   "author": "Mac Gainor",
-  "bugs": {
-    "url": "https://github.com/mac-s-g/react-json-view/issues"
-  },
-  "homepage": "https://github.com/mac-s-g/react-json-view",
-  "directories": {
-    "docs": "docs",
-    "test": "test"
-  }
+  "license": "MIT"
 }

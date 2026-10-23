@@ -19,8 +19,8 @@ export class JsonViewerPage {
     this.variableRows = page.locator('.variable-row');
   }
 
-  async goto() {
-    await this.page.goto('/');
+  async goto(storyId = 'components-reactjsonview--default') {
+    await this.page.goto(`/iframe.html?id=${storyId}&viewMode=story`);
   }
 
   async getObjectKeys(): Promise<string[]> {

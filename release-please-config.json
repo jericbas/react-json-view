@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
   "packages": {
-    ".": {
+    "packages/react-json-view": {
       "release-type": "node",
       "package-name": "react-json-view",
       "changelog-path": "CHANGELOG.md",

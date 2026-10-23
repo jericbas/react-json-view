@@ -172,15 +172,24 @@ git checkout -b feat/my-improvement
 npm install
 ```
 
-### 2. Local Development
+### 2. Local Development & Storybook
 
-Start the local interactive development server with Hot Module Replacement (HMR):
+Start the Storybook interactive documentation and component playground:
 
 ```bash
+# Start Storybook dev server (http://localhost:6006)
+npm run storybook
+# (or shorthand)
 npm run dev
 ```
 
-Visit the local server in your browser (typically `http://localhost:5173` or `http://localhost:2000`) to test your changes with interactive JSON samples.
+Visit `http://localhost:6006` in your browser to interactively explore Base16 themes, props controls, async Promises with React 19 Suspense, and large datasets.
+
+To build the static Storybook documentation bundle:
+
+```bash
+npm run build:storybook
+```
 
 ### 3. Running Tests
 
