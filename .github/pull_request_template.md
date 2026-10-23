@@ -22,3 +22,4 @@
 - [ ] `npm test` (Vitest unit tests) passes all test suites.
 - [ ] `npm run build` succeeds and produces clean ESM and CJS bundles in `dist/`.
 - [ ] Documentation (`README.md`, `DEVELOPMENT.md`) is updated if applicable.
+
