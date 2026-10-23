@@ -3,11 +3,11 @@ import ReactJsonDemo from './components/Demo';
 
 //index entrypoint component
 export default class extends React.PureComponent {
-    render() {
-        return (
-            <div className="mac-react">
-                <ReactJsonDemo />
-            </div>
-        );
-    }
+  render() {
+    return (
+      <div className="mac-react">
+        <ReactJsonDemo />
+      </div>
+    );
+  }
 }

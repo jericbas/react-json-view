@@ -1,46 +1,46 @@
 {
-    "$schema": "https://biomejs.dev/schemas/2.6.2/schema.json",
-    "vcs": {
-        "enabled": true,
-        "clientKind": "git",
-        "useIgnoreFile": true
-    },
-    "files": {
-        "ignoreUnknown": true,
-        "includes": ["src/**", "test/**", "demo/src/**", "e2e/**", "*.ts", "*.json", "*.md"]
-    },
+  "$schema": "https://biomejs.dev/schemas/2.6.2/schema.json",
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
+  "files": {
+    "ignoreUnknown": true,
+    "includes": ["src/**", "test/**", "demo/src/**", "e2e/**", "*.ts", "*.json", "*.md"]
+  },
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineWidth": 100
+  },
+  "javascript": {
     "formatter": {
-        "enabled": true,
-        "indentStyle": "space",
-        "indentWidth": 4,
-        "lineWidth": 100
-    },
-    "javascript": {
-        "formatter": {
-            "quoteStyle": "single",
-            "semicolons": "always",
-            "trailingCommas": "none",
-            "arrowParentheses": "asNeeded"
-        }
-    },
-    "linter": {
-        "enabled": true,
-        "rules": {
-            "preset": "recommended",
-            "a11y": {
-                "recommended": false
-            },
-            "correctness": {
-                "noUnusedFunctionParameters": "off"
-            },
-            "suspicious": {
-                "noExplicitAny": "off",
-                "noArrayIndexKey": "off"
-            },
-            "style": {
-                "noNonNullAssertion": "off",
-                "noDescendingSpecificity": "off"
-            }
-        }
+      "quoteStyle": "single",
+      "semicolons": "always",
+      "trailingCommas": "none",
+      "arrowParentheses": "asNeeded"
     }
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "preset": "recommended",
+      "a11y": {
+        "recommended": false
+      },
+      "correctness": {
+        "noUnusedFunctionParameters": "off"
+      },
+      "suspicious": {
+        "noExplicitAny": "off",
+        "noArrayIndexKey": "off"
+      },
+      "style": {
+        "noNonNullAssertion": "off",
+        "noDescendingSpecificity": "off"
+      }
+    }
+  }
 }
