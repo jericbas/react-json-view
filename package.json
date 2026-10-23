@@ -12,6 +12,7 @@
   "scripts": {
     "build": "npm run build --workspaces --if-present",
     "test": "npm run test --workspaces --if-present",
+    "test:run": "npm run test:run --workspaces --if-present",
     "test:watch": "npm run test:watch --workspace=packages/react-json-view",
     "test:coverage": "npm run test:coverage --workspace=packages/react-json-view",
     "test:e2e": "playwright test",
