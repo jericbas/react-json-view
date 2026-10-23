@@ -9,12 +9,12 @@
     "react-json-view": "*"
   },
   "devDependencies": {
-    "@storybook/react": "^8.6.14",
-    "@storybook/react-vite": "^8.6.14",
+    "@storybook/react": "^10.6.3",
+    "@storybook/react-vite": "^10.6.3",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "@vitejs/plugin-react": "^6.1.2",
-    "storybook": "^8.6.14",
+    "storybook": "^10.6.3",
     "typescript": "^7.0.2",
     "vite": "^8.3.5"
   },

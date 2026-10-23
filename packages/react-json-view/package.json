@@ -27,7 +27,6 @@
     "@testing-library/react": "^16.3.3",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
-    "@typescript/typescript6": "^6.0.2",
     "@vitejs/plugin-react": "^6.1.2",
     "@vitest/coverage-v8": "^5.0.5",
     "jsdom": "^16.7.0",
@@ -35,11 +34,10 @@
     "react-dom": "^19.3.0",
     "typescript": "^7.0.2",
     "vite": "^8.3.5",
-    "vite-plugin-dts": "^5.1.2",
     "vitest": "^5.0.5"
   },
   "scripts": {
-    "build": "vite build",
+    "build": "vite build && tsc --emitDeclarationOnly --declaration --outDir dist -p tsconfig.build.json",
     "test": "vitest run",
     "test:run": "vitest run",
     "test:watch": "vitest",
@@ -48,7 +46,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/mac-s-g/react-json-view.git"
+    "url": "https://github.com/jericbas/react-json-view.git"
   },
   "keywords": [
     "react",
@@ -60,10 +58,10 @@
     "base-16",
     "typescript"
   ],
-  "author": "Mac Gainor",
+  "author": "Jeric Bas",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/mac-s-g/react-json-view/issues"
+    "url": "https://github.com/jericbas/react-json-view/issues"
   },
-  "homepage": "https://github.com/mac-s-g/react-json-view#readme"
+  "homepage": "https://github.com/jericbas/react-json-view#readme"
 }

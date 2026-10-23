@@ -28,8 +28,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/mac-s-g/react-json-view.git"
+    "url": "https://github.com/jericbas/react-json-view.git"
   },
-  "author": "Mac Gainor",
+  "author": "Jeric Bas",
   "license": "MIT"
 }
