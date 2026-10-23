@@ -1,8 +1,6 @@
-import React from 'react';
-import { describe, it, expect } from 'vitest';
-import { render, fireEvent } from '@testing-library/react';
+import { render } from '@testing-library/react';
+import { describe, expect, it } from 'vitest';
 import JsonString from '../../../src/components/DataTypes/String';
-import { JsonViewContext } from '../../../src/context/JsonViewContext';
 
 describe('<JsonString />', () => {
     it('string component should have a data type label', () => {

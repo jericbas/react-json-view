@@ -1,14 +1,28 @@
-import React from 'react';
-import { describe, it, expect } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
+import { describe, expect, it } from 'vitest';
+import type { JsonViewState } from '../../src/context/JsonViewContext';
 import {
     deepCopy,
-    updateSrc,
     jsonViewReducer,
-    JsonViewContext,
+    updateSrc,
     useJsonView
 } from '../../src/context/JsonViewContext';
-import type { JsonViewState } from '../../src/context/JsonViewContext';
+
+const ConsumerComponent = () => {
+    const { validationMessage, validationFailure, dispatch } = useJsonView();
+    return (
+        <div>
+            <span data-testid="msg">{validationMessage}</span>
+            <span data-testid="status">{validationFailure ? 'failed' : 'ok'}</span>
+            <button
+                type="button"
+                onClick={() => dispatch({ type: 'VALIDATION_FAILURE', payload: true })}
+            >
+                Fail
+            </button>
+        </div>
+    );
+};
 
 describe('JsonViewContext & Reducer (replaces ObjectAttributes)', () => {
     describe('deepCopy', () => {
@@ -160,17 +174,6 @@ describe('JsonViewContext & Reducer (replaces ObjectAttributes)', () => {
     });
 
     describe('useJsonView hook', () => {
-        const ConsumerComponent = () => {
-            const { validationMessage, validationFailure, dispatch } = useJsonView();
-            return (
-                <div>
-                    <span data-testid="msg">{validationMessage}</span>
-                    <span data-testid="status">{validationFailure ? 'failed' : 'ok'}</span>
-                    <button onClick={() => dispatch({ type: 'VALIDATION_FAILURE', payload: true })}>Fail</button>
-                </div>
-            );
-        };
-
         it('reads context values and provides helpers', () => {
             render(<ConsumerComponent />);
             expect(screen.getByTestId('msg')).toHaveTextContent('Validation Error');

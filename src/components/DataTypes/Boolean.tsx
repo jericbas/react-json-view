@@ -10,7 +10,7 @@ export interface BooleanProps {
     rjvId?: string | undefined;
 }
 
-export const JsonBoolean: React.FC<BooleanProps> = (props) => {
+export const JsonBoolean: React.FC<BooleanProps> = props => {
     const { value, theme = 'rjv-default' } = props;
     const type_name = 'bool';
 

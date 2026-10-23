@@ -1,6 +1,5 @@
-import React from 'react';
-import { describe, it, expect } from 'vitest';
 import { render } from '@testing-library/react';
+import { describe, expect, it } from 'vitest';
 import JsonObject from '../../../src/components/DataTypes/Object';
 
 describe('<JsonObject />', () => {
@@ -29,7 +28,7 @@ describe('<JsonObject />', () => {
             nan: NaN,
             null: null,
             undefined: undefined,
-            func: function () {},
+            func: () => {},
             float: 1.325,
             arr: [1, 2],
             obj: { test: true },
@@ -59,7 +58,7 @@ describe('<JsonObject />', () => {
             nan: NaN,
             null: null,
             undefined: undefined,
-            func: function () {},
+            func: () => {},
             float: 1.325,
             arr: [1, 2],
             obj: { test: true }
@@ -185,12 +184,7 @@ describe('<JsonObject />', () => {
     it('non-empty object should have expanded icon when collapsed=false', () => {
         const src = { test: true };
         const { container } = render(
-            <JsonObject
-                src={src}
-                theme="rjv-default"
-                namespace={['root']}
-                collapsed={false}
-            />
+            <JsonObject src={src} theme="rjv-default" namespace={['root']} collapsed={false} />
         );
         expect(container.querySelectorAll('.expanded-icon')).toHaveLength(1);
     });
@@ -198,12 +192,7 @@ describe('<JsonObject />', () => {
     it('empty object should not be expanded', () => {
         const src = {};
         const { container } = render(
-            <JsonObject
-                src={src}
-                theme="rjv-default"
-                namespace={['root']}
-                collapsed={false}
-            />
+            <JsonObject src={src} theme="rjv-default" namespace={['root']} collapsed={false} />
         );
         expect(container.querySelectorAll('.expanded-icon')).toHaveLength(0);
     });
@@ -211,12 +200,7 @@ describe('<JsonObject />', () => {
     it('non-empty array should have expanded icon when collapsed=false', () => {
         const src = [1, 2, 3];
         const { container } = render(
-            <JsonObject
-                src={src}
-                theme="rjv-default"
-                namespace={['root']}
-                collapsed={false}
-            />
+            <JsonObject src={src} theme="rjv-default" namespace={['root']} collapsed={false} />
         );
         expect(container.querySelectorAll('.expanded-icon')).toHaveLength(1);
     });

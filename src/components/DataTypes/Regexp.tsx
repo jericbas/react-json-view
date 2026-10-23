@@ -10,7 +10,7 @@ export interface RegexpProps {
     rjvId?: string | undefined;
 }
 
-export const JsonRegexp: React.FC<RegexpProps> = (props) => {
+export const JsonRegexp: React.FC<RegexpProps> = props => {
     const { value, theme = 'rjv-default' } = props;
     const type_name = 'regexp';
 

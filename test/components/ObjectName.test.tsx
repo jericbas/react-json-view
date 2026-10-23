@@ -1,17 +1,11 @@
-import React from 'react';
-import { describe, it, expect } from 'vitest';
 import { render } from '@testing-library/react';
+import { describe, expect, it } from 'vitest';
 import ObjectName from '../../src/components/ObjectName';
 
 describe('<ObjectName />', () => {
     it('ObjectName mount', () => {
         const { container } = render(
-            <ObjectName
-                namespace={['test']}
-                name="test"
-                theme="rjv-default"
-                jsvRoot={false}
-            />
+            <ObjectName namespace={['test']} name="test" theme="rjv-default" jsvRoot={false} />
         );
         expect(container.querySelectorAll('.object-key')).toHaveLength(1);
     });
@@ -32,12 +26,7 @@ describe('<ObjectName />', () => {
 
     it('ObjectName at root without name', () => {
         const { container } = render(
-            <ObjectName
-                namespace={['test']}
-                name={false}
-                theme="rjv-default"
-                jsvRoot={true}
-            />
+            <ObjectName namespace={['test']} name={false} theme="rjv-default" jsvRoot={true} />
         );
         expect(container.querySelector('span')?.childNodes).toHaveLength(0);
     });

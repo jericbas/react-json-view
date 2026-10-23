@@ -1,0 +1,12 @@
+#!/bin/sh
+set -e
+
+echo "Running pre-commit checks..."
+
+# Check staged files with Biome
+npx --no-install biome check --staged --no-errors-on-unmatched
+
+# Run TypeScript type check
+npm run typecheck
+
+echo "Pre-commit checks passed successfully."

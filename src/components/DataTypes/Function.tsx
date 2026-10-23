@@ -1,4 +1,5 @@
-import React, { use } from 'react';
+import type React from 'react';
+import { use } from 'react';
 import { JsonViewContext } from '../../context/JsonViewContext';
 import Theme from '../../themes/getStyle';
 import type { ThemeKeys, ThemeObject } from '../../types';
@@ -12,8 +13,12 @@ export interface FunctionProps {
     namespace: Array<string | number | null>;
 }
 
-export const JsonFunction: React.FC<FunctionProps> = (props) => {
-    const { collapsed: collapsedMap, setCollapsed: setContextCollapsed, theme: contextTheme } = use(JsonViewContext);
+export const JsonFunction: React.FC<FunctionProps> = props => {
+    const {
+        collapsed: collapsedMap,
+        setCollapsed: setContextCollapsed,
+        theme: contextTheme
+    } = use(JsonViewContext);
     const { value, theme = contextTheme || 'rjv-default', namespace } = props;
     const type_name = 'function';
     const nodeKey = namespace.join('.');
@@ -29,10 +34,7 @@ export const JsonFunction: React.FC<FunctionProps> = (props) => {
             return (
                 <span>
                     {fnStr.slice(9, -1).replace(/\{[\s\S]+/, '')}
-                    <span
-                        className="function-collapsed"
-                        style={{ fontWeight: 'bold' }}
-                    >
+                    <span className="function-collapsed" style={{ fontWeight: 'bold' }}>
                         <span>{'{'}</span>
                         <span {...Theme(theme, 'ellipsis')}>...</span>
                         <span>{'}'}</span>

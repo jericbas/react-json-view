@@ -1,4 +1,5 @@
-import React, { use } from 'react';
+import type React from 'react';
+import { use } from 'react';
 import { JsonViewContext } from '../context/JsonViewContext';
 import { toType } from '../helpers/util';
 import Theme from '../themes/getStyle';

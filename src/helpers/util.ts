@@ -19,7 +19,7 @@ export function toType(obj: unknown): string {
 
 function getType(obj: unknown): string {
     const match = {}.toString.call(obj).match(/\s([a-zA-Z]+)/);
-    return match && match[1] ? match[1].toLowerCase() : '';
+    return match?.[1] ? match[1].toLowerCase() : '';
 }
 
 const themeKeys = [

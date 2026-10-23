@@ -1,4 +1,5 @@
-import React, { use, useState } from 'react';
+import type React from 'react';
+import { use, useState } from 'react';
 import { JsonViewContext } from '../../context/JsonViewContext';
 import { toType } from '../../helpers/util';
 import Theme from '../../themes/getStyle';
@@ -6,8 +7,8 @@ import type { CollapsedFieldProps, IconStyle, ThemeKeys, ThemeObject } from '../
 import ArrayGroup from '../ArrayGroup';
 import ObjectName from '../ObjectName';
 import { CollapsedIcon, ExpandedIcon } from '../ToggleIcons';
-import VariableEditor from '../VariableEditor';
 import type { JsonVariable } from '../VariableEditor';
+import VariableEditor from '../VariableEditor';
 import VariableMeta from '../VariableMeta';
 
 const DEPTH_INCREMENT = 1;
@@ -38,7 +39,9 @@ function calculateDefaultExpanded(props: RjvObjectProps): boolean {
     const depth = props.depth ?? 0;
     return (
         (props.collapsed === false ||
-            (props.collapsed !== true && typeof props.collapsed === 'number' && props.collapsed > depth)) &&
+            (props.collapsed !== true &&
+                typeof props.collapsed === 'number' &&
+                props.collapsed > depth)) &&
         (!props.shouldCollapse ||
             props.shouldCollapse({
                 name: props.name ?? null,
@@ -50,8 +53,12 @@ function calculateDefaultExpanded(props: RjvObjectProps): boolean {
     );
 }
 
-export const RjvObject: React.FC<RjvObjectProps> = (props) => {
-    const { expanded: expandedMap, setExpanded: setContextExpanded, theme: contextTheme } = use(JsonViewContext);
+export const RjvObject: React.FC<RjvObjectProps> = props => {
+    const {
+        expanded: expandedMap,
+        setExpanded: setContextExpanded,
+        theme: contextTheme
+    } = use(JsonViewContext);
     const {
         depth = 0,
         src,
@@ -88,11 +95,7 @@ export const RjvObject: React.FC<RjvObjectProps> = (props) => {
             return null;
         }
         return (
-            <div
-                {...Theme(theme, 'ellipsis')}
-                className="node-ellipsis"
-                onClick={toggleCollapsed}
-            >
+            <div {...Theme(theme, 'ellipsis')} className="node-ellipsis" onClick={toggleCollapsed}>
                 ...
             </div>
         );
@@ -118,9 +121,7 @@ export const RjvObject: React.FC<RjvObjectProps> = (props) => {
         if (parent_type === 'array_group') {
             return (
                 <span>
-                    <span {...Theme(theme, 'brace')}>
-                        {object_type === 'array' ? '[' : '{'}
-                    </span>
+                    <span {...Theme(theme, 'brace')}>{object_type === 'array' ? '[' : '{'}</span>
                     {expanded ? getObjectMetaData() : null}
                 </span>
             );
@@ -130,14 +131,8 @@ export const RjvObject: React.FC<RjvObjectProps> = (props) => {
 
         return (
             <span>
-                <span
-                    onClick={() => toggleCollapsed()}
-                    {...Theme(theme, 'brace-row')}
-                >
-                    <div
-                        className="icon-container"
-                        {...Theme(theme, 'icon-container')}
-                    >
+                <span onClick={() => toggleCollapsed()} {...Theme(theme, 'brace-row')}>
+                    <div className="icon-container" {...Theme(theme, 'icon-container')}>
                         <IconComponent theme={theme} iconStyle={iconStyle} />
                     </div>
                     <ObjectName
@@ -148,9 +143,7 @@ export const RjvObject: React.FC<RjvObjectProps> = (props) => {
                         name={name}
                         {...rest}
                     />
-                    <span {...Theme(theme, 'brace')}>
-                        {object_type === 'array' ? '[' : '{'}
-                    </span>
+                    <span {...Theme(theme, 'brace')}>{object_type === 'array' ? '[' : '{'}</span>
                 </span>
                 {expanded ? getObjectMetaData() : null}
             </span>
@@ -175,7 +168,7 @@ export const RjvObject: React.FC<RjvObjectProps> = (props) => {
                 variable.name = parseInt(String(variable.name), 10) + index_offset;
             }
 
-            if (!Object.prototype.hasOwnProperty.call(variables, k)) {
+            if (!Object.hasOwn(variables, k)) {
                 return;
             } else if (variable.type === 'object') {
                 elements.push(
@@ -277,17 +270,11 @@ export const RjvObject: React.FC<RjvObjectProps> = (props) => {
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
         >
-            <div
-                className="pushed-content object-key"
-                {...Theme(theme, 'pushed-content')}
-            >
+            <div className="pushed-content object-key" {...Theme(theme, 'pushed-content')}>
                 {getBraceStart()}
             </div>
             {expanded ? (
-                <div
-                    className="expanded-row"
-                    {...Theme(theme, 'expanded-row')}
-                >
+                <div className="expanded-row" {...Theme(theme, 'expanded-row')}>
                     {renderObjectContents(src)}
                 </div>
             ) : (

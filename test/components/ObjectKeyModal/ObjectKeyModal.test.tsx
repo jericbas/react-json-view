@@ -1,6 +1,5 @@
-import React from 'react';
-import { describe, it, expect, vi } from 'vitest';
-import { render, fireEvent, screen } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
+import { describe, expect, it, vi } from 'vitest';
 import ObjectKeyModal from '../../../src/components/ObjectKeyModal/ObjectKeyModal';
 
 describe('<ObjectKeyModal />', () => {

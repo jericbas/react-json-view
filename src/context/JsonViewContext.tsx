@@ -1,4 +1,4 @@
-import React, { createContext, use } from 'react';
+import { createContext, use } from 'react';
 import { toType } from '../helpers/util';
 import type { ThemeKeys, ThemeObject } from '../types';
 
@@ -24,14 +24,33 @@ export type JsonViewAction =
     | { type: 'VARIABLE_REMOVED'; payload?: any; data?: any }
     | { type: 'ADD_VARIABLE_KEY_REQUEST'; payload?: any; data?: any }
     | { type: 'RESET'; payload?: any; data?: any }
-    | { type: 'SET_EXPANDED'; payload?: { key: string; expanded: boolean }; data?: { key: string; expanded: boolean } }
-    | { type: 'TOGGLE_EXPANDED'; payload?: { key: string; defaultExpanded?: boolean | undefined }; data?: { key: string; defaultExpanded?: boolean | undefined } }
-    | { type: 'SET_COLLAPSED'; payload?: { key: string; collapsed: boolean }; data?: { key: string; collapsed: boolean } }
+    | {
+          type: 'SET_EXPANDED';
+          payload?: { key: string; expanded: boolean };
+          data?: { key: string; expanded: boolean };
+      }
+    | {
+          type: 'TOGGLE_EXPANDED';
+          payload?: { key: string; defaultExpanded?: boolean | undefined };
+          data?: { key: string; defaultExpanded?: boolean | undefined };
+      }
+    | {
+          type: 'SET_COLLAPSED';
+          payload?: { key: string; collapsed: boolean };
+          data?: { key: string; collapsed: boolean };
+      }
     | { type: 'TOGGLE_COLLAPSED'; payload?: { key: string }; data?: { key: string } }
     | { type: 'RESET_PROPS'; payload?: Partial<JsonViewState>; data?: Partial<JsonViewState> }
     | { type: 'VALIDATION_FAILURE'; payload?: boolean; data?: boolean }
     | { type: 'SRC_UPDATED'; payload?: any; data?: any }
-    | { type?: string; name?: string; data?: any; payload?: any; rjvId?: string; [key: string]: any };
+    | {
+          type?: string;
+          name?: string;
+          data?: any;
+          payload?: any;
+          rjvId?: string;
+          [key: string]: any;
+      };
 
 export function deepCopy(src: any, copy_namespace: Array<string | number>): any {
     const type = toType(src);
@@ -49,11 +68,7 @@ export function deepCopy(src: any, copy_namespace: Array<string | number>): any 
 }
 
 export function updateSrc(src: any, request: any): any {
-    const {
-        name,
-        new_value,
-        variable_removed
-    } = request;
+    const { name, new_value, variable_removed } = request;
     const namespace = [...request.namespace];
 
     namespace.shift();
@@ -141,9 +156,10 @@ export function jsonViewReducer(state: JsonViewState, action: JsonViewAction): J
         }
         case 'TOGGLE_EXPANDED': {
             if (!actionData) return state;
-            const current = state.expanded[actionData.key] !== undefined
-                ? state.expanded[actionData.key]
-                : Boolean(actionData.defaultExpanded);
+            const current =
+                state.expanded[actionData.key] !== undefined
+                    ? state.expanded[actionData.key]
+                    : Boolean(actionData.defaultExpanded);
             return {
                 ...state,
                 expanded: {
@@ -164,9 +180,10 @@ export function jsonViewReducer(state: JsonViewState, action: JsonViewAction): J
         }
         case 'TOGGLE_COLLAPSED': {
             if (!actionData) return state;
-            const current = state.collapsed[actionData.key] !== undefined
-                ? state.collapsed[actionData.key]
-                : true;
+            const current =
+                state.collapsed[actionData.key] !== undefined
+                    ? state.collapsed[actionData.key]
+                    : true;
             return {
                 ...state,
                 collapsed: {
@@ -182,9 +199,10 @@ export function jsonViewReducer(state: JsonViewState, action: JsonViewAction): J
                 src: actionData.src !== undefined ? actionData.src : state.src,
                 name: actionData.name !== undefined ? actionData.name : state.name,
                 theme: actionData.theme !== undefined ? actionData.theme : state.theme,
-                validationMessage: actionData.validationMessage !== undefined
-                    ? actionData.validationMessage
-                    : state.validationMessage
+                validationMessage:
+                    actionData.validationMessage !== undefined
+                        ? actionData.validationMessage
+                        : state.validationMessage
             };
         }
         default:

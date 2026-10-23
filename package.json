@@ -22,6 +22,7 @@
         "react-textarea-autosize": "^8.3.2"
     },
     "devDependencies": {
+        "@biomejs/biome": "^2.6.2",
         "@playwright/test": "^1.64.1",
         "@testing-library/dom": "^10.4.2",
         "@testing-library/jest-dom": "^7.0.1",
@@ -33,12 +34,8 @@
         "@vitejs/plugin-react": "^6.1.2",
         "@vitest/coverage-v8": "^5.0.5",
         "babel-runtime": "^6.26.0",
-        "eslint": "^7.16.0",
-        "eslint-plugin-prettier": "^3.3.1",
-        "eslint-plugin-react": "^7.21.5",
         "jsdom": "^16.7.0",
         "moment": "^2.29.1",
-        "prettier": "^2.2.1",
         "react": "^19.3.0",
         "react-dom": "^19.3.0",
         "react-github-button": "^0.1.11",
@@ -59,13 +56,16 @@
         "build:demo": "vite build --mode demo",
         "preview": "vite preview",
         "typecheck": "tsc --noEmit",
+        "check": "biome check .",
+        "check:write": "biome check --write .",
+        "lint": "biome lint .",
+        "format": "biome format --write .",
+        "prepare": "git config core.hooksPath .githooks || true",
         "test": "vitest run",
         "test:unit": "vitest run",
         "test:coverage": "vitest run --coverage",
         "test:watch": "vitest",
-        "test:e2e": "playwright test",
-        "lint": "NODE_ENV=test ./node_modules/.bin/eslint src",
-        "lint-fixup": "NODE_ENV=test ./node_modules/.bin/eslint src --ext .js,.jsx --fix"
+        "test:e2e": "playwright test"
     },
     "repository": {
         "type": "git",

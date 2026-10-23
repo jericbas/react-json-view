@@ -18,24 +18,16 @@ export default function parseInput(input: string): ParsedInput {
         } else if (serialized[0] === '{') {
             //object
             return formatResponse('object', parsed);
-        } else if (
-            input.match(/^-?\d+\.\d+$/)
-        ) {
+        } else if (input.match(/^-?\d+\.\d+$/)) {
             //float
             return formatResponse('float', parseFloat(input));
-        } else if (
-            input.match(/^-?\d+e-\d+$/)
-        ) {
+        } else if (input.match(/^-?\d+e-\d+$/)) {
             //scientific float
             return formatResponse('float', Number(input));
-        } else if (
-            input.match(/^-?\d+$/)
-        ) {
+        } else if (input.match(/^-?\d+$/)) {
             //integer
             return formatResponse('integer', parseInt(input, 10));
-        } else if (
-            input.match(/^-?\d+e\+\d+$/)
-        ) {
+        } else if (input.match(/^-?\d+e\+\d+$/)) {
             //scientific integer
             return formatResponse('integer', Number(input));
         }

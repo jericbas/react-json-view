@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
+import type React from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { toType } from '../helpers/util';
 import Theme from '../themes/getStyle';
 import type { OnCopyProps, ThemeKeys, ThemeObject } from '../types';
