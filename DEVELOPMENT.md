@@ -12,17 +12,20 @@ Before contributing code, please take a moment to review this guide to understan
 
 The complete modernization initiative is organized into distinct phases tracked in GitHub Issues:
 
-| Phase       | Milestone / Area                                               | GitHub Issue                                               |
-| :---------- | :------------------------------------------------------------- | :--------------------------------------------------------- |
-| **Phase 1** | Contributor Guide (`DEVELOPMENT.md`) & `README.md` Notice      | [#1](https://github.com/jericbas/react-json-view/issues/1) |
-| **Phase 2** | Framework & Language Upgrade (React 19.3+ & TypeScript)        | [#2](https://github.com/jericbas/react-json-view/issues/2) |
-| **Phase 3** | State Management & Data Fetching (React 19 Native Hooks)       | [#3](https://github.com/jericbas/react-json-view/issues/3) |
-| **Phase 4** | Build Tool Migration (Replace Webpack with Vite)               | [#4](https://github.com/jericbas/react-json-view/issues/4) |
-| **Phase 5** | Testing Modernization (Vitest Unit & Playwright E2E)           | [#5](https://github.com/jericbas/react-json-view/issues/5) |
-| **Phase 6** | Linting, Formatting, & Pre-Commit Hooks (Biome & Git Hooks)    | [#6](https://github.com/jericbas/react-json-view/issues/6) |
-| **Phase 7** | CI/CD & Workflow (GitHub Actions, Release Please, PR Template) | [#7](https://github.com/jericbas/react-json-view/issues/7) |
-| **Phase 8** | Docker Review & Removal                                        | [#8](https://github.com/jericbas/react-json-view/issues/8) |
-| **Phase 9** | General Housekeeping & Dependency Optimization                 | [#9](https://github.com/jericbas/react-json-view/issues/9) |
+| Phase        | Milestone / Area                                                                  | GitHub Issue                                                 |
+| :----------- | :-------------------------------------------------------------------------------- | :----------------------------------------------------------- |
+| **Phase 1**  | Contributor Guide (`DEVELOPMENT.md`) & `README.md` Notice                         | [#1](https://github.com/jericbas/react-json-view/issues/1)   |
+| **Phase 2**  | Framework & Language Upgrade (React 19.3+ & TypeScript)                           | [#2](https://github.com/jericbas/react-json-view/issues/2)   |
+| **Phase 3**  | State Management & Data Fetching (React 19 Native Hooks)                          | [#3](https://github.com/jericbas/react-json-view/issues/3)   |
+| **Phase 4**  | Build Tool Migration (Replace Webpack with Vite)                                  | [#4](https://github.com/jericbas/react-json-view/issues/4)   |
+| **Phase 5**  | Testing Modernization (Vitest Unit & Playwright E2E)                              | [#5](https://github.com/jericbas/react-json-view/issues/5)   |
+| **Phase 6**  | Linting, Formatting, & Pre-Commit Hooks (Biome & Git Hooks)                       | [#6](https://github.com/jericbas/react-json-view/issues/6)   |
+| **Phase 7**  | CI/CD & Workflow (GitHub Actions, Release Please, PR Template)                    | [#7](https://github.com/jericbas/react-json-view/issues/7)   |
+| **Phase 8**  | Docker Review & Removal                                                           | [#8](https://github.com/jericbas/react-json-view/issues/8)   |
+| **Phase 9**  | General Housekeeping & Dependency Optimization                                    | [#9](https://github.com/jericbas/react-json-view/issues/9)   |
+| **Phase 10** | Code Formatting Standards & File Length Limits (`indentWidth: 2` & Max 200 Lines) | [#43](https://github.com/jericbas/react-json-view/issues/43) |
+| **Phase 11** | Remove Unused Packages & Migrate Away from SCSS (`sass`) to Pure CSS              | [#44](https://github.com/jericbas/react-json-view/issues/44) |
+| **Phase 12** | NPM Workspaces Architecture & Storybook Demo Migration                            | [#45](https://github.com/jericbas/react-json-view/issues/45) |
 
 ---
 
@@ -57,7 +60,8 @@ Every contributor is expected to follow these five core principles when designin
 
 - **Vite**: Ultra-fast development server with instant Hot Module Replacement (HMR) and optimized library builds producing modern ESM and CJS bundles.
 - **Vitest**: Blazing-fast test runner that shares Vite's config and transform pipeline for instant feedback during testing.
-- **Biome**: A unified, high-performance tool for linting and formatting, replacing ESLint and Prettier with sub-second execution speeds.
+- **Biome**: A unified, high-performance tool for linting and formatting (`indentWidth: 2`, spaces indentation), replacing ESLint and Prettier with sub-second execution speeds.
+- **Modular Code Size Limits**: Every `.ts`/`.tsx` file in the repository must not exceed 200 non-blank lines (`npm run check:lines`), ensuring components remain small, composable, and easily testable.
 
 ### 5. Trunk-Based & Git Workflow
 
@@ -232,8 +236,9 @@ npm run format
 We use a zero-dependency Git hook located in `.githooks/pre-commit`. Running `npm install` runs the `prepare` script which automatically activates the hook via `git config core.hooksPath .githooks`.
 
 The pre-commit hook automatically runs before every commit:
-1. Checks staged files against Biome formatting and linting rules.
-2. Runs TypeScript type checking (`npm run typecheck`).
+1. Verifies that all `.ts`/`.tsx` files have ≤ 200 non-blank lines (`npm run check:lines`).
+2. Checks staged files against Biome formatting (`indentWidth: 2`) and linting rules.
+3. Runs TypeScript type checking (`npm run typecheck`).
 
 ### 5. Building the Library
 

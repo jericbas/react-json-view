@@ -7,10 +7,10 @@ const app = document.getElementById('mac-react-container');
 
 //app entrypoint
 if (app) {
-    const root = createRoot(app);
-    root.render(
-        <div className="app-entry">
-            <Index />
-        </div>
-    );
+  const root = createRoot(app);
+  root.render(
+    <div className="app-entry">
+      <Index />
+    </div>
+  );
 }

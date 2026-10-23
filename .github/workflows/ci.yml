@@ -28,6 +28,9 @@ jobs:
       - name: Install dependencies
         run: npm ci --legacy-peer-deps
 
+      - name: Check line counts (≤ 200 non-blank lines)
+        run: npm run check:lines
+
       - name: Check formatting and linting (Biome)
         run: npm run check
 

@@ -3,6 +3,9 @@ set -e
 
 echo "Running pre-commit checks..."
 
+# Check non-blank line counts (≤ 200 lines per file)
+node scripts/check-line-counts.js
+
 # Check staged files with Biome
 npx --no-install biome check --staged --no-errors-on-unmatched
 

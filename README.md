@@ -18,9 +18,9 @@ This component provides a responsive interface for displaying arrays or JSON in 
 import ReactJson, { type ReactJsonViewProps } from 'react-json-view';
 
 const props: ReactJsonViewProps = {
-    src: my_json_object,
-    theme: 'monokai',
-    collapsed: false
+  src: my_json_object,
+  theme: 'monokai',
+  collapsed: false
 };
 
 // use the component in your app!
@@ -48,11 +48,11 @@ import ReactJson from 'react-json-view';
 const jsonPromise = fetch('https://api.example.com/data').then(res => res.json());
 
 function AsyncJsonViewer() {
-    return (
-        <Suspense fallback={<div>Loading JSON data...</div>}>
-            <ReactJson src={jsonPromise} theme="monokai" />
-        </Suspense>
-    );
+  return (
+    <Suspense fallback={<div>Loading JSON data...</div>}>
+      <ReactJson src={jsonPromise} theme="monokai" />
+    </Suspense>
+  );
 }
 ```
 
