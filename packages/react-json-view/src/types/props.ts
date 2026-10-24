@@ -6,7 +6,30 @@ import type {
   OnSelectProps,
   TypeDefaultValue
 } from './interaction';
+import type { JsonViewPlugin } from './plugin';
 import type { IconStyle, ThemeKeys, ThemeObject } from './theme';
+
+export interface JsonViewerProps {
+  src: object | Promise<object> | any;
+  name?: string | number | null | false;
+  theme?: ThemeKeys | ThemeObject;
+  style?: React.CSSProperties;
+  iconStyle?: IconStyle;
+  indentWidth?: number;
+  collapsed?: boolean | number;
+  collapseStringsAfterLength?: number | false;
+  shouldCollapse?: false | ((field: CollapsedFieldProps) => boolean);
+  groupArraysAfterLength?: number;
+  displayObjectSize?: boolean;
+  displayDataTypes?: boolean;
+  quotesOnKeys?: boolean;
+  sortKeys?: boolean;
+  displayArrayKey?: boolean;
+  defaultValue?: TypeDefaultValue | TypeDefaultValue[] | null;
+  onSelect?: ((select: OnSelectProps) => void) | false;
+  plugins?: JsonViewPlugin[];
+  [key: string]: any;
+}
 
 export interface ReactJsonViewProps {
   /**

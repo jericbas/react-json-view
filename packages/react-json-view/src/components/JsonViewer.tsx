@@ -1,68 +1,135 @@
-import type React from 'react';
-import { use } from 'react';
-import { JsonViewContext } from '../context/JsonViewContext';
-import type { IconStyle, ThemeKeys, ThemeObject } from '../types';
+import React, { use } from 'react';
+import { useJsonView } from '../context/JsonViewContext';
+import JsonViewProvider from '../context/JsonViewProvider';
+import { isPromise, validateProps } from '../helpers/validateProps';
+import Theme from '../themes/getStyle';
+import type { JsonViewerProps } from '../types';
 import ArrayGroup from './ArrayGroup';
 import JsonObject from './DataTypes/Object';
 
-export interface JsonViewerProps {
-  src?: any;
-  name?: string | number | null | false;
-  theme?: ThemeKeys | ThemeObject;
-  type?: string;
-  rjvId?: string;
-  groupArraysAfterLength?: number;
-  indentWidth?: number;
-  iconStyle?: IconStyle;
-  collapsed?: boolean | number;
-  collapseStringsAfterLength?: number | false;
-  shouldCollapse?: false | ((field: any) => boolean);
-  sortKeys?: boolean;
-  quotesOnKeys?: boolean;
-  enableClipboard?: boolean | ((copy: any) => void);
-  displayObjectSize?: boolean;
-  displayDataTypes?: boolean;
-  onEdit?: ((edit: any) => false | unknown) | false;
-  onDelete?: ((del: any) => false | unknown) | false;
-  onAdd?: ((add: any) => false | unknown) | false;
-  onSelect?: ((select: any) => void) | false;
-  validationMessage?: string;
-  defaultValue?: any;
-  displayArrayKey?: boolean;
-  [key: string]: any;
-}
+const JsonViewerTree: React.FC<JsonViewerProps> = props => {
+  const { rjvId, plugins, theme } = useJsonView();
+  const { src, name = 'root', groupArraysAfterLength = 100, style = {}, ...rest } = props;
 
-export const JsonViewer: React.FC<JsonViewerProps> = props => {
-  const context = use(JsonViewContext);
-  const src = props.src !== undefined ? props.src : context.src;
-  const name = props.name !== undefined ? props.name : context.name;
-  const theme = props.theme !== undefined ? props.theme : context.theme;
-
-  const namespace = [name ?? null];
+  const namespace: Array<string | number | null> = [name === false ? null : name];
   let ObjectComponent: React.ComponentType<any> = JsonObject;
 
-  if (
-    Array.isArray(src) &&
-    props.groupArraysAfterLength &&
-    src.length > props.groupArraysAfterLength
-  ) {
+  if (Array.isArray(src) && groupArraysAfterLength && src.length > groupArraysAfterLength) {
     ObjectComponent = ArrayGroup;
   }
 
-  return (
+  const defaultRenderTree = () => (
     <div className="pretty-json-container object-container">
       <div className="object-content">
         <ObjectComponent
           namespace={namespace}
           depth={0}
           jsvRoot={true}
-          {...props}
+          groupArraysAfterLength={groupArraysAfterLength}
+          {...rest}
           src={src}
           name={name}
           theme={theme}
         />
       </div>
     </div>
+  );
+
+  let treeContent: React.ReactNode;
+  for (const plugin of plugins) {
+    if (plugin.renderTree) {
+      const intercepted = plugin.renderTree({
+        src,
+        name,
+        theme,
+        depth: 0,
+        namespace,
+        defaultRender: defaultRenderTree
+      });
+      if (intercepted !== undefined) {
+        treeContent = intercepted;
+        break;
+      }
+    }
+  }
+
+  if (treeContent === undefined) {
+    treeContent = defaultRenderTree();
+  }
+
+  return (
+    <div className="react-json-view" style={{ ...Theme(theme, 'app-container').style, ...style }}>
+      {plugins.map((plugin, idx) => (
+        <React.Fragment key={plugin.name || `overlay-${idx}`}>
+          {plugin.renderRootOverlay?.({ rjvId, theme, src })}
+        </React.Fragment>
+      ))}
+      {treeContent}
+    </div>
+  );
+};
+
+export const JsonViewer: React.FC<JsonViewerProps> = props => {
+  const {
+    src: srcProp = {},
+    name: nameProp = 'root',
+    theme: themeProp = 'rjv-default',
+    collapsed = false,
+    collapseStringsAfterLength = false,
+    shouldCollapse = false,
+    sortKeys = false,
+    quotesOnKeys = true,
+    groupArraysAfterLength = 100,
+    indentWidth = 4,
+    displayObjectSize = true,
+    displayDataTypes = true,
+    onSelect = false,
+    iconStyle = 'triangle',
+    style = {},
+    defaultValue = null,
+    displayArrayKey = true,
+    plugins = [],
+    ...rest
+  } = props;
+
+  // React 19: unwrap Promise if src is thenable using native use() hook
+  const resolvedSrc = isPromise(srcProp) ? use(srcProp) : srcProp;
+  const stringifiedName =
+    nameProp === false
+      ? false
+      : nameProp !== null && nameProp !== undefined
+        ? String(nameProp)
+        : null;
+  const validated = validateProps(resolvedSrc, stringifiedName, themeProp, undefined);
+
+  return (
+    <JsonViewProvider
+      src={validated.src}
+      name={validated.name}
+      theme={validated.theme}
+      plugins={plugins}
+    >
+      <JsonViewerTree
+        collapsed={collapsed}
+        collapseStringsAfterLength={collapseStringsAfterLength}
+        shouldCollapse={shouldCollapse}
+        sortKeys={sortKeys}
+        quotesOnKeys={quotesOnKeys}
+        groupArraysAfterLength={groupArraysAfterLength}
+        indentWidth={indentWidth}
+        displayObjectSize={displayObjectSize}
+        displayDataTypes={displayDataTypes}
+        onSelect={onSelect}
+        iconStyle={iconStyle}
+        style={style}
+        defaultValue={defaultValue}
+        displayArrayKey={displayArrayKey}
+        {...rest}
+        src={validated.src}
+        name={validated.name}
+        theme={validated.theme}
+      />
+    </JsonViewProvider>
   );
 };
 

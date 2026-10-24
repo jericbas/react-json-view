@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useId, useMemo, useReducer, useRef } from 'react';
 import type { JsonViewAction, JsonViewContextValue } from '../context/JsonViewContext';
-import { jsonViewReducer, updateSrc } from '../context/JsonViewContext';
+import { jsonViewReducer } from '../context/JsonViewContext';
+import { updateSrc } from '../helpers/updateSrc';
 import { validateProps } from '../helpers/validateProps';
 import type { InteractionProps, ReactJsonViewProps } from '../types';
 
@@ -34,7 +35,9 @@ export function useJsonViewContainer(
     addKeyRequest: null,
     validationFailure: false,
     expanded: {},
-    collapsed: {}
+    collapsed: {},
+    plugins: [],
+    rjvId
   });
 
   const prevPropsRef = useRef({
@@ -147,6 +150,7 @@ export function useJsonViewContainer(
       validationFailure: state.validationFailure,
       expanded: state.expanded,
       collapsed: state.collapsed,
+      plugins: [],
       dispatch,
       setExpanded,
       toggleExpanded,

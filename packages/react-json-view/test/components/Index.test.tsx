@@ -1,8 +1,8 @@
-import { render } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
-import Index from '../../src/index';
+import { fireEvent, render } from '@testing-library/react';
+import { describe, expect, it, vi } from 'vitest';
+import Index, { type JsonViewPlugin } from '../../src/index';
 
-describe('<Index />', () => {
+describe('<Index /> (<JsonViewer /> Core)', () => {
   it('check data type labels from index', () => {
     const { container } = render(
       <Index
@@ -48,23 +48,11 @@ describe('<Index />', () => {
     };
 
     const { container, rerender } = render(
-      <Index
-        src={testSrc}
-        displayObjectSize={true}
-        displayDataTypes={true}
-        enableClipboard={false}
-      />
+      <Index src={testSrc} displayObjectSize={true} displayDataTypes={true} />
     );
     expect(container.querySelectorAll('.object-size')).toHaveLength(7);
 
-    rerender(
-      <Index
-        src={testSrc}
-        displayObjectSize={false}
-        displayDataTypes={true}
-        enableClipboard={false}
-      />
-    );
+    rerender(<Index src={testSrc} displayObjectSize={false} displayDataTypes={true} />);
     expect(container.querySelectorAll('.object-size')).toHaveLength(0);
   });
 
@@ -75,19 +63,72 @@ describe('<Index />', () => {
     expect(container.querySelectorAll('.data-type-label')).toHaveLength(1);
   });
 
-  it('make sure copy to clipboard is displayed for properties when hovered', () => {
+  it('triggers read-only onSelect callback when variable value is clicked', () => {
+    const onSelectMock = vi.fn();
     const { container } = render(
       <Index
         src={{
-          test: true,
-          passing: 'hopefully',
-          arr: [5],
-          obj: {},
-          regexp: /[0-9]/gi
+          name: 'antigravity',
+          count: 42
         }}
+        onSelect={onSelectMock}
       />
     );
-    expect(container.querySelectorAll('.copy-to-clipboard-container')).toHaveLength(7);
+
+    const variableValues = container.querySelectorAll('.variable-value');
+    expect(variableValues.length).toBeGreaterThan(0);
+    const firstValue = variableValues[0];
+    expect(firstValue).toBeDefined();
+    if (firstValue) {
+      fireEvent.click(firstValue);
+    }
+
+    expect(onSelectMock).toHaveBeenCalledTimes(1);
+    expect(onSelectMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        name: 'name',
+        value: 'antigravity',
+        type: 'string',
+        namespace: ['name']
+      })
+    );
+  });
+
+  it('supports plugin slots (rowActions, valueRender, rootOverlay, treeRender)', () => {
+    const samplePlugin: JsonViewPlugin = {
+      name: 'test-plugin',
+      renderRowActions: ({ variable }) => (
+        <button type="button" className="custom-action-btn">
+          Action for {variable.name}
+        </button>
+      ),
+      renderValue: ({ variable, defaultRender }) => {
+        if (variable.name === 'special') {
+          return <span className="custom-intercepted-value">CUSTOM: {String(variable.value)}</span>;
+        }
+        return defaultRender();
+      },
+      renderRootOverlay: () => <div className="custom-root-overlay">Plugin Overlay</div>,
+      renderTree: ({ defaultRender }) => (
+        <div className="custom-tree-wrapper">{defaultRender()}</div>
+      )
+    };
+
+    const { container } = render(
+      <Index
+        src={{
+          special: 'magic',
+          regular: 'hello'
+        }}
+        plugins={[samplePlugin]}
+      />
+    );
+
+    expect(container.querySelector('.custom-root-overlay')).not.toBeNull();
+    expect(container.querySelector('.custom-tree-wrapper')).not.toBeNull();
+    expect(container.querySelector('.custom-intercepted-value')).toHaveTextContent('CUSTOM: magic');
+    // 1 action for root object + 2 actions for properties
+    expect(container.querySelectorAll('.custom-action-btn')).toHaveLength(3);
   });
 
   it('updates displayed content when src prop changes', () => {
