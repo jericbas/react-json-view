@@ -35,7 +35,30 @@ const meta: Meta<typeof ReactJson> = {
   argTypes: {
     theme: {
       control: 'select',
-      options: ['rjv-default', 'monokai', 'ocean', 'solarized', 'tomorrow', 'eighties', 'rjv-grey']
+      options: [
+        'rjv-default',
+        'monokai',
+        'ocean',
+        'solarized',
+        'tomorrow',
+        'eighties',
+        'dracula',
+        'nord',
+        'gruvbox',
+        'onedark',
+        'catppuccin',
+        'tokyonight',
+        'rosepine',
+        'everforest',
+        'synthwave',
+        'nightowl',
+        'aurora',
+        'matcha',
+        'nebula',
+        'obsidian',
+        'sakura',
+        'rjv-grey'
+      ]
     },
     iconStyle: {
       control: 'radio',

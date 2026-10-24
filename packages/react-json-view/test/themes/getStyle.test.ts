@@ -33,6 +33,41 @@ describe('getStyle', () => {
     expect(style.style.backgroundColor).toBeDefined();
   });
 
+  it('test 10 common built-in themes', () => {
+    const expectedBackgrounds: Record<string, string> = {
+      dracula: '#282a36',
+      nord: '#2e3440',
+      gruvbox: '#282828',
+      onedark: '#282c34',
+      catppuccin: '#1e1e2e',
+      tokyonight: '#1a1b26',
+      rosepine: '#191724',
+      everforest: '#2d353b',
+      synthwave: '#262335',
+      nightowl: '#011627'
+    };
+
+    for (const [themeName, bg] of Object.entries(expectedBackgrounds)) {
+      const style = getStyle(themeName as any, 'app-container');
+      expect(style.style.backgroundColor).toBe(bg);
+    }
+  });
+
+  it('test 5 newly invented built-in themes', () => {
+    const expectedBackgrounds: Record<string, string> = {
+      aurora: '#07111a',
+      matcha: '#141d17',
+      nebula: '#0d091a',
+      obsidian: '#111215',
+      sakura: '#1c1219'
+    };
+
+    for (const [themeName, bg] of Object.entries(expectedBackgrounds)) {
+      const style = getStyle(themeName as any, 'app-container');
+      expect(style.style.backgroundColor).toBe(bg);
+    }
+  });
+
   it('test custom theme object with custom styling overrides', () => {
     const customTheme = {
       base00: '#112233',
