@@ -10,9 +10,14 @@ const config: StorybookConfig = {
   },
   async viteFinal(config) {
     const rjvEntry = path.resolve(process.cwd(), '../react-json-view/src/index.ts');
+    const clipboardEntry = path.resolve(
+      process.cwd(),
+      '../react-json-view/src/plugins/clipboard/index.ts'
+    );
     config.resolve = config.resolve || {};
     config.resolve.alias = {
       ...(config.resolve.alias || {}),
+      'react-json-view/plugins/clipboard': clipboardEntry,
       'react-json-view': rjvEntry
     };
     return config;

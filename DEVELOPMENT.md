@@ -27,6 +27,7 @@ The complete modernization initiative is organized into distinct phases tracked 
 | **Phase 11** | Remove Unused Packages & Migrate Away from SCSS (`sass`) to Pure CSS              | [#44](https://github.com/jericbas/react-json-view/issues/44) |
 | **Phase 12** | NPM Workspaces Architecture & Storybook Demo Migration                            | [#45](https://github.com/jericbas/react-json-view/issues/45) |
 | **Phase 13** | Read-Only `<JsonViewer />` Base & Plugin Slot Architecture                        | [#58](https://github.com/jericbas/react-json-view/issues/58) |
+| **Phase 14** | Tree-Shakeable Clipboard Plugin (`react-json-view/plugins/clipboard`)             | [#59](https://github.com/jericbas/react-json-view/issues/59) |
 
 ---
 
