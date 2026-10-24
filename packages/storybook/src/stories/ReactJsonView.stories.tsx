@@ -24,6 +24,14 @@ const meta: Meta<typeof ReactJson> = {
   title: 'Components/ReactJsonView',
   component: ReactJson,
   tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component:
+          '> 🚧 **Under Construction**: This library is actively undergoing modernization for React 19 and TypeScript. Live Storybook Demo & Documentation: [https://jericbas.github.io/react-json-view/](https://jericbas.github.io/react-json-view/)'
+      }
+    }
+  },
   argTypes: {
     theme: {
       control: 'select',

@@ -4,11 +4,15 @@
 
 # react-json-view
 
+> 🚧 **Under Construction**: This repository is currently undergoing active modernization and development. We are updating the library with complete React 19 support, a TypeScript rewrite, an NPM workspaces monorepo architecture, and automated CI/CD pipelines. Features and documentation are evolving.
+>
+> 🚀 **Live Storybook Demo & Documentation:** [https://jericbas.github.io/react-json-view/](https://jericbas.github.io/react-json-view/)
+
 RJV is a React component for displaying and editing javascript **arrays** and **JSON objects**.
 
 This component provides a responsive interface for displaying arrays or JSON in a web browser. NPM offers a distribution of the source that's transpiled to ES5; so you can include this component with _any web-based javascript application_.
-
-[Check out the Interactive Storybook Demo & Documentation](https://jericbas.github.io/react-json-view/)
+- 📖 **Storybook Demo:** [https://jericbas.github.io/react-json-view/](https://jericbas.github.io/react-json-view/)
+- 📘 **Props Reference:** [Storybook Props Documentation](https://jericbas.github.io/react-json-view/?path=/docs/documentation-props--docs)
 
 
 ### Implementation Example
@@ -146,32 +150,30 @@ Returning `false` from a callback method will prevent the src from being affecte
 
 ### Contributing to the source code
 
-#### Run the Dev Server
+#### Run Storybook (Interactive Demo & Documentation)
 
 ```bash
 # clone this repository
 git clone git@github.com:jericbas/react-json-view.git && cd react-json-view
 # install dependencies
 npm install
-# run the Vite dev server with hot reloading
-npm run dev
+# start the Storybook dev server with hot reloading
+npm run storybook
 ```
-Vite will start the local development server with hot module replacement (HMR). Open the printed localhost URL in your browser. The dev server will automatically reload when files are modified in the `/src/` or `/demo/` directory.
+Storybook will start the local development server at `http://localhost:6006` with interactive docs and stories.
 
 #### Run the Production Library Build
 
 ```bash
-# build the library (generates ESM, CJS, and .d.ts in dist/)
+# build the library (generates ESM, CJS, and .d.ts in packages/react-json-view/dist/)
 npm run build
 ```
 
-#### Run the Demo App Build
+#### Run the Storybook Static Build
 
 ```bash
-# build the demo playground app (into demo/dist/)
-npm run build:demo
-# preview the built demo app
-npm run preview
+# build the static Storybook documentation site (into packages/storybook/storybook-static/)
+npm run build:storybook
 ```
 #### Testing
 
