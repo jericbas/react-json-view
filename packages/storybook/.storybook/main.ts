@@ -9,7 +9,7 @@ const config: StorybookConfig = {
     options: {}
   },
   async viteFinal(config) {
-    const rjvEntry = path.resolve(process.cwd(), '../react-json-view/src/index.tsx');
+    const rjvEntry = path.resolve(process.cwd(), '../react-json-view/src/index.ts');
     config.resolve = config.resolve || {};
     config.resolve.alias = {
       ...(config.resolve.alias || {}),

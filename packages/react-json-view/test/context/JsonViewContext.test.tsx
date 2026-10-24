@@ -1,27 +1,22 @@
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import type { JsonViewState } from '../../src/context/JsonViewContext';
-import {
-  deepCopy,
-  jsonViewReducer,
-  updateSrc,
-  useJsonView
-} from '../../src/context/JsonViewContext';
+import { jsonViewReducer, useJsonView } from '../../src/context/JsonViewContext';
+import { JsonViewProvider } from '../../src/context/JsonViewProvider';
+import { deepCopy, updateSrc } from '../../src/helpers/updateSrc';
 
 const ConsumerComponent = () => {
-  const { validationMessage, validationFailure, dispatch } = useJsonView();
+  const { name, theme, rjvId } = useJsonView();
   return (
     <div>
-      <span data-testid="msg">{validationMessage}</span>
-      <span data-testid="status">{validationFailure ? 'failed' : 'ok'}</span>
-      <button type="button" onClick={() => dispatch({ type: 'VALIDATION_FAILURE', payload: true })}>
-        Fail
-      </button>
+      <span data-testid="name">{name}</span>
+      <span data-testid="theme">{String(theme)}</span>
+      <span data-testid="id">{rjvId}</span>
     </div>
   );
 };
 
-describe('JsonViewContext & Reducer (replaces ObjectAttributes)', () => {
+describe('JsonViewContext & Reducer (Core)', () => {
   describe('deepCopy', () => {
     it('deeply copies objects along a namespace path', () => {
       const original = { a: { b: { c: 1 } }, d: 2 };
@@ -89,37 +84,11 @@ describe('JsonViewContext & Reducer (replaces ObjectAttributes)', () => {
       src: { name: 'test', count: 0 },
       name: 'root',
       theme: 'rjv-default',
-      validationMessage: 'Validation Error',
-      addKeyRequest: null,
-      validationFailure: false,
       expanded: {},
-      collapsed: {}
+      collapsed: {},
+      plugins: [],
+      rjvId: 'test-id'
     };
-
-    it('handles VARIABLE_UPDATED', () => {
-      const nextState = jsonViewReducer(initialState, {
-        type: 'VARIABLE_UPDATED',
-        payload: {
-          name: 'count',
-          namespace: ['root'],
-          new_value: 5
-        }
-      });
-      expect(nextState.src.count).toBe(5);
-    });
-
-    it('handles ADD_VARIABLE_KEY_REQUEST', () => {
-      const req = {
-        existing_value: {},
-        namespace: ['root'],
-        name: 'newKey'
-      };
-      const nextState = jsonViewReducer(initialState, {
-        type: 'ADD_VARIABLE_KEY_REQUEST',
-        payload: req
-      });
-      expect(nextState.addKeyRequest).toEqual(req);
-    });
 
     it('handles SET_EXPANDED and TOGGLE_EXPANDED', () => {
       let state = jsonViewReducer(initialState, {
@@ -135,28 +104,6 @@ describe('JsonViewContext & Reducer (replaces ObjectAttributes)', () => {
       expect(state.expanded['root.item']).toBe(false);
     });
 
-    it('handles SET_COLLAPSED and TOGGLE_COLLAPSED', () => {
-      let state = jsonViewReducer(initialState, {
-        type: 'SET_COLLAPSED',
-        payload: { key: 'root.item', collapsed: true }
-      });
-      expect(state.collapsed['root.item']).toBe(true);
-
-      state = jsonViewReducer(state, {
-        type: 'TOGGLE_COLLAPSED',
-        payload: { key: 'root.item' }
-      });
-      expect(state.collapsed['root.item']).toBe(false);
-    });
-
-    it('handles VALIDATION_FAILURE', () => {
-      const state = jsonViewReducer(initialState, {
-        type: 'VALIDATION_FAILURE',
-        payload: true
-      });
-      expect(state.validationFailure).toBe(true);
-    });
-
     it('handles RESET_PROPS', () => {
       const state = jsonViewReducer(initialState, {
         type: 'RESET_PROPS',
@@ -170,11 +117,16 @@ describe('JsonViewContext & Reducer (replaces ObjectAttributes)', () => {
     });
   });
 
-  describe('useJsonView hook', () => {
+  describe('JsonViewProvider and useJsonView hook', () => {
     it('reads context values and provides helpers', () => {
-      render(<ConsumerComponent />);
-      expect(screen.getByTestId('msg')).toHaveTextContent('Validation Error');
-      expect(screen.getByTestId('status')).toHaveTextContent('ok');
+      render(
+        <JsonViewProvider src={{ test: 123 }} name="custom-root" theme="monokai">
+          <ConsumerComponent />
+        </JsonViewProvider>
+      );
+      expect(screen.getByTestId('name')).toHaveTextContent('custom-root');
+      expect(screen.getByTestId('theme')).toHaveTextContent('monokai');
+      expect(screen.getByTestId('id')).not.toBeEmptyDOMElement();
     });
   });
 });

@@ -1,9 +1,14 @@
 import type React from 'react';
 import { toType } from '../../helpers/util';
-import type { CollapsedFieldProps, IconStyle, ThemeKeys, ThemeObject } from '../../types';
+import type {
+  CollapsedFieldProps,
+  IconStyle,
+  JsonVariable,
+  ThemeKeys,
+  ThemeObject
+} from '../../types';
 import ArrayGroup from '../ArrayGroup';
-import type { JsonVariable } from '../VariableEditor';
-import VariableEditor from '../VariableEditor';
+import VariableRow from '../VariableRow';
 import { RjvObject } from './Object';
 
 const DEPTH_INCREMENT = 1;
@@ -125,7 +130,7 @@ export const ObjectContent: React.FC<ObjectContentProps> = ({
       }
     } else {
       elements.push(
-        <VariableEditor
+        <VariableRow
           key={String(variable.name)}
           variable={variable}
           singleIndent={SINGLE_INDENT}
@@ -134,6 +139,7 @@ export const ObjectContent: React.FC<ObjectContentProps> = ({
           type={object_type}
           indentWidth={indentWidth}
           namespace={namespace.concat(variable.name)}
+          depth={depth + DEPTH_INCREMENT}
           {...rest}
         />
       );

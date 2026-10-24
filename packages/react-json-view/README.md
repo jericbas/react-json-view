@@ -17,27 +17,56 @@ This component provides a responsive interface for displaying arrays or JSON in 
 
 ### Implementation Example
 
+Using `<JsonViewer />` with strict TypeScript:
 ```tsx
-// TypeScript / ES Module
-import ReactJson, { type ReactJsonViewProps } from 'react-json-view';
+import { JsonViewer, type JsonViewerProps } from 'react-json-view';
 
-const props: ReactJsonViewProps = {
+const props: JsonViewerProps = {
   src: my_json_object,
   theme: 'monokai',
-  collapsed: false
+  collapsed: false,
+  onSelect: select => console.log('Selected node:', select)
 };
 
-// use the component in your app!
-<ReactJson {...props} />;
+// Use the lightweight read-only core component
+<JsonViewer {...props} />;
 ```
 
-Or standard JavaScript:
+Default import compatibility:
 ```jsx
-// import the react-json-view component
 import ReactJson from 'react-json-view';
 
 // use the component in your app!
 <ReactJson src={my_json_object} />;
+```
+
+### Plugin Slot Architecture
+
+`<JsonViewer />` features a decoupled plugin system providing structured slots:
+- **`renderRowActions`**: Inject contextual buttons and action triggers into individual variable and object rows.
+- **`renderValue`**: Intercept value rendering (e.g., custom URL linkifiers, color chips, badges).
+- **`renderRootOverlay`**: Render toolbars, status indicators, and modal overlays at the root level.
+- **`renderTree`**: Intercept or wrap the entire JSON tree renderer.
+
+Example plugin:
+```tsx
+import { JsonViewer, type JsonViewPlugin } from 'react-json-view';
+
+const linkifierPlugin: JsonViewPlugin = {
+  name: 'url-linkifier',
+  renderValue: ({ variable, defaultRender }) => {
+    if (typeof variable.value === 'string' && variable.value.startsWith('http')) {
+      return (
+        <a href={variable.value} target="_blank" rel="noreferrer">
+          {variable.value} ↗
+        </a>
+      );
+    }
+    return defaultRender();
+  }
+};
+
+<JsonViewer src={my_json_object} plugins={[linkifierPlugin]} />;
 ```
 
 ### Async Data Fetching with React 19 `use()` & `<Suspense>`

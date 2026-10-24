@@ -1,7 +1,6 @@
 import type React from 'react';
 import Theme from '../../themes/getStyle';
-import type { ThemeKeys, ThemeObject } from '../../types';
-import type { JsonVariable } from '../VariableEditor';
+import type { JsonVariable, ThemeKeys, ThemeObject } from '../../types';
 
 export interface VariableKeyLabelProps {
   type?: string | undefined;

@@ -4,9 +4,9 @@ import { JsonViewContext } from '../../context/JsonViewContext';
 import { toType } from '../../helpers/util';
 import Theme from '../../themes/getStyle';
 import type { CollapsedFieldProps, IconStyle, ThemeKeys, ThemeObject } from '../../types';
+import ObjectMeta from '../ObjectMeta';
 import ObjectName from '../ObjectName';
 import { CollapsedIcon, ExpandedIcon } from '../ToggleIcons';
-import VariableMeta from '../VariableMeta';
 import { ObjectContent } from './ObjectContent';
 
 const SINGLE_INDENT = 5;
@@ -97,16 +97,15 @@ export const RjvObject: React.FC<RjvObjectProps> = props => {
   };
 
   const getObjectMetaData = () => (
-    <VariableMeta
+    <ObjectMeta
       rowHovered={hovered}
       size={size}
       src={src}
       theme={theme}
       namespace={namespace}
       name={name}
-      rjvId={rjvId}
       depth={depth}
-      {...rest}
+      displayObjectSize={props.displayObjectSize}
     />
   );
 
