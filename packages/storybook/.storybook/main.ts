@@ -18,11 +18,21 @@ const config: StorybookConfig = {
       process.cwd(),
       '../react-json-view/src/plugins/editor/index.ts'
     );
+    const searchEntry = path.resolve(
+      process.cwd(),
+      '../react-json-view/src/plugins/search/index.ts'
+    );
+    const virtualEntry = path.resolve(
+      process.cwd(),
+      '../react-json-view/src/plugins/virtual/index.ts'
+    );
     const themesEntry = path.resolve(process.cwd(), '../react-json-view/src/themes/index.ts');
     const compatEntry = path.resolve(process.cwd(), '../react-json-view/src/compat/index.tsx');
     config.resolve = config.resolve || {};
     config.resolve.alias = {
       ...(config.resolve.alias || {}),
+      'react-json-view/plugins/virtual': virtualEntry,
+      'react-json-view/plugins/search': searchEntry,
       'react-json-view/compat': compatEntry,
       'react-json-view/themes': themesEntry,
       'react-json-view/plugins/editor': editorEntry,

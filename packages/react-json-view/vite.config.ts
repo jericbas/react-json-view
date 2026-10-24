@@ -10,6 +10,8 @@ export default defineConfig({
         index: resolve(import.meta.dirname, 'src/index.ts'),
         'plugins/clipboard/index': resolve(import.meta.dirname, 'src/plugins/clipboard/index.ts'),
         'plugins/editor/index': resolve(import.meta.dirname, 'src/plugins/editor/index.ts'),
+        'plugins/search/index': resolve(import.meta.dirname, 'src/plugins/search/index.ts'),
+        'plugins/virtual/index': resolve(import.meta.dirname, 'src/plugins/virtual/index.ts'),
         'themes/index': resolve(import.meta.dirname, 'src/themes/index.ts'),
         'compat/index': resolve(import.meta.dirname, 'src/compat/index.tsx')
       },

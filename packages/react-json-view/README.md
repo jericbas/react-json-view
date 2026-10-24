@@ -130,6 +130,44 @@ import { withEditor, withEdit, withAdd, withDelete } from 'react-json-view/plugi
 />;
 ```
 
+##### Search Plugin (`react-json-view/plugins/search`)
+
+Enable interactive key/value search, substring highlighting, and JSONPath querying:
+```tsx
+import { JsonViewer } from 'react-json-view';
+import { withSearch } from 'react-json-view/plugins/search';
+
+<JsonViewer
+  src={my_json_object}
+  plugins={[
+    withSearch({
+      placeholder: 'Search keys, values, or $.path...',
+      caseSensitive: false,
+      highlightColor: '#ffd700'
+    })
+  ]}
+/>;
+```
+
+##### Virtualization Plugin (`react-json-view/plugins/virtual`)
+
+Effortlessly render massive datasets (100k+ nodes) with virtual windowing:
+```tsx
+import { JsonViewer } from 'react-json-view';
+import { withVirtualizer } from 'react-json-view/plugins/virtual';
+
+<JsonViewer
+  src={large_100k_dataset}
+  plugins={[
+    withVirtualizer({
+      itemHeight: 24,
+      maxHeight: 450,
+      overscan: 5
+    })
+  ]}
+/>;
+```
+
 ### Async Data Fetching with React 19 `use()` & `<Suspense>`
 
 With React 19, `react-json-view` natively unwraps asynchronous `Promise<object>` values passed directly to the `src` prop using React's `use()` hook! Wrap your `<ReactJson />` component in a React `<Suspense>` boundary to display a fallback while the data is loading:

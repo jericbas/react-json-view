@@ -25,6 +25,18 @@
       "require": "./dist/plugins/editor/index.cjs",
       "default": "./dist/plugins/editor/index.mjs"
     },
+    "./plugins/search": {
+      "types": "./dist/plugins/search/index.d.ts",
+      "import": "./dist/plugins/search/index.mjs",
+      "require": "./dist/plugins/search/index.cjs",
+      "default": "./dist/plugins/search/index.mjs"
+    },
+    "./plugins/virtual": {
+      "types": "./dist/plugins/virtual/index.d.ts",
+      "import": "./dist/plugins/virtual/index.mjs",
+      "require": "./dist/plugins/virtual/index.cjs",
+      "default": "./dist/plugins/virtual/index.mjs"
+    },
     "./themes": {
       "types": "./dist/themes/index.d.ts",
       "import": "./dist/themes/index.mjs",
@@ -45,6 +57,12 @@
       ],
       "plugins/editor": [
         "./dist/plugins/editor/index.d.ts"
+      ],
+      "plugins/search": [
+        "./dist/plugins/search/index.d.ts"
+      ],
+      "plugins/virtual": [
+        "./dist/plugins/virtual/index.d.ts"
       ],
       "themes": [
         "./dist/themes/index.d.ts"
