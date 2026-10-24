@@ -1,17 +1,23 @@
 import type React from 'react';
 import { useEffect, useRef, useState } from 'react';
-import { toType } from '../helpers/util';
-import Theme from '../themes/getStyle';
-import type { OnCopyProps, ThemeKeys, ThemeObject } from '../types';
+import { getClipboardStyle } from '../plugins/clipboard/style';
+import type { ClipboardContext, ClipboardFormat } from '../plugins/clipboard/types';
+import { formatClipboardValue, formatPath } from '../plugins/clipboard/util';
+import type { JsonVariable, OnCopyProps, ThemeKeys, ThemeObject } from '../types';
 import { Clippy } from './icons';
 
 export interface CopyToClipboardProps {
-  src: unknown;
-  theme?: ThemeKeys | ThemeObject;
-  hidden?: boolean;
-  rowHovered?: boolean;
-  namespace: Array<string | number | null>;
-  clickCallback?: boolean | ((copy: OnCopyProps) => void);
+  src?: unknown;
+  theme?: ThemeKeys | ThemeObject | undefined;
+  hidden?: boolean | undefined;
+  rowHovered?: boolean | undefined;
+  namespace?: Array<string | number | null> | undefined;
+  clickCallback?: boolean | ((copy: OnCopyProps) => void) | undefined;
+  callback?: boolean | ((copy: OnCopyProps) => void) | undefined;
+  copyPath?: boolean | undefined;
+  format?: ClipboardFormat | undefined;
+  variable?: JsonVariable | undefined;
+  depth?: number | undefined;
 }
 
 export const CopyToClipboard: React.FC<CopyToClipboardProps> = ({
@@ -19,8 +25,13 @@ export const CopyToClipboard: React.FC<CopyToClipboardProps> = ({
   theme = 'rjv-default',
   hidden = false,
   rowHovered = false,
-  namespace,
-  clickCallback
+  namespace = [],
+  clickCallback,
+  callback,
+  copyPath = false,
+  format = 'value',
+  variable,
+  depth = 0
 }) => {
   const [copied, setCopied] = useState<boolean>(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -33,19 +44,33 @@ export const CopyToClipboard: React.FC<CopyToClipboardProps> = ({
     };
   }, []);
 
-  const clipboardValue = (value: unknown): unknown => {
-    const type = toType(value);
-    switch (type) {
-      case 'function':
-      case 'regexp':
-        return (value as { toString(): string }).toString();
-      default:
-        return value;
+  const effectiveCallback = callback ?? clickCallback;
+  const valueToUse = variable ? variable.value : src;
+
+  const getComputedText = (): string => {
+    const pathString = formatPath(namespace);
+    if (typeof format === 'function') {
+      const ctx: ClipboardContext = {
+        variable: variable ?? {
+          name: namespace.length > 0 ? (namespace[namespace.length - 1] ?? '') : '',
+          value: valueToUse,
+          type: typeof valueToUse
+        },
+        namespace,
+        path: pathString,
+        value: valueToUse,
+        depth
+      };
+      return format(ctx);
     }
+    if (format === 'path' || copyPath) {
+      return pathString;
+    }
+    return formatClipboardValue(valueToUse);
   };
 
   const handleCopy = () => {
-    const textToCopy = JSON.stringify(clipboardValue(src), null, '  ') ?? '';
+    const textToCopy = getComputedText();
 
     if (navigator?.clipboard?.writeText) {
       navigator.clipboard.writeText(textToCopy).catch(() => {
@@ -64,9 +89,9 @@ export const CopyToClipboard: React.FC<CopyToClipboardProps> = ({
 
     setCopied(true);
 
-    if (typeof clickCallback === 'function') {
-      clickCallback({
-        src: src,
+    if (typeof effectiveCallback === 'function') {
+      effectiveCallback({
+        src: valueToUse,
         namespace: namespace,
         name: namespace.length > 0 ? (namespace[namespace.length - 1] ?? null) : null
       });
@@ -90,16 +115,16 @@ export const CopyToClipboard: React.FC<CopyToClipboardProps> = ({
     if (copied) {
       return (
         <span>
-          <Clippy className="copy-icon" {...Theme(theme, 'copy-icon')} />
-          <span {...Theme(theme, 'copy-icon-copied')}>✔</span>
+          <Clippy className="copy-icon" {...getClipboardStyle(theme, 'copy-icon')} />
+          <span {...getClipboardStyle(theme, 'copy-icon-copied')}>✔</span>
         </span>
       );
     }
 
-    return <Clippy className="copy-icon" {...Theme(theme, 'copy-icon')} />;
+    return <Clippy className="copy-icon" {...getClipboardStyle(theme, 'copy-icon')} />;
   };
 
-  const style = Theme(theme, 'copy-to-clipboard').style;
+  const style = getClipboardStyle(theme, 'copy-to-clipboard').style;
   const display = hidden ? 'none' : 'inline';
 
   return (
