@@ -30,6 +30,12 @@
       "import": "./dist/themes/index.mjs",
       "require": "./dist/themes/index.cjs",
       "default": "./dist/themes/index.mjs"
+    },
+    "./compat": {
+      "types": "./dist/compat/index.d.ts",
+      "import": "./dist/compat/index.mjs",
+      "require": "./dist/compat/index.cjs",
+      "default": "./dist/compat/index.mjs"
     }
   },
   "typesVersions": {
@@ -42,6 +48,9 @@
       ],
       "themes": [
         "./dist/themes/index.d.ts"
+      ],
+      "compat": [
+        "./dist/compat/index.d.ts"
       ]
     }
   },
