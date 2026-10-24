@@ -94,6 +94,11 @@ export function jsonViewReducer(state: JsonViewState, action: JsonViewAction): J
         ...state,
         ...actionData
       };
+    case 'SRC_UPDATED':
+      return {
+        ...state,
+        src: actionData
+      };
     default:
       return state;
   }
