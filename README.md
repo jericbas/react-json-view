@@ -69,6 +69,33 @@ const linkifierPlugin: JsonViewPlugin = {
 <JsonViewer src={my_json_object} plugins={[linkifierPlugin]} />;
 ```
 
+#### Built-in Tree-Shakeable Plugins
+
+##### Clipboard Plugin (`react-json-view/plugins/clipboard`)
+
+Enable copy-to-clipboard functionality on primitive and container rows without bundling any editor/mutation code:
+```tsx
+import { JsonViewer } from 'react-json-view';
+import { withClipboard } from 'react-json-view/plugins/clipboard';
+
+// Default: copies JSON-stringified value
+<JsonViewer src={my_json_object} plugins={[withClipboard()]} />;
+
+// Copy property path (e.g., "user.profile.name" or "items[0]")
+<JsonViewer src={my_json_object} plugins={[withClipboard({ copyPath: true })]} />;
+
+// Custom format function or copy callback
+<JsonViewer
+  src={my_json_object}
+  plugins={[
+    withClipboard({
+      format: ({ path, value }) => `${path}=${JSON.stringify(value)}`,
+      callback: copy => console.log('Copied:', copy)
+    })
+  ]}
+/>;
+```
+
 ### Async Data Fetching with React 19 `use()` & `<Suspense>`
 
 With React 19, `react-json-view` natively unwraps asynchronous `Promise<object>` values passed directly to the `src` prop using React's `use()` hook! Wrap your `<ReactJson />` component in a React `<Suspense>` boundary to display a fallback while the data is loading:

@@ -6,10 +6,13 @@ export default defineConfig({
   plugins: [react()],
   build: {
     lib: {
-      entry: resolve(import.meta.dirname, 'src/index.ts'),
+      entry: {
+        index: resolve(import.meta.dirname, 'src/index.ts'),
+        'plugins/clipboard/index': resolve(import.meta.dirname, 'src/plugins/clipboard/index.ts')
+      },
       name: 'reactJsonView',
       formats: ['es', 'cjs'],
-      fileName: format => (format === 'es' ? 'index.mjs' : 'index.cjs')
+      fileName: (format, entryName) => `${entryName}.${format === 'es' ? 'mjs' : 'cjs'}`
     },
     rollupOptions: {
       external: ['react', 'react-dom', 'react/jsx-runtime'],
