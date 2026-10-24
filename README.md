@@ -293,6 +293,39 @@ npm run check:write
 
 A zero-dependency Git pre-commit hook in `.githooks/pre-commit` runs `biome check` and `tsc --noEmit` automatically on staged files before each commit.
 
+### Migration Guide (v1 -> v2)
+
+#### Zero-Code-Change Drop-in Bridge (`react-json-view/compat`)
+
+If you are upgrading from legacy `react-json-view` v1 and want 100% backward compatibility without changing any props (`onEdit`, `onAdd`, `onDelete`, `enableClipboard`, Base16 string themes), simply change your import:
+
+```tsx
+// Before (v1)
+import ReactJson from 'react-json-view';
+
+// After (v2 zero-code-change drop-in)
+import ReactJson from 'react-json-view/compat';
+
+<ReactJson
+  src={data}
+  theme="monokai"
+  enableClipboard={true}
+  onEdit={edit => console.log(edit)}
+  onAdd={add => console.log(add)}
+  onDelete={del => console.log(del)}
+/>;
+```
+
+#### Migration Table: Core vs Plugins vs Compat
+
+| Feature / Prop                              | Legacy (v1)                         | Core (`react-json-view`)               | Recommended Modern Approach (v2)                                                            | Compat (`react-json-view/compat`)                         |
+| ------------------------------------------- | ----------------------------------- | -------------------------------------- | ------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
+| **JSON Tree Viewing**                       | Built-in                            | Built-in (`<JsonViewer />`)            | `<JsonViewer src={data} />`                                                                 | `<ReactJsonCompat src={data} />`                          |
+| **Clipboard (`enableClipboard`)**           | Prop `enableClipboard`              | Excluded for tree-shaking              | `plugins={[withClipboard()]}` from `react-json-view/plugins/clipboard`                      | Prop `enableClipboard` (auto-wired)                       |
+| **Editing (`onEdit`, `onAdd`, `onDelete`)** | Props `onEdit`, `onAdd`, `onDelete` | Excluded for tree-shaking              | `plugins={[withEditor({ onEdit, onAdd, onDelete })]}` from `react-json-view/plugins/editor` | Props `onEdit`, `onAdd`, `onDelete` (auto-wired)          |
+| **Themes (Base16 / Custom)**                | 40+ themes bundled                  | Zero-config `rjv-default` & `rjv-grey` | `import { monokai } from 'react-json-view/themes'` or custom `ThemeObject`                  | String theme names (e.g. `theme="monokai"`) auto-resolved |
+| **Bundle Size**                             | ~150 kB+                            | ~15 kB (gzipped ~4 kB)                 | Pay only for plugins & themes you use                                                       | ~35 kB (bundles editor + clipboard + themes)              |
+
 ### Inspiration
 
 I drew a ton of design ideas from [react-json-tree](https://github.com/alexkuz/react-json-tree). Thanks to the RJT contributors for putting together an awesome component!
