@@ -11,6 +11,13 @@ export {
   useJsonView
 } from './context/JsonViewContext';
 export { JsonViewProvider } from './context/JsonViewProvider';
+export {
+  clearRegisteredThemes,
+  getRegisteredTheme,
+  registerTheme,
+  registerThemes,
+  useThemeRegistry
+} from './themes/themeRegistry';
 export * from './types';
 
 export { JsonViewer };

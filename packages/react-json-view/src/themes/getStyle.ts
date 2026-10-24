@@ -1,8 +1,22 @@
 import type React from 'react';
 import type { ThemeKeys, ThemeObject } from '../types';
 import { rjv_default, rjv_grey } from './base16/rjv-themes';
-import { base16Themes } from './base16/themes';
 import { getDefaultThemeStyling } from './defaultThemeStyling';
+import {
+  clearRegisteredThemes,
+  getRegisteredTheme,
+  registerTheme,
+  registerThemes,
+  useThemeRegistry
+} from './themeRegistry';
+
+export {
+  clearRegisteredThemes,
+  getRegisteredTheme,
+  registerTheme,
+  registerThemes,
+  useThemeRegistry
+};
 
 export interface StyleResult {
   style: React.CSSProperties;
@@ -16,8 +30,11 @@ function resolveTheme(theme?: ThemeKeys | ThemeObject | boolean): ThemeObject {
   if (typeof theme === 'string') {
     if (theme === 'rjv-default') return rjv_default;
     if (theme === 'rjv-grey') return rjv_grey;
-    if (base16Themes[theme]) return base16Themes[theme];
-  } else if (theme && typeof theme === 'object') {
+    const registered = getRegisteredTheme(theme);
+    if (registered) return registered;
+    return rjv_default;
+  }
+  if (theme && typeof theme === 'object') {
     if ('base00' in theme) {
       return { ...rjv_default, ...theme };
     }

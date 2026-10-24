@@ -24,6 +24,12 @@
       "import": "./dist/plugins/editor/index.mjs",
       "require": "./dist/plugins/editor/index.cjs",
       "default": "./dist/plugins/editor/index.mjs"
+    },
+    "./themes": {
+      "types": "./dist/themes/index.d.ts",
+      "import": "./dist/themes/index.mjs",
+      "require": "./dist/themes/index.cjs",
+      "default": "./dist/themes/index.mjs"
     }
   },
   "typesVersions": {
@@ -33,9 +39,13 @@
       ],
       "plugins/editor": [
         "./dist/plugins/editor/index.d.ts"
+      ],
+      "themes": [
+        "./dist/themes/index.d.ts"
       ]
     }
   },
+  "sideEffects": false,
   "files": [
     "dist"
   ],
