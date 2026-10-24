@@ -18,9 +18,11 @@ const config: StorybookConfig = {
       process.cwd(),
       '../react-json-view/src/plugins/editor/index.ts'
     );
+    const themesEntry = path.resolve(process.cwd(), '../react-json-view/src/themes/index.ts');
     config.resolve = config.resolve || {};
     config.resolve.alias = {
       ...(config.resolve.alias || {}),
+      'react-json-view/themes': themesEntry,
       'react-json-view/plugins/editor': editorEntry,
       'react-json-view/plugins/clipboard': clipboardEntry,
       'react-json-view': rjvEntry

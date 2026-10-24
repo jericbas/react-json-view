@@ -1,10 +1,21 @@
-import { describe, expect, it } from 'vitest';
-import getStyle from '../../src/themes/getStyle';
+import { beforeEach, describe, expect, it } from 'vitest';
+import getStyle, {
+  clearRegisteredThemes,
+  registerTheme,
+  registerThemes,
+  useThemeRegistry
+} from '../../src/themes/getStyle';
+import { customThemes, monokai, popularThemes } from '../../src/themes/index';
 
 describe('getStyle', () => {
-  it('test that style is returned', () => {
+  beforeEach(() => {
+    clearRegisteredThemes();
+  });
+
+  it('test that default style is returned', () => {
     const style = getStyle('rjv-default', 'app-container');
     expect(style.style.cursor).toBe('default');
+    expect(style.style.backgroundColor).toBe('rgba(0, 0, 0, 0)');
   });
 
   it('test objectKeyVal return', () => {
@@ -12,28 +23,29 @@ describe('getStyle', () => {
     expect(style.style).toBeDefined();
   });
 
-  it('test "none" theme', () => {
-    const style = getStyle('none', 'app-container');
-    expect(style.style).toBeDefined();
+  it('test "none" and false theme resolve to rjv_grey', () => {
+    const noneStyle = getStyle('none', 'app-container');
+    expect(noneStyle.style).toBeDefined();
+    expect(noneStyle.style.backgroundColor).toBe('rgba(1, 1, 1, 0)');
+
+    const falseStyle = getStyle(false, 'app-container');
+    expect(falseStyle.style).toBeDefined();
+    expect(falseStyle.style.backgroundColor).toBe('rgba(1, 1, 1, 0)');
   });
 
-  it('test theme not set (NOTICE OUTPUT EXPECTED)', () => {
-    const style = getStyle(false, 'app-container');
-    expect(style.style).toBeDefined();
+  it('test unregistered theme name falls back to rjv-default', () => {
+    const style = getStyle('unregistered-theme' as any, 'app-container');
+    expect(style.style.backgroundColor).toBe('rgba(0, 0, 0, 0)');
   });
 
-  it('test built-in named theme (monokai)', () => {
+  it('test registering and resolving a single theme (monokai)', () => {
+    registerTheme('monokai', monokai);
     const style = getStyle('monokai', 'app-container');
     expect(style.style.backgroundColor).toBe('#272822');
   });
 
-  it('test built-in inverted theme (apathy:inverted)', () => {
-    const style = getStyle('apathy:inverted', 'app-container');
-    expect(style.style).toBeDefined();
-    expect(style.style.backgroundColor).toBeDefined();
-  });
-
-  it('test 10 common built-in themes', () => {
+  it('test registering batch themes (popular themes)', () => {
+    registerThemes(popularThemes);
     const expectedBackgrounds: Record<string, string> = {
       dracula: '#282a36',
       nord: '#2e3440',
@@ -53,7 +65,8 @@ describe('getStyle', () => {
     }
   });
 
-  it('test 5 newly invented built-in themes', () => {
+  it('test registering batch custom themes', () => {
+    registerThemes(customThemes);
     const expectedBackgrounds: Record<string, string> = {
       aurora: '#07111a',
       matcha: '#141d17',
@@ -66,6 +79,21 @@ describe('getStyle', () => {
       const style = getStyle(themeName as any, 'app-container');
       expect(style.style.backgroundColor).toBe(bg);
     }
+  });
+
+  it('test clearRegisteredThemes resets registry', () => {
+    registerTheme('monokai', monokai);
+    expect(getStyle('monokai', 'app-container').style.backgroundColor).toBe('#272822');
+    clearRegisteredThemes();
+    expect(getStyle('monokai', 'app-container').style.backgroundColor).toBe('rgba(0, 0, 0, 0)');
+  });
+
+  it('test useThemeRegistry hook helper', () => {
+    const registry = useThemeRegistry();
+    registry.registerTheme('monokai', monokai);
+    expect(registry.getRegisteredTheme('monokai')).toBe(monokai);
+    registry.clearRegisteredThemes();
+    expect(registry.getRegisteredTheme('monokai')).toBeUndefined();
   });
 
   it('test custom theme object with custom styling overrides', () => {

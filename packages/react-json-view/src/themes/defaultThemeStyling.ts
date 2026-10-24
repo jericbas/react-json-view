@@ -1,7 +1,6 @@
 import type { ThemeObject } from '../types';
 import { colorMap } from './colorMap';
 import { getDataTypeStyles } from './componentStyles/dataTypeStyles';
-import { getEditorStyles } from './componentStyles/editorStyles';
 import constants from './styleConstants';
 
 export const getDefaultThemeStyling = (theme: ThemeObject) => {
@@ -130,7 +129,6 @@ export const getDefaultThemeStyling = (theme: ThemeObject) => {
     tooltip: {
       padding: constants.tooltipPadding
     },
-    ...getDataTypeStyles(colors),
-    ...getEditorStyles(colors)
+    ...getDataTypeStyles(colors)
   };
 };

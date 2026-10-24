@@ -1,4 +1,7 @@
 import type { Preview } from '@storybook/react';
+import { registerAllThemes } from 'react-json-view/themes';
+
+registerAllThemes();
 
 const preview: Preview = {
   parameters: {
