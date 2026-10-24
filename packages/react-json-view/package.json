@@ -12,6 +12,19 @@
       "import": "./dist/index.mjs",
       "require": "./dist/index.cjs",
       "default": "./dist/index.mjs"
+    },
+    "./plugins/clipboard": {
+      "types": "./dist/plugins/clipboard/index.d.ts",
+      "import": "./dist/plugins/clipboard/index.mjs",
+      "require": "./dist/plugins/clipboard/index.cjs",
+      "default": "./dist/plugins/clipboard/index.mjs"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "plugins/clipboard": [
+        "./dist/plugins/clipboard/index.d.ts"
+      ]
     }
   },
   "files": [
