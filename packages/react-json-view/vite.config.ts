@@ -8,7 +8,8 @@ export default defineConfig({
     lib: {
       entry: {
         index: resolve(import.meta.dirname, 'src/index.ts'),
-        'plugins/clipboard/index': resolve(import.meta.dirname, 'src/plugins/clipboard/index.ts')
+        'plugins/clipboard/index': resolve(import.meta.dirname, 'src/plugins/clipboard/index.ts'),
+        'plugins/editor/index': resolve(import.meta.dirname, 'src/plugins/editor/index.ts')
       },
       name: 'reactJsonView',
       formats: ['es', 'cjs'],

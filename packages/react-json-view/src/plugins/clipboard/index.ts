@@ -13,9 +13,17 @@ import type { ClipboardContext, ClipboardFormat, ClipboardPluginOptions } from '
 export function withClipboard(options: ClipboardPluginOptions = {}): JsonViewPlugin {
   return {
     name: 'clipboard',
-    renderRowActions: ({ variable, namespace, theme, hovered, depth }: RowActionContext) =>
+    renderRowActions: ({
+      variable,
+      namespace,
+      theme,
+      hovered,
+      depth,
+      isEditing
+    }: RowActionContext) =>
       React.createElement(CopyToClipboard, {
         rowHovered: hovered,
+        hidden: Boolean(isEditing),
         theme,
         namespace,
         variable,

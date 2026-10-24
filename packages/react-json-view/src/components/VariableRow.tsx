@@ -1,20 +1,9 @@
 import type React from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useJsonView } from '../context/JsonViewContext';
 import Theme from '../themes/getStyle';
 import type { JsonVariable, OnSelectProps, ThemeKeys, ThemeObject } from '../types';
-import {
-  JsonBoolean,
-  JsonDate,
-  JsonFloat,
-  JsonFunction,
-  JsonInteger,
-  JsonNan,
-  JsonNull,
-  JsonRegexp,
-  JsonString,
-  JsonUndefined
-} from './DataTypes/DataTypes';
+import { renderDefaultDataType } from './renderDefaultDataType';
 import { VariableKeyLabel } from './VariableEditor/VariableKeyLabel';
 
 export interface VariableRowProps {
@@ -31,55 +20,6 @@ export interface VariableRowProps {
   collapseStringsAfterLength?: number | false | undefined;
   displayDataTypes?: boolean | undefined;
   depth?: number | undefined;
-}
-
-function renderDefaultDataType(
-  variable: JsonVariable,
-  theme: any,
-  namespace: Array<string | number | null>,
-  displayDataTypes?: boolean,
-  collapseStringsAfterLength?: number | false,
-  rjvId?: string
-) {
-  const commonProps = {
-    displayDataTypes,
-    rjvId
-  };
-
-  switch (variable.type) {
-    case 'string':
-      return (
-        <JsonString
-          value={variable.value}
-          theme={theme}
-          namespace={namespace}
-          collapseStringsAfterLength={collapseStringsAfterLength}
-          {...commonProps}
-        />
-      );
-    case 'integer':
-      return <JsonInteger value={variable.value} theme={theme} {...commonProps} />;
-    case 'float':
-      return <JsonFloat value={variable.value} theme={theme} {...commonProps} />;
-    case 'boolean':
-      return <JsonBoolean value={variable.value} theme={theme} {...commonProps} />;
-    case 'function':
-      return (
-        <JsonFunction value={variable.value} theme={theme} namespace={namespace} {...commonProps} />
-      );
-    case 'null':
-      return <JsonNull theme={theme} {...commonProps} />;
-    case 'nan':
-      return <JsonNan theme={theme} {...commonProps} />;
-    case 'undefined':
-      return <JsonUndefined theme={theme} {...commonProps} />;
-    case 'date':
-      return <JsonDate value={variable.value} theme={theme} {...commonProps} />;
-    case 'regexp':
-      return <JsonRegexp value={variable.value} theme={theme} {...commonProps} />;
-    default:
-      return <div className="object-value">{JSON.stringify(variable.value)}</div>;
-  }
 }
 
 export const VariableRow: React.FC<VariableRowProps> = props => {
@@ -101,7 +41,21 @@ export const VariableRow: React.FC<VariableRowProps> = props => {
   } = props;
 
   const [hovered, setHovered] = useState<boolean>(false);
+  const [, setTick] = useState(0);
   const plugins = context.plugins || [];
+
+  useEffect(() => {
+    const unsubs = plugins
+      .map(p => (p as any).subscribe?.(() => setTick(t => t + 1)))
+      .filter(Boolean);
+    return () => {
+      unsubs.forEach((fn: any) => {
+        fn();
+      });
+    };
+  }, [plugins]);
+
+  const isEditing = plugins.some(p => p.isEditing?.(variable, namespace));
 
   const defaultRender = () =>
     renderDefaultDataType(
@@ -137,7 +91,7 @@ export const VariableRow: React.FC<VariableRowProps> = props => {
   }
 
   const handleSelect =
-    onSelect === false
+    onSelect === false || isEditing
       ? undefined
       : () => {
           const location = [...namespace];
@@ -149,6 +103,24 @@ export const VariableRow: React.FC<VariableRowProps> = props => {
             namespace: location
           });
         };
+
+  const handleValueClick = (e: React.MouseEvent) => {
+    for (const plugin of plugins) {
+      if (plugin.onValueClick) {
+        const handled = plugin.onValueClick({
+          variable,
+          namespace,
+          theme,
+          depth,
+          event: e
+        });
+        if (handled) return;
+      }
+    }
+    if (handleSelect) {
+      handleSelect();
+    }
+  };
 
   return (
     <div
@@ -170,7 +142,7 @@ export const VariableRow: React.FC<VariableRowProps> = props => {
       />
       <div
         className="variable-value"
-        onClick={handleSelect}
+        onClick={handleValueClick}
         {...Theme(theme, 'variableValue', {
           cursor: onSelect === false ? 'default' : 'pointer'
         })}
@@ -183,7 +155,8 @@ export const VariableRow: React.FC<VariableRowProps> = props => {
           namespace,
           theme,
           hovered,
-          depth
+          depth,
+          isEditing
         });
         return actionNode ? (
           <span key={plugin.name || `action-${idx}`} className="row-action-slot">

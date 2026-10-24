@@ -8,8 +8,9 @@ import ArrayGroup from './ArrayGroup';
 import JsonObject from './DataTypes/Object';
 
 const JsonViewerTree: React.FC<JsonViewerProps> = props => {
-  const { rjvId, plugins, theme } = useJsonView();
-  const { src, name = 'root', groupArraysAfterLength = 100, style = {}, ...rest } = props;
+  const { rjvId, plugins, theme, src: contextSrc } = useJsonView();
+  const { src: propSrc, name = 'root', groupArraysAfterLength = 100, style = {}, ...rest } = props;
+  const src = contextSrc !== undefined ? contextSrc : propSrc;
 
   const namespace: Array<string | number | null> = [name === false ? null : name];
   let ObjectComponent: React.ComponentType<any> = JsonObject;

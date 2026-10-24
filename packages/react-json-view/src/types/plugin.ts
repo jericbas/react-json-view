@@ -8,6 +8,7 @@ export interface RowActionContext {
   theme: ThemeKeys | ThemeObject;
   hovered: boolean;
   depth: number;
+  isEditing?: boolean | undefined;
 }
 
 export interface ValueRenderContext {
@@ -35,10 +36,20 @@ export interface TreeRenderContext {
   defaultRender: () => React.ReactNode;
 }
 
+export interface ValueClickContext {
+  variable: JsonVariable;
+  namespace: Array<string | number | null>;
+  theme: ThemeKeys | ThemeObject;
+  depth: number;
+  event: React.MouseEvent;
+}
+
 export interface JsonViewPlugin {
   name: string;
   renderRowActions?: (context: RowActionContext) => React.ReactNode;
   renderValue?: (context: ValueRenderContext) => React.ReactNode | undefined;
   renderRootOverlay?: (context: RootOverlayContext) => React.ReactNode;
   renderTree?: (context: TreeRenderContext) => React.ReactNode | undefined;
+  onValueClick?: (context: ValueClickContext) => boolean | undefined;
+  isEditing?: (variable: JsonVariable, namespace: Array<string | number | null>) => boolean;
 }

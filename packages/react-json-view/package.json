@@ -18,12 +18,21 @@
       "import": "./dist/plugins/clipboard/index.mjs",
       "require": "./dist/plugins/clipboard/index.cjs",
       "default": "./dist/plugins/clipboard/index.mjs"
+    },
+    "./plugins/editor": {
+      "types": "./dist/plugins/editor/index.d.ts",
+      "import": "./dist/plugins/editor/index.mjs",
+      "require": "./dist/plugins/editor/index.cjs",
+      "default": "./dist/plugins/editor/index.mjs"
     }
   },
   "typesVersions": {
     "*": {
       "plugins/clipboard": [
         "./dist/plugins/clipboard/index.d.ts"
+      ],
+      "plugins/editor": [
+        "./dist/plugins/editor/index.d.ts"
       ]
     }
   },

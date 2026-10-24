@@ -96,6 +96,40 @@ import { withClipboard } from 'react-json-view/plugins/clipboard';
 />;
 ```
 
+##### Editor Plugin (`react-json-view/plugins/editor`)
+
+Enable interactive editing, key additions, and deletions without bundling unused modules:
+```tsx
+import { JsonViewer } from 'react-json-view';
+import { withEditor, withEdit, withAdd, withDelete } from 'react-json-view/plugins/editor';
+
+// Full editor suite (Edit, Add, Delete)
+<JsonViewer
+  src={my_json_object}
+  plugins={[
+    withEditor({
+      onEdit: edit => console.log('Edited:', edit),
+      onAdd: add => console.log('Added:', add),
+      onDelete: del => console.log('Deleted:', del)
+    })
+  ]}
+/>;
+
+// Granular: enable only edit functionality
+<JsonViewer src={my_json_object} plugins={[withEdit(edit => console.log(edit))]} />;
+
+// Custom validation rule (returning false triggers validation failure banner)
+<JsonViewer
+  src={my_json_object}
+  plugins={[
+    withEditor({
+      validationMessage: 'Value cannot be empty',
+      onEdit: edit => (edit.new_value !== '' ? true : false)
+    })
+  ]}
+/>;
+```
+
 ### Async Data Fetching with React 19 `use()` & `<Suspense>`
 
 With React 19, `react-json-view` natively unwraps asynchronous `Promise<object>` values passed directly to the `src` prop using React's `use()` hook! Wrap your `<ReactJson />` component in a React `<Suspense>` boundary to display a fallback while the data is loading:

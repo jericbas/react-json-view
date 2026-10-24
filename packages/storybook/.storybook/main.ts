@@ -14,9 +14,14 @@ const config: StorybookConfig = {
       process.cwd(),
       '../react-json-view/src/plugins/clipboard/index.ts'
     );
+    const editorEntry = path.resolve(
+      process.cwd(),
+      '../react-json-view/src/plugins/editor/index.ts'
+    );
     config.resolve = config.resolve || {};
     config.resolve.alias = {
       ...(config.resolve.alias || {}),
+      'react-json-view/plugins/editor': editorEntry,
       'react-json-view/plugins/clipboard': clipboardEntry,
       'react-json-view': rjvEntry
     };
