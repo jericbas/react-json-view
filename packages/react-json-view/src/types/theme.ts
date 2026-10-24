@@ -22,58 +22,62 @@ export interface ThemeObject {
   [key: string]: any;
 }
 
-export type ThemeKeys =
+/** Original built-in Base16 themes */
+export type Base16ThemeKeys =
   | 'apathy'
   | 'apathy:inverted'
   | 'ashes'
-  | 'aurora'
   | 'bespin'
   | 'brewer'
   | 'bright:inverted'
   | 'bright'
-  | 'catppuccin'
   | 'chalk'
   | 'codeschool'
   | 'colors'
-  | 'dracula'
   | 'eighties'
   | 'embers'
-  | 'everforest'
   | 'flat'
   | 'google'
   | 'grayscale'
   | 'grayscale:inverted'
   | 'greenscreen'
-  | 'gruvbox'
   | 'harmonic'
   | 'hopscotch'
   | 'isotope'
   | 'marrakesh'
-  | 'matcha'
   | 'mocha'
   | 'monokai'
-  | 'nebula'
-  | 'nightowl'
-  | 'nord'
-  | 'obsidian'
   | 'ocean'
-  | 'onedark'
   | 'paraiso'
   | 'pop'
   | 'railscasts'
   | 'rjv-default'
   | 'rjv-grey'
-  | 'rosepine'
-  | 'sakura'
   | 'shapeshifter'
   | 'shapeshifter:inverted'
   | 'solarized'
   | 'summerfruit'
   | 'summerfruit:inverted'
-  | 'synthwave'
   | 'threezerotwofour'
-  | 'tokyonight'
   | 'tomorrow'
   | 'tube'
   | 'twilight'
   | 'none';
+
+/** Popular community themes */
+export type PopularThemeKeys =
+  | 'catppuccin'
+  | 'dracula'
+  | 'everforest'
+  | 'gruvbox'
+  | 'nightowl'
+  | 'nord'
+  | 'onedark'
+  | 'rosepine'
+  | 'synthwave'
+  | 'tokyonight';
+
+/** Custom / invented themes */
+export type CustomThemeKeys = 'aurora' | 'matcha' | 'nebula' | 'obsidian' | 'sakura';
+
+export type ThemeKeys = Base16ThemeKeys | PopularThemeKeys | CustomThemeKeys;

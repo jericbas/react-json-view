@@ -1,6 +1,6 @@
 import type { ThemeObject } from '../../types';
 
-export const themesPart7: Record<string, ThemeObject> = {
+export const themesCustom: Record<string, ThemeObject> = {
   aurora: {
     scheme: 'aurora',
     author: 'react-json-view',

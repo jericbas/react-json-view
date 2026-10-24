@@ -1,6 +1,6 @@
 import type { ThemeObject } from '../../types';
 
-export const themesPart6: Record<string, ThemeObject> = {
+export const themesPopular2: Record<string, ThemeObject> = {
   tokyonight: {
     scheme: 'tokyonight',
     author: 'enkia (https://github.com/enkia/tokyo-night-vscode-theme)',

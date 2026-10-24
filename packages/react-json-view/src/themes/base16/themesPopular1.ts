@@ -1,6 +1,6 @@
 import type { ThemeObject } from '../../types';
 
-export const themesPart5: Record<string, ThemeObject> = {
+export const themesPopular1: Record<string, ThemeObject> = {
   dracula: {
     scheme: 'dracula',
     author: 'zeno rocha (https://draculatheme.com)',
