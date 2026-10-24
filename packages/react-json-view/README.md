@@ -71,19 +71,19 @@ function AsyncJsonViewer() {
 
 ### Installation Instructions
 
-Install this component with [NPM](https://www.npmjs.com/package/react-json-view). RJV requires React 19.3+ (`react` and `react-dom` `^19.3.0` as peer dependencies).
+Install this component with [NPM](https://www.npmjs.com/package/react-json-view). RJV requires React 19+ (`react` and `react-dom` `^19.0.0` as peer dependencies).
 ```shell
 npm install --save react-json-view
 ```
-Ensure you have React 19.3+ installed in your project:
+Ensure you have React 19+ installed in your project:
 ```shell
-npm install react@^19.3.0 react-dom@^19.3.0
+npm install react@^19.0.0 react-dom@^19.0.0
 ```
 Or add to your package.json config file:
 ```json
 "dependencies": {
-    "react": "^19.3.0",
-    "react-dom": "^19.3.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
     "react-json-view": "latest"
 }
 ```

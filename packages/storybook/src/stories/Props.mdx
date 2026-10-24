@@ -1,4 +1,5 @@
-import { Meta } from '@storybook/addon-docs/blocks';
+import { Meta, ArgTypes } from '@storybook/addon-docs/blocks';
+import ReactJson from 'react-json-view';
 
 <Meta title="Documentation/Props" />
 
@@ -8,42 +9,152 @@ import { Meta } from '@storybook/addon-docs/blocks';
 >
 > 🌐 **Interactive Storybook Demo:** [https://jericbas.github.io/react-json-view/](https://jericbas.github.io/react-json-view/)
 
-Complete reference of all configurable properties accepted by `<ReactJson />` (`ReactJsonView`).
-
-| Name | Type | Default | Description |
-| :--- | :--- | :--- | :--- |
-| `src` | `object \| Promise<object>` | *Required* | Input JSON object or a `Promise` resolving to JSON (supported natively via React 19 `use()` & `<Suspense>`). |
-| `name` | `string \| false \| null` | `"root"` | Name of the root node. Pass `null` or `false` to omit the root name. |
-| `theme` | `ThemeKeys \| ThemeObject` | `"rjv-default"` | Theme name or a custom Base16 theme object. Supported built-in themes include `rjv-default`, `monokai`, `ocean`, `solarized`, `tomorrow`, `eighties`, `rjv-grey`. |
-| `style` | `React.CSSProperties` | `{}` | Inline CSS styling applied to the outer container. Overrides theme defaults. |
-| `iconStyle` | `'circle' \| 'triangle' \| 'square'` | `"triangle"` | Style of node expand/collapse icons. |
-| `indentWidth` | `number` | `4` | Indentation width (in characters) for nested objects and arrays. |
-| `collapsed` | `boolean \| number` | `false` | When `true`, collapses all nodes by default. If a number is provided, collapses all nodes deeper than the specified depth. |
-| `collapseStringsAfterLength` | `number \| false` | `false` | Truncates strings longer than the specified length with an ellipsis. Clicking the value toggles full visibility. |
-| `shouldCollapse` | `(field: CollapsedFieldProps) => boolean` | `false` | Callback determining whether an object or array should collapse by default based on node metadata. |
-| `groupArraysAfterLength` | `number` | `100` | Displays long arrays in paginated subgroup brackets of the specified size. |
-| `enableClipboard` | `boolean \| ((copy: OnCopyProps) => void)` | `true` | Allows copying values to clipboard by clicking the clipboard icon. Also accepts a custom copy callback. |
-| `displayObjectSize` | `boolean` | `true` | Displays the key count or item count next to objects and arrays. |
-| `displayDataTypes` | `boolean` | `true` | Displays type indicator labels (e.g., `string`, `int`, `float`) before values. |
-| `quotesOnKeys` | `boolean` | `true` | When `false`, removes surrounding quotes from object keys (`name:` instead of `"name":`). |
-| `onEdit` | `(edit: InteractionProps) => false \| unknown` | `false` | Enables inline value editing. Returning `false` aborts the change. |
-| `onAdd` | `(add: InteractionProps) => false \| unknown` | `false` | Enables adding new key-value pairs to objects and arrays. Returning `false` aborts the change. |
-| `onDelete` | `(del: InteractionProps) => false \| unknown` | `false` | Enables removing keys and elements. Returning `false` aborts the deletion. |
-| `onSelect` | `(select: OnSelectProps) => void` | `false` | Invoked when clicking on a value in the tree. |
-| `sortKeys` | `boolean` | `false` | Sorts object keys alphabetically. |
-| `defaultValue` | `string \| number \| boolean \| array \| object \| null` | `null` | Default value prefilled when adding a new key. |
-| `validationMessage` | `string` | `"Validation Error"` | Custom message displayed when `onEdit`, `onAdd`, or `onDelete` returns `false`. |
-| `displayArrayKey` | `boolean` | `true` | Prefixes array items with their zero-based index. |
+Comprehensive reference of all props accepted by `<ReactJson />` (`ReactJsonView`).
 
 ---
 
-## Interaction Handlers (`onEdit`, `onAdd`, `onDelete`)
+## Interactive Props Table
 
-When `onEdit`, `onAdd`, or `onDelete` callbacks are provided, edit controls become accessible. The handler receives an interaction event object with the following shape:
+Explore and inspect every prop accepted by `<ReactJson />` with Storybook's interactive controls:
 
+<ArgTypes of={ReactJson} />
+
+---
+
+## Categorized Props Guide
+
+### 1. Core Data
+
+#### `src` *(required)*
+- **Type:** `object | Promise<object>`
+- **Description:** The root JavaScript object, array, or JSON data to display. In React 19, you can directly pass a `Promise<object>`; RJV unwraps it with React's `use()` hook when placed inside a `<Suspense>` boundary.
+
+#### `name`
+- **Type:** `string | null | false`
+- **Default:** `"root"`
+- **Description:** Name of the root object node. Pass `null` or `false` to hide the root label.
+
+#### `defaultValue`
+- **Type:** `string | number | boolean | array | object | null`
+- **Default:** `null`
+- **Description:** Default pre-filled value when adding a new property using the add key modal.
+
+---
+
+### 2. Theming & Styling
+
+#### `theme`
+- **Type:** `ThemeKeys | ThemeObject`
+- **Default:** `"rjv-default"`
+- **Description:** Built-in Base16 theme name (`"rjv-default"`, `"monokai"`, `"ocean"`, `"solarized"`, `"tomorrow"`, `"eighties"`, `"rjv-grey"`) or a custom Base16 palette object.
+
+#### `style`
+- **Type:** `React.CSSProperties`
+- **Default:** `{}`
+- **Description:** Custom CSS styles applied directly to the root container `div`. Overrides theme styles.
+
+#### `iconStyle`
+- **Type:** `'triangle' | 'circle' | 'square'`
+- **Default:** `"triangle"`
+- **Description:** Visual icon style for expanding and collapsing object and array nodes.
+
+#### `indentWidth`
+- **Type:** `number`
+- **Default:** `4`
+- **Description:** Number of spaces indented for each level of nested objects and arrays.
+
+---
+
+### 3. Display & Formatting
+
+#### `collapsed`
+- **Type:** `boolean | number`
+- **Default:** `false`
+- **Description:** When `true`, collapses all nodes by default. If a number is provided (e.g., `1`), all nodes deeper than that depth are collapsed.
+
+#### `collapseStringsAfterLength`
+- **Type:** `number | false`
+- **Default:** `false`
+- **Description:** Truncates long strings after the specified length with an ellipsis (`...`). Clicking the string toggles full expansion.
+
+#### `shouldCollapse`
+- **Type:** `(field: CollapsedFieldProps) => boolean`
+- **Default:** `false`
+- **Description:** Custom callback executed per node to determine whether it should be collapsed by default.
+
+#### `groupArraysAfterLength`
+- **Type:** `number`
+- **Default:** `100`
+- **Description:** Breaks large arrays into paginated group buckets of the specified size (e.g., `[0 ... 99]`, `[100 ... 199]`).
+
+#### `displayObjectSize`
+- **Type:** `boolean`
+- **Default:** `true`
+- **Description:** When enabled, displays item counts next to objects and arrays (e.g., `{2 items}`).
+
+#### `displayDataTypes`
+- **Type:** `boolean`
+- **Default:** `true`
+- **Description:** When enabled, displays type indicator badges before primitive values (e.g., `string`, `int`, `float`).
+
+#### `quotesOnKeys`
+- **Type:** `boolean`
+- **Default:** `true`
+- **Description:** When `false`, removes enclosing double quotes from object property keys.
+
+#### `displayArrayKey`
+- **Type:** `boolean`
+- **Default:** `true`
+- **Description:** When enabled, displays zero-based indices next to array elements.
+
+#### `sortKeys`
+- **Type:** `boolean`
+- **Default:** `false`
+- **Description:** Sorts object keys alphabetically before rendering.
+
+---
+
+### 4. Interactivity & Editing
+
+#### `onEdit`
+- **Type:** `(edit: InteractionProps) => false | unknown`
+- **Default:** `false`
+- **Description:** Enables inline editing of variable values. Returning `false` from the callback cancels the edit.
+
+#### `onAdd`
+- **Type:** `(add: InteractionProps) => false | unknown`
+- **Default:** `false`
+- **Description:** Enables adding new key-value pairs to objects and arrays. Returning `false` aborts the addition.
+
+#### `onDelete`
+- **Type:** `(del: InteractionProps) => false | unknown`
+- **Default:** `false`
+- **Description:** Enables deleting keys or array elements. Returning `false` aborts the deletion.
+
+#### `onSelect`
+- **Type:** `(select: OnSelectProps) => void`
+- **Default:** `false`
+- **Description:** Fired when a user clicks on a value in the JSON tree.
+
+#### `enableClipboard`
+- **Type:** `boolean | ((copy: OnCopyProps) => void)`
+- **Default:** `true`
+- **Description:** Displays copy-to-clipboard icons on objects and values. Also accepts a custom copy callback function.
+
+#### `validationMessage`
+- **Type:** `string`
+- **Default:** `"Validation Error"`
+- **Description:** Custom validation tooltip message shown when `onEdit`, `onAdd`, or `onDelete` returns `false`.
+
+---
+
+## Callback Types
+
+### `InteractionProps`
+Passed to `onEdit`, `onAdd`, and `onDelete`:
 ```typescript
 interface InteractionProps {
-  /** Updated copy of the entire JSON root after modification */
+  /** Updated copy of the JSON root after modification */
   updated_src: object;
   /** Property key or array index being modified */
   name: string | null;
@@ -56,4 +167,30 @@ interface InteractionProps {
 }
 ```
 
-Returning `false` from any interaction callback prevents the state change from taking effect.
+### `CollapsedFieldProps`
+Passed to `shouldCollapse`:
+```typescript
+interface CollapsedFieldProps {
+  /** Property name of the field */
+  name: string | null;
+  /** Value of the field (object or array) */
+  src: object;
+  /** Object/array type */
+  type: string;
+  /** Current depth in the JSON tree */
+  namespace: (string | number | null)[];
+}
+```
+
+### `OnCopyProps`
+Passed to `enableClipboard` when provided as a function:
+```typescript
+interface OnCopyProps {
+  /** Value copied to clipboard */
+  src: unknown;
+  /** Path namespace of the copied variable */
+  namespace: (string | number | null)[];
+  /** Key name of the copied variable */
+  name: string | null;
+}
+```
